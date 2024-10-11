@@ -1,0 +1,253 @@
+[
+  {
+    "cpu": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Процессор AMD Ryzen Threadripper PRO 5995WX OEM",
+        "TDP": "280 Вт",
+        "score": "",
+        "price": "599999"
+      },
+      {
+        "id": "2",
+        "img": "",
+        "name": "Процессор Intel Core i9-14900KS OEM",
+        "TDP": "253 Вт",
+        "score": "",
+        "price": "88999"
+      },
+      {
+        "id": "3",
+        "img": "",
+        "name": "Процессор Intel Core i9-14940X OEM",
+        "TDP": "165 Вт",
+        "score": "",
+        "price": "87999"
+      },
+      {
+        "id": "4",
+        "img": "",
+        "name": "Процессор AMD Ryzen 9 9950X OEM",
+        "TDP": "170 Вт",
+        "score": "",
+        "price": "86999"
+      },
+      {
+        "id": "5",
+        "img": "",
+        "name": "Процессор Intel Core i9-14900K BOX",
+        "TDP": "253 Вт",
+        "score": "",
+        "price": "75999"
+      },
+      {
+        "id": "6",
+        "img": "",
+        "name": "Процессор Intel Core i9-13900K BOX",
+        "TDP": "253 Вт",
+        "score": "",
+        "price": "70299"
+      },
+      {
+        "id": "7",
+        "img": "",
+        "name": "Процессор AMD Ryzen 9 7950X3D OEM",
+        "TDP": "120 Вт",
+        "score": "",
+        "price": "68799"
+      },
+      {
+        "id": "8",
+        "img": "",
+        "name": "Процессор AMD Ryzen 7 7800X3D 4.2(5.0)GHz 96MB sAM5 BOX",
+        "TDP": "120 Вт",
+        "score": "",
+        "price": "64999"
+      },
+      {
+        "id": "9",
+        "img": "",
+        "name": "Процессор AMD Ryzen 9 9900X OEM",
+        "TDP": "120 Вт",
+        "score": "",
+        "price": "64999"
+      }
+    ],
+    "motherboard": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Материнская плата MSI B450 Tomahawk MAX",
+        "Socket": "AM4",
+        "RAM": "32",
+        "price": "134999"
+      },
+      {
+        "id": "2",
+        "img": "",
+        "name": "Материнская плата MSI B450 ATX",
+        "Socket": "AM4",
+        "RAM": "32",
+        "price": "124999"
+      },
+      {
+        "id": "3",
+        "img": "",
+        "name": "Материнская плата MSI B450 ATX",
+        "Socket": "AM4",
+        "RAM": "16",
+        "price": "114999"
+      },
+      {
+        "id": "4",
+        "img": "",
+        "name": "Материнская плата MSI B450 ATX",
+        "Socket": "AM4",
+        "RAM": "16",
+        "price": "114999"
+      }
+    ],
+    "gpu": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Видеокарта MSI GeForce RTX 4090 GAMING X TRIO",
+        "TDP": "",
+        "Memory": "24",
+        "RecommendedPowerSupply": "850",
+        "score": "",
+        "price": "270999"
+      },
+      {
+        "id": "2",
+        "img": "",
+        "name": "Видеокарта GIGABYTE GeForce RTX 4080 SUPER GAMING OC",
+        "TDP": "",
+        "Memory": "16",
+        "RecommendedPowerSupply": "850",
+        "score": "",
+        "price": "151999"
+      },
+      {
+        "id": "3",
+        "img": "",
+        "name": "Видеокарта Colorful GeForce RTX 4070 Ti SUPER iGame Vulcan W OC",
+        "TDP": "",
+        "Memory": "16",
+        "RecommendedPowerSupply": "750",
+        "score": "",
+        "price": "125499"
+      },
+      {
+        "id": "4",
+        "img": "",
+        "name": "Видеокарта KFA2 GeForce RTX 4080 SG",
+        "TDP": "",
+        "Memory": "16",
+        "RecommendedPowerSupply": "750",
+        "score": "",
+        "price": "114999"
+      },
+      {
+        "id": "5",
+        "img": "",
+        "name": "Видеокарта Palit GeForce RTX 4070 Ti GameRock OC",
+        "TDP": "",
+        "Memory": "12",
+        "RecommendedPowerSupply": "750",
+        "score": "",
+        "price": "99999"
+      },
+      {
+        "id": "6",
+        "img": "",
+        "name": "Видеокарта Colorful GeForce RTX 4070 SUPER iGame Loong Edition OC",
+        "TDP": "",
+        "Memory": "12",
+        "RecommendedPowerSupply": "650",
+        "score": "",
+        "price": "89999"
+      },
+      {
+        "id": "7",
+        "img": "",
+        "name": "Видеокарта GIGABYTE GeForce RTX 4070 AERO OC 12G",
+        "TDP": "",
+        "Memory": "12",
+        "RecommendedPowerSupply": "650",
+        "score": "",
+        "price": "84499"
+      },
+      {
+        "id": "8",
+        "img": "",
+        "name": "Видеокарта GIGABYTE GeForce RTX 4060 Ti AERO OC",
+        "TDP": "",
+        "Memory": "16",
+        "RecommendedPowerSupply": "650",
+        "score": "",
+        "price": "64499"
+      },
+      {
+        "id": "9",
+        "img": "",
+        "name": "Видеокарта GIGABYTE GeForce RTX 4060 AORUS ELITE",
+        "TDP": "",
+        "Memory": "8",
+        "RecommendedPowerSupply": "450",
+        "score": "",
+        "price": "46299"
+      },
+      {
+        "id": "10",
+        "img": "",
+        "name": "Видеокарта Sapphire AMD Radeon RX 7900 XTX NITRO+ Vapor-X",
+        "TDP": "420",
+        "Memory": "16",
+        "RecommendedPowerSupply": "800",
+        "score": "",
+        "price": "129999"
+      },
+      {
+        "id": "11",
+        "img": "",
+        "name": "Видеокарта Sapphire AMD Radeon RX 7800 XT PURE OC",
+        "TDP": "270",
+        "Memory": "16",
+        "RecommendedPowerSupply": "700",
+        "score": "",
+        "price": "46299"
+      }
+    ],
+    "storage": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Магнитное устройство Seagate Barracuda 1TB HDD",
+        "Capacity": "1TB",
+        "Interface": "SATA 3",
+        "price": "28999"
+      }
+    ],
+    "ram": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Оперативная память Corsair Vengeance LPX 16GB (2x8GB) DDR4-3200",
+        "Capacity": "16GB",
+        "Speed": "3200 МHz",
+        "price": "15999"
+      }
+    ],
+    "power_supply": [
+      {
+        "id": "1",
+        "img": "",
+        "name": "Блок питания ATX 650W",
+        "Power": "650 Вт",
+        "price": "3499"
+      }
+    ]
+  }
+]
