@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Disclosure,
-	DisclosureContent,
-	DisclosureTrigger,
-} from '@/components/core/disclosure';
+import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
 import { ArrowDownFromLine } from 'lucide-react';
 import {
 	Dialog,
@@ -28,6 +24,12 @@ interface GPUItems {
 	name: string;
 	TDP: string;
 	Memory: string;
+	MemoryBus: string; // Шина памяти
+	MemoryType: string; // Тип памяти
+	CoreClock: string; // Частота графического ядра
+	Performance: string; // Производительность
+	Interface: string; // Интерфейс
+	Connectors: string; // Разъемы
 	RecommendedPowerSupply: string;
 	score: string;
 	price: string;
@@ -42,12 +44,8 @@ const Gpu = () => {
 			<Disclosure className="w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5">
 				<DisclosureTrigger>
 					<div className="px-5 py-3 flex justify-between items-center relative">
-						<div
-							className={'text-lg leading-none m-0 font-semibold relative pr-4'}
-						>
-							Видеокарта
-						</div>
-						<div className={'flex'}>
+						<div className="text-lg leading-none m-0 font-semibold relative pr-4">Видеокарта</div>
+						<div className="flex">
 							<button
 								className={
 									'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
@@ -72,9 +70,7 @@ const Gpu = () => {
 											display: 'flex',
 										}}
 										size="small"
-										renderInput={params => (
-											<TextField {...params} label="GPU" />
-										)}
+										renderInput={params => <TextField {...params} label="GPU" />}
 										options={gpuItems.map((gpu: GPUItems) => {
 											return gpu.name;
 										})}
@@ -109,9 +105,7 @@ const Gpu = () => {
 												className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 											>
 												<div className="p-6">
-													<DialogTitle className="text-2xl text-zinc-950">
-														Price
-													</DialogTitle>
+													<DialogTitle className="text-2xl text-zinc-950">Price</DialogTitle>
 													<div className="p-4" />
 													<div className="relative flex items-center gap-2 p-2 h-9 w-full">
 														<input
@@ -319,9 +313,7 @@ const Gpu = () => {
 																<text className="w-full">{gpu.name}</text>
 																<text className="w-1/6">{gpu.Memory}</text>
 																<text className="w-1/6">{gpu.TDP}</text>
-																<text className="w-1/6">
-																	{gpu.RecommendedPowerSupply}
-																</text>
+																<text className="w-1/6">{gpu.RecommendedPowerSupply}</text>
 																<text className="w-1/6">{gpu.score}</text>
 																<text className="w-1/6">{gpu.price}₽</text>
 															</div>
@@ -348,17 +340,68 @@ const Gpu = () => {
 															<DialogTitle className="text-black text-2xl font-bold">
 																{gpu.name}
 															</DialogTitle>
-															<DialogSubtitle className="text-4xl text-[#F2530C]">
-																{gpu.price}
+															<DialogSubtitle>
+																<div className="flex justify-between text-center items-center">
+																	<div className="text-4xl text-[#F2530C]">{gpu.price}</div>
+																	<button
+																		className={
+																			'border border-zinc-950/10 rounded-3xl m-2 px-5 py-2' +
+																			' inline-flex bg-[#94B90A] text-white'
+																		}
+																	>
+																		+ | Выбрать
+																	</button>
+																</div>
 															</DialogSubtitle>
-															<div className="mt-4 text-sm text-gray-700">
+															<div className="mt-2 text-base text-gray-700">
 																<div className="flex justify-between ml-2 mr-2">
-																	<text>123</text>
-																	<text>123</text>
+																	<text>Объем памяти</text>
+																	<text>{gpu.Memory} GB</text>
 																</div>
 
 																<Separator className="my-2 bg-gray-300 h-[1px]" />
-																<text>123</text>
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Шина памяти</text>
+																	<text>{gpu.MemoryBus} bit</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Тип памяти</text>
+																	<text>{gpu.MemoryType}</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Частота графического ядра</text>
+																	<text>{gpu.CoreClock} MHz</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Производительность</text>
+																	<text>{gpu.Performance}</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Интерфейс</text>
+																	<text>{gpu.Interface}</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Разъемы</text>
+																	<text>{gpu.Connectors}</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
+																<div className="flex justify-between ml-2 mr-2">
+																	<text>Рекомендуемая мощность БП</text>
+																	<text>{gpu.RecommendedPowerSupply} W</text>
+																</div>
+
+																<Separator className="my-2 bg-gray-300 h-[1px]" />
 															</div>
 														</div>
 													</div>
