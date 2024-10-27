@@ -42,6 +42,9 @@ interface GPUItems {
 const Gpu = () => {
 	const gpuItems: GPUItems[] = items[0].gpu;
 
+	const uniqueMemories = Array.from(new Set(gpuItems.map(item => item.Memory)));
+	const [selectedMemory, setSelectedMemory] = useState<string[]>([]);
+
 	const minPriceRange = Math.min(
 		...gpuItems.map(item => parseInt(item.price, 10)),
 	);
@@ -76,8 +79,24 @@ const Gpu = () => {
 		const gpuPrice = parseFloat(gpu.price); // Преобразуем цену в число
 		const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
-		return matchesManufacturer && matchesSelectedGPU && matchesPriceRange;
+		const matchesMemory =
+			selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
+
+		return (
+			matchesManufacturer &&
+			matchesSelectedGPU &&
+			matchesPriceRange &&
+			matchesMemory
+		);
 	});
+
+	const handleMemoryChange = (memory: string) => {
+		setSelectedMemory(prev =>
+			prev.includes(memory)
+				? prev.filter(item => item !== memory)
+				: [...prev, memory],
+		);
+	};
 
 	const handleChange = (event: Event, newValue: number | number[]) => {
 		if (Array.isArray(newValue)) {
@@ -117,7 +136,7 @@ const Gpu = () => {
 		setGPU(undefined);
 	};
 
-	const handleManufactor = (manufacturer: 'NVIDIA' | 'AMD') => {
+	const handleManufacture = (manufacturer: 'NVIDIA' | 'AMD') => {
 		setSelectedManufacturer((prev: string[]) =>
 			prev.includes(manufacturer)
 				? prev.filter((item: string) => item !== manufacturer)
@@ -287,14 +306,14 @@ const Gpu = () => {
 																checked={selectedManufacturer.includes(
 																	'NVIDIA',
 																)}
-																onClick={() => handleManufactor('NVIDIA')}
+																onClick={() => handleManufacture('NVIDIA')}
 															/>
 															<span>NVIDIA</span>
 														</div>
 														<div className="flex text-center items-center">
 															<Checkbox
 																checked={selectedManufacturer.includes('AMD')}
-																onClick={() => handleManufactor('AMD')}
+																onClick={() => handleManufacture('AMD')}
 															/>
 															<span>AMD</span>
 														</div>
@@ -314,7 +333,7 @@ const Gpu = () => {
 									>
 										<DialogTrigger>
 											<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
-												<span>Количетсво ядер</span>
+												<span>Объем памяти</span>
 												<ArrowDownFromLine className="h-5 w-5" />
 											</div>
 										</DialogTrigger>
@@ -326,18 +345,22 @@ const Gpu = () => {
 											>
 												<div className="p-6">
 													<DialogTitle className="text-2xl text-zinc-950">
-														Количетсво ядер
+														Объем памяти
 													</DialogTitle>
 													<div className="p-2" />
 													<div className="relative flex flex-col p-2 w-full">
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
+														{uniqueMemories.map(memory => (
+															<div
+																key={memory}
+																className="flex text-center items-center"
+															>
+																<Checkbox
+																	checked={selectedMemory.includes(memory)}
+																	onChange={() => handleMemoryChange(memory)}
+																/>
+																<span>{memory}</span>
+															</div>
+														))}
 													</div>
 												</div>
 												<DialogClose className="text-zinc-950 " />
@@ -345,7 +368,7 @@ const Gpu = () => {
 										</DialogContainer>
 									</Dialog>
 
-									<Dialog
+									{/*<Dialog
 										transition={{
 											type: 'spring',
 											bounce: 0.05,
@@ -383,7 +406,7 @@ const Gpu = () => {
 												<DialogClose className="text-zinc-950 " />
 											</DialogContent>
 										</DialogContainer>
-									</Dialog>
+									</Dialog>*/}
 								</div>
 
 								{/*Title*/}
