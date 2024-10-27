@@ -4,7 +4,12 @@ import {
 	DisclosureContent,
 	DisclosureTrigger,
 } from '@/components/core/disclosure';
-import { ArrowDownFromLine, Plus, RefreshCw } from 'lucide-react';
+import {
+	ArrowDownFromLine,
+	Plus,
+	RefreshCw,
+	ChevronsDownUp,
+} from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -63,32 +68,45 @@ const Gpu = () => {
 	);
 	const [selectedGPU, setSelectedGPU] = useState<GPUItems | null>(null);
 
-	const filteredGpuItems = gpuItems.filter(gpu => {
-		// Фильтруем по производителю
-		const matchesManufacturer =
-			selectedManufacturer.length > 0
-				? selectedManufacturer.includes(gpu.Manufacturer)
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+	// FILTERED
+	const filteredGpuItems = gpuItems
+		.filter(gpu => {
+			// Фильтруем по производителю
+			const matchesManufacturer =
+				selectedManufacturer.length > 0
+					? selectedManufacturer.includes(gpu.Manufacturer)
+					: true;
+
+			// Если выбран GPU, показываем только его
+			const matchesSelectedGPU = selectedGPU
+				? gpu.name === selectedGPU.name
 				: true;
 
-		// Если выбран GPU, показываем только его
-		const matchesSelectedGPU = selectedGPU
-			? gpu.name === selectedGPU.name
-			: true;
+			// Проверяем, попадает ли цена в диапазон
+			const gpuPrice = parseFloat(gpu.price); // Преобразуем цену в число
+			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
-		// Проверяем, попадает ли цена в диапазон
-		const gpuPrice = parseFloat(gpu.price); // Преобразуем цену в число
-		const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
+			const matchesMemory =
+				selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
 
-		const matchesMemory =
-			selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
+			return (
+				matchesManufacturer &&
+				matchesSelectedGPU &&
+				matchesPriceRange &&
+				matchesMemory
+			);
+		})
+		.sort((a, b) => {
+			const priceA = parseFloat(a.price);
+			const priceB = parseFloat(b.price);
+			return sortOrder === 'desc' ? priceA - priceB : priceB - priceA;
+		});
 
-		return (
-			matchesManufacturer &&
-			matchesSelectedGPU &&
-			matchesPriceRange &&
-			matchesMemory
-		);
-	});
+	const toggleSortOrder = () => {
+		setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
+	};
 
 	const handleMemoryChange = (memory: string) => {
 		setSelectedMemory(prev =>
@@ -134,6 +152,7 @@ const Gpu = () => {
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		setGPU(undefined);
+		setSelectedGPU(null);
 	};
 
 	const handleManufacture = (manufacturer: 'NVIDIA' | 'AMD') => {
@@ -173,7 +192,7 @@ const Gpu = () => {
 					) : (
 						<div
 							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => setIsOpenDisclosure(true)}
+							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 						>
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Видеокарта
@@ -184,7 +203,7 @@ const Gpu = () => {
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
 								>
-									<Plus className="mr-2 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" /> | Добавить
 								</button>
 							</div>
 						</div>
@@ -192,9 +211,9 @@ const Gpu = () => {
 				</DisclosureTrigger>
 				<DisclosureContent>
 					<div className="overflow-hidden pb-3">
-						<div className="pt-1 font-mono text-sm">
+						<div className="font-mono text-sm">
 							<div className="space-x-2">
-								<div className="relative w-full flex gap-4 h-12 items-center">
+								<div className="ml-2 relative w-full flex gap-4 h-12 items-center">
 									<Autocomplete
 										disablePortal
 										sx={{
@@ -413,36 +432,43 @@ const Gpu = () => {
 								{filteredGpuItems.length === 0 ? (
 									<></>
 								) : (
-									<div>
-										<div className="flex w-full gap-4 mt-4 bg-amber-100 items-center">
-											<div className="flex items-center gap-2">
-												<div className="Icon" />
-												<span>Изображение</span>
-											</div>
-											<div className="w-[42%]">
-												<div className="Icon" />
-												<span>Название</span>
-											</div>
+									<div className="flex w-full gap-4 mt-4 bg-amber-100 items-center">
+										<div className="ml-2">
+											<div className="Icon" />
+											<span>Изображение</span>
+										</div>
 
-											<div className="">
-												<div className="Icon" />
-												<span>Score</span>
-											</div>
+										<div className="w-[40%]">
+											<div className="Icon" />
+											<span>Название</span>
+										</div>
 
-											<div className="">
-												<div className="Icon" />
-												<span>Мощность БП</span>
-											</div>
+										<div className="">
+											<div className="Icon" />
+											<span>Объем памяти</span>
+										</div>
 
-											<div className="">
-												<div className="Icon" />
-												<span>Цена</span>
-											</div>
+										<div className="">
+											<div className="Icon" />
+											<span>Score</span>
+										</div>
 
-											<div className="">
-												<div className="Icon" />
-												<span>Показать еще</span>
-											</div>
+										<div className="flex">
+											<div className="Icon" />
+											<span>Мощность БП</span>
+										</div>
+
+										<div
+											className="flex ml-10 cursor-pointer"
+											onClick={toggleSortOrder}
+										>
+											<ChevronsDownUp className="h-5 w-5" />
+											<span>Цена</span>
+										</div>
+
+										<div className="ml-auto mr-14">
+											<div className="Icon" />
+											<span>Показать еще</span>
 										</div>
 									</div>
 								)}
@@ -478,18 +504,22 @@ const Gpu = () => {
 																			className="h-8 w-8 object-cover object-top mr-2"
 																			style={{ borderRadius: '4px' }}
 																		/>
-																		<div className="w-3/6 items-center">
-																			<span>{gpu.name}</span>
+																		<div className="w-3/6 text-left">
+																			{gpu.name}
 																		</div>
-																		<span className="w-14">{gpu.Memory}</span>
-																		<span className="w-14">{gpu.TDP}</span>
-																		<span className="w-14">
+																		<div className="w-14">{gpu.Memory}</div>
+																		<div className="w-14">{gpu.TDP}</div>
+																		<div className="w-20 text-center">
 																			{gpu.RecommendedPowerSupply}
-																		</span>
-																		<span className="w-14">{gpu.score}</span>
-																		<span className="w-14">{gpu.price}₽</span>
+																		</div>
+																		<div className="w-14 text-center">
+																			{gpu.score}
+																		</div>
+																		<div className="w-24 text-center">
+																			{gpu.price}₽
+																		</div>
 																		<button
-																			className={`ml-4 border border-zinc-950/10 
+																			className={`ml-auto mr-4 border border-zinc-950/10 
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
 																	hover:bg-gray-900 hover:text-white items-center`}
 																			onClick={e => {
