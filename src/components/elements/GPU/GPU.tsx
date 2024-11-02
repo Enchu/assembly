@@ -432,13 +432,13 @@ const Gpu = () => {
 								{filteredGpuItems.length === 0 ? (
 									<></>
 								) : (
-									<div className="flex w-full gap-4 mt-4 bg-amber-100 items-center">
+									<div className="flex w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default">
 										<div className="ml-2">
 											<div className="Icon" />
 											<span>Изображение</span>
 										</div>
 
-										<div className="w-[40%]">
+										<div className="w-[38%]">
 											<div className="Icon" />
 											<span>Название</span>
 										</div>
@@ -459,10 +459,10 @@ const Gpu = () => {
 										</div>
 
 										<div
-											className="flex ml-10 cursor-pointer"
+											className="flex ml-14 cursor-pointer"
 											onClick={toggleSortOrder}
 										>
-											<ChevronsDownUp className="h-5 w-5" />
+											<ChevronsDownUp className="" />
 											<span>Цена</span>
 										</div>
 
