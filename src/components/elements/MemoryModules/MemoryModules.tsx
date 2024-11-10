@@ -25,21 +25,23 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import items from '@/data/data.json';
-import { RAMItem } from '@/interface/GPU';
-import { useGPUStore } from '@/store/store';
+import { useMemoryStore } from '@/store/store';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
+import { RAMItem } from '@/interface/Ram';
 
 const Gpu = () => {
-	const gpuItems: RAMItem[] = items[0].gpu;
+	const ramItems: RAMItem[] = items[0].ram;
 
-	const uniqueMemories = Array.from(new Set(gpuItems.map(item => item.Memory)));
+	const uniqueMemories = Array.from(
+		new Set(ramItems.map(item => item.Capacity)),
+	);
 	const [selectedMemory, setSelectedMemory] = useState<string[]>([]);
 
 	const minPriceRange = Math.min(
-		...gpuItems.map(item => parseInt(item.price, 10)),
+		...ramItems.map(item => parseInt(item.price, 10)),
 	);
 	const maxPriceRange = Math.max(
-		...gpuItems.map(item => parseInt(item.price, 10)),
+		...ramItems.map(item => parseInt(item.price, 10)),
 	);
 	const [range, setRange] = useState<number[]>([minPriceRange, maxPriceRange]);
 
@@ -47,7 +49,7 @@ const Gpu = () => {
 	const [maxPrice, setMaxPrice] = useState<number>(maxPriceRange);
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
-	const { gpu, setGPU } = useGPUStore();
+	const { memory, setMemory } = useMemoryStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -56,25 +58,27 @@ const Gpu = () => {
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
 	// FILTERED
-	const filteredGpuItems = gpuItems
-		.filter(gpu => {
+	const filteredRamItems = ramItems
+		.filter(memory => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
 				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(gpu.Manufacturer)
+					? selectedManufacturer.includes(memory.Manufacturer)
 					: true;
 
 			// Если выбран GPU, показываем только его
 			const matchesSelectedGPU = selectedGPU
-				? gpu.name === selectedGPU.name
+				? memory.name === selectedGPU.name
 				: true;
 
 			// Проверяем, попадает ли цена в диапазон
-			const gpuPrice = parseFloat(gpu.price); // Преобразуем цену в число
+			const gpuPrice = parseFloat(memory.price); // Преобразуем цену в число
 			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
 			const matchesMemory =
-				selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
+				selectedMemory.length > 0
+					? selectedMemory.includes(memory.Capacity)
+					: true;
 
 			return (
 				matchesManufacturer &&
@@ -122,13 +126,13 @@ const Gpu = () => {
 		value: RAMItem,
 	) => {
 		event.stopPropagation();
-		setGPU(value);
+		setMemory(value);
 		setIsOpenDisclosure(false);
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
-		setGPU(null);
+		setMemory(null);
 		setSelectedGPU(null);
 	};
 
@@ -143,11 +147,11 @@ const Gpu = () => {
 	return (
 		<>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${gpu !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${memory !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
 			>
 				<DisclosureTrigger>
-					{gpu !== null ? (
+					{memory !== null ? (
 						<div
 							className="px-5 py-3 flex justify-between items-center relative"
 							onClick={() => handleDialogClose()}
@@ -155,7 +159,7 @@ const Gpu = () => {
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Видеокарта
 							</div>
-							<div>{gpu.name}</div>
+							<div>{memory.name}</div>
 							<div className="flex">
 								<button
 									className={
@@ -203,11 +207,11 @@ const Gpu = () => {
 										renderInput={params => (
 											<TextField {...params} label="GPU" />
 										)}
-										options={gpuItems.map((gpu: RAMItem) => {
+										options={ramItems.map((gpu: RAMItem) => {
 											return gpu.name;
 										})}
 										onChange={(event, value) => {
-											const selected = gpuItems.find(gpu => gpu.name === value);
+											const selected = ramItems.find(gpu => gpu.name === value);
 											setSelectedGPU(selected || null);
 										}}
 									/>
@@ -359,7 +363,7 @@ const Gpu = () => {
 								</div>
 
 								{/*Title*/}
-								{filteredGpuItems.length === 0 ? (
+								{filteredRamItems.length === 0 ? (
 									<></>
 								) : (
 									<div className="flex w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default">
@@ -380,12 +384,17 @@ const Gpu = () => {
 
 										<div className="">
 											<div className="Icon" />
-											<span>Score</span>
+											<span>Скорость</span>
+										</div>
+
+										<div className="">
+											<div className="Icon" />
+											<span>Тип</span>
 										</div>
 
 										<div className="flex">
 											<div className="Icon" />
-											<span>Мощность БП</span>
+											<span>Модули</span>
 										</div>
 
 										<div
@@ -404,20 +413,20 @@ const Gpu = () => {
 								)}
 
 								{/*Items*/}
-								{filteredGpuItems.length === 0 ? (
+								{filteredRamItems.length === 0 ? (
 									<div className={'font-bold text-2xl text-center m-10'}>
 										<p>Нет доступных видеокарт для отображения.</p>
 									</div>
 								) : (
 									<div>
-										{filteredGpuItems.map((gpu: RAMItem) => (
+										{filteredRamItems.map((memory: RAMItem) => (
 											<Dialog
 												transition={{
 													type: 'spring',
 													stiffness: 200,
 													damping: 24,
 												}}
-												key={gpu.id}
+												key={memory.id}
 											>
 												<DialogTrigger
 													style={{ borderRadius: '4px' }}
@@ -435,25 +444,27 @@ const Gpu = () => {
 																			style={{ borderRadius: '4px' }}
 																		/>
 																		<div className="w-3/6 text-left">
-																			{gpu.name}
+																			{memory.name}
 																		</div>
-																		<div className="w-14">{gpu.Memory}</div>
-																		<div className="w-14">{gpu.TDP}</div>
+																		<div className="w-14">
+																			{memory.Capacity}
+																		</div>
+																		<div className="w-14">{memory.Speed}</div>
 																		<div className="w-20 text-center">
-																			{gpu.RecommendedPowerSupply}
+																			{memory.Type}
 																		</div>
 																		<div className="w-14 text-center">
-																			{gpu.score}
+																			{memory.Modules}
 																		</div>
 																		<div className="w-24 text-center">
-																			{gpu.price}₽
+																			{memory.price}₽
 																		</div>
 																		<button
 																			className={`ml-auto mr-4 border border-zinc-950/10 
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
 																	hover:bg-gray-900 hover:text-white items-center`}
 																			onClick={e => {
-																				handleGPUChange(e, gpu);
+																				handleGPUChange(e, memory);
 																			}}
 																		>
 																			<Plus className="mr-2 h-4 w-4 " /> |
@@ -481,12 +492,12 @@ const Gpu = () => {
 																</div>
 																<div className="">
 																	<DialogTitle className="text-black text-2xl font-bold">
-																		{gpu.name}
+																		{memory.name}
 																	</DialogTitle>
 																	<DialogSubtitle>
 																		<div className="flex justify-between text-center items-center my-3">
 																			<div className="text-4xl text-[#F2530C]">
-																				{gpu.price}
+																				{memory.price}
 																			</div>
 																			<button
 																				className={
@@ -494,7 +505,7 @@ const Gpu = () => {
 																					' inline-flex bg-[#94B90A] text-white item-center text-center'
 																				}
 																				onClick={e => {
-																					handleGPUChange(e, gpu);
+																					handleGPUChange(e, memory);
 																				}}
 																			>
 																				<Plus /> | Выбрать
@@ -504,50 +515,50 @@ const Gpu = () => {
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Объем памяти</span>
-																			<span>{gpu.Memory} GB</span>
+																			<span>{memory.Memory} GB</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Шина памяти</span>
-																			<span>{gpu.MemoryBus} bit</span>
+																			<span>{memory.MemoryBus} bit</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Тип памяти</span>
-																			<span>{gpu.MemoryType}</span>
+																			<span>{memory.MemoryType}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Частота графического ядра</span>
-																			<span>{gpu.CoreClock} MHz</span>
+																			<span>{memory.CoreClock} MHz</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Производительность</span>
-																			<span>{gpu.Performance}</span>
+																			<span>{memory.Performance}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Интерфейс</span>
-																			<span>{gpu.Interface}</span>
+																			<span>{memory.Interface}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Разъемы</span>
-																			<span>{gpu.Connectors}</span>
+																			<span>{memory.Connectors}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Рекомендуемая мощность БП</span>
 																			<span>
-																				{gpu.RecommendedPowerSupply} W
+																				{memory.RecommendedPowerSupply} W
 																			</span>
 																		</div>
 

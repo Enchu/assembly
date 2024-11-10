@@ -25,23 +25,9 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import items from '@/data/data.json';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
-import PriceDialog from '@/components/elements/PriceDialog/PriceDialog';
-
-interface CPUItem {
-	id: string;
-	img: string;
-	name: string;
-	TDP: string;
-	score: string;
-	price: string;
-	baseClock: string; // базовая частота
-	boostClock: string; // максимальная частота
-	cores: string; // количество ядер
-	threads: string; // количество потоков
-	cache: string; // кэш-память
-	socket: string; // сокет процессора
-	manufacturer: string;
-}
+import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
+import { useCPUStore } from '@/store/store';
+import { CPUItem } from '@/interface/CPU';
 
 const Cpu = () => {
 	const cpuItems: CPUItem[] = items[0].cpu;
@@ -72,7 +58,7 @@ const Cpu = () => {
 	const [maxPrice, setMaxPrice] = useState<number>(maxPriceRange);
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
-	const [cpu, setCPU] = useState<CPUItem>();
+	const { cpu, setCPU } = useCPUStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -168,7 +154,7 @@ const Cpu = () => {
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
-		setCPU(undefined);
+		setCPU(null);
 		setSelectedCPU(null);
 	};
 
@@ -183,11 +169,11 @@ const Cpu = () => {
 	return (
 		<>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${cpu !== undefined ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
 			>
 				<DisclosureTrigger>
-					{cpu !== undefined ? (
+					{cpu !== null ? (
 						<div
 							className="px-5 py-3 flex justify-between items-center relative"
 							onClick={() => handleDialogClose()}

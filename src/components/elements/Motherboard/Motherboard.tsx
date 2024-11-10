@@ -24,23 +24,10 @@ import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
 import items from '@/data/data.json';
 import { Autocomplete, TextField } from '@mui/material';
-import PriceDialog from '@/components/elements/PriceDialog/PriceDialog';
+import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
-
-interface MotherboardItems {
-	id: string;
-	img: string;
-	name: string;
-	manufacturer: string;
-	socket: string;
-	chipset: string;
-	formFactor: string;
-	maxMemory: string;
-	memoryType: string;
-	memorySlots: number;
-	ram: string;
-	price: string;
-}
+import { MotherboardItems } from '@/interface/Motherboard';
+import { useMotherboardStore } from '@/store/store';
 
 const Motherboard = () => {
 	const motherboardItems: MotherboardItems[] = items[0].motherboard;
@@ -57,7 +44,7 @@ const Motherboard = () => {
 	const [maxPrice, setMaxPrice] = useState<number>(maxPriceRange);
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
-	const [motherboard, setMotherboard] = useState<MotherboardItems>();
+	const { motherboard, setMotherboard } = useMotherboardStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -69,23 +56,25 @@ const Motherboard = () => {
 
 	// FILTERED
 	const filteredMotherboardItems = motherboardItems
-		.filter(cpu => {
+		.filter(motherboard => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
 				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(cpu.manufacturer)
+					? selectedManufacturer.includes(motherboard.manufacturer)
 					: true;
 
-			// Если выбран конкретный CPU, показываем только его
-			const matchesSelectedCPU = motherboardCPU
-				? cpu.name === motherboardCPU.name
+			// Если выбран конкретный Motherboard, показываем только его
+			const matchesSelectedMotherboard = motherboardCPU
+				? motherboard.name === motherboardCPU.name
 				: true;
 
 			// Проверяем, попадает ли цена в диапазон
-			const cpuPrice = parseFloat(cpu.price); // Преобразуем цену в число
+			const cpuPrice = parseFloat(motherboard.price); // Преобразуем цену в число
 			const matchesPriceRange = cpuPrice >= range[0] && cpuPrice <= range[1];
 
-			return matchesManufacturer && matchesSelectedCPU && matchesPriceRange;
+			return (
+				matchesManufacturer && matchesSelectedMotherboard && matchesPriceRange
+			);
 		})
 		.sort((a, b) => {
 			const priceA = parseFloat(a.price);
@@ -124,7 +113,7 @@ const Motherboard = () => {
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
-		setMotherboard(undefined);
+		setMotherboard(null);
 		setMotherboardCPU(null);
 	};
 
@@ -141,11 +130,11 @@ const Motherboard = () => {
 	return (
 		<>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${motherboard !== undefined ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${motherboard !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
 			>
 				<DisclosureTrigger>
-					{motherboard !== undefined ? (
+					{motherboard !== null ? (
 						<div
 							className="px-5 py-3 flex justify-between items-center relative"
 							onClick={() => handleDialogClose()}
