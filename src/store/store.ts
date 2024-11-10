@@ -1,11 +1,12 @@
 import { create } from 'zustand';
 import { CPUItem } from '@/interface/CPU';
-import { RAMItem } from '@/interface/GPU';
+import { GPUItem } from '@/interface/GPU';
 import { MotherboardItems } from '@/interface/Motherboard';
+import { RAMItem } from '@/interface/Ram';
 
 interface GPUStore {
-	gpu: RAMItem | null;
-	setGPU: (gpu: RAMItem | null) => void;
+	gpu: GPUItem | null;
+	setGPU: (gpu: GPUItem | null) => void;
 }
 
 interface CPUStore {

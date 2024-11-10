@@ -25,12 +25,12 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import items from '@/data/data.json';
-import { RAMItem } from '@/interface/GPU';
+import { GPUItem } from '@/interface/GPU';
 import { useGPUStore } from '@/store/store';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 
 const Gpu = () => {
-	const gpuItems: RAMItem[] = items[0].gpu;
+	const gpuItems: GPUItem[] = items[0].gpu;
 
 	const uniqueMemories = Array.from(new Set(gpuItems.map(item => item.Memory)));
 	const [selectedMemory, setSelectedMemory] = useState<string[]>([]);
@@ -51,7 +51,7 @@ const Gpu = () => {
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
-	const [selectedGPU, setSelectedGPU] = useState<RAMItem | null>(null);
+	const [selectedGPU, setSelectedGPU] = useState<GPUItem | null>(null);
 
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -119,7 +119,7 @@ const Gpu = () => {
 
 	const handleGPUChange = (
 		event: React.ChangeEvent<unknown>,
-		value: RAMItem,
+		value: GPUItem,
 	) => {
 		event.stopPropagation();
 		setGPU(value);
@@ -203,7 +203,7 @@ const Gpu = () => {
 										renderInput={params => (
 											<TextField {...params} label="GPU" />
 										)}
-										options={gpuItems.map((gpu: RAMItem) => {
+										options={gpuItems.map((gpu: GPUItem) => {
 											return gpu.name;
 										})}
 										onChange={(event, value) => {
@@ -410,7 +410,7 @@ const Gpu = () => {
 									</div>
 								) : (
 									<div>
-										{filteredGpuItems.map((gpu: RAMItem) => (
+										{filteredGpuItems.map((gpu: GPUItem) => (
 											<Dialog
 												transition={{
 													type: 'spring',

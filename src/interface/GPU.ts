@@ -1,4 +1,4 @@
-export interface RAMItem {
+export interface GPUItem {
 	id: string;
 	img: string;
 	name: string;

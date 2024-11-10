@@ -34,8 +34,16 @@ const Gpu = () => {
 
 	const uniqueMemories = Array.from(
 		new Set(ramItems.map(item => item.Capacity)),
-	);
+	).sort((a, b) => {
+		return Number(b) - Number(a);
+	});
 	const [selectedMemory, setSelectedMemory] = useState<string[]>([]);
+
+	const uniqueManufacturers = Array.from(
+		new Set(ramItems.map(item => item.Manufacturer)),
+	);
+
+	console.log(uniqueManufacturers);
 
 	const minPriceRange = Math.min(
 		...ramItems.map(item => parseInt(item.price, 10)),
@@ -136,7 +144,7 @@ const Gpu = () => {
 		setSelectedGPU(null);
 	};
 
-	const handleManufacture = (manufacturer: 'NVIDIA' | 'AMD') => {
+	const handleManufacture = (manufacturer: string) => {
 		setSelectedManufacturer((prev: string[]) =>
 			prev.includes(manufacturer)
 				? prev.filter((item: string) => item !== manufacturer)
@@ -157,7 +165,7 @@ const Gpu = () => {
 							onClick={() => handleDialogClose()}
 						>
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-								Видеокарта
+								Модули памяти
 							</div>
 							<div>{memory.name}</div>
 							<div className="flex">
@@ -176,7 +184,7 @@ const Gpu = () => {
 							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 						>
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-								Видеокарта
+								Модули памяти
 							</div>
 							<div className="flex">
 								<button
@@ -205,7 +213,7 @@ const Gpu = () => {
 										}}
 										size="small"
 										renderInput={params => (
-											<TextField {...params} label="GPU" />
+											<TextField {...params} label="RAM" />
 										)}
 										options={ramItems.map((gpu: RAMItem) => {
 											return gpu.name;
@@ -254,22 +262,22 @@ const Gpu = () => {
 													</DialogTitle>
 													<div className="p-2" />
 													<div className="relative flex flex-col p-2 w-full">
-														<div className="flex text-center items-center">
-															<Checkbox
-																checked={selectedManufacturer.includes(
-																	'NVIDIA',
-																)}
-																onClick={() => handleManufacture('NVIDIA')}
-															/>
-															<span>NVIDIA</span>
-														</div>
-														<div className="flex text-center items-center">
-															<Checkbox
-																checked={selectedManufacturer.includes('AMD')}
-																onClick={() => handleManufacture('AMD')}
-															/>
-															<span>AMD</span>
-														</div>
+														{uniqueManufacturers.map(manufacturer => (
+															<div
+																className="flex text-center items-center"
+																key={manufacturer}
+															>
+																<Checkbox
+																	checked={selectedManufacturer.includes(
+																		manufacturer,
+																	)}
+																	onClick={() =>
+																		handleManufacture(manufacturer)
+																	}
+																/>
+																<span>{manufacturer}</span>
+															</div>
+														))}
 													</div>
 												</div>
 												<DialogClose className="text-zinc-950 " />
@@ -514,52 +522,50 @@ const Gpu = () => {
 																	</DialogSubtitle>
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
+																			<span>Производитель</span>
+																			<span>{memory.Manufacturer}</span>
+																		</div>
+
+																		<Separator className="my-2 bg-gray-300 h-[1px]" />
+																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Объем памяти</span>
-																			<span>{memory.Memory} GB</span>
+																			<span>{memory.Capacity}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Шина памяти</span>
-																			<span>{memory.MemoryBus} bit</span>
+																			<span>Частота</span>
+																			<span>{memory.Speed}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Тип памяти</span>
-																			<span>{memory.MemoryType}</span>
+																			<span>Тип</span>
+																			<span>{memory.Type}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Частота графического ядра</span>
-																			<span>{memory.CoreClock} MHz</span>
+																			<span>Латентность</span>
+																			<span>{memory.Latency}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Производительность</span>
-																			<span>{memory.Performance}</span>
+																			<span>Напряжение</span>
+																			<span>{memory.Voltage}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Интерфейс</span>
-																			<span>{memory.Interface}</span>
+																			<span>Модули</span>
+																			<span>{memory.Modules}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Разъемы</span>
-																			<span>{memory.Connectors}</span>
-																		</div>
-
-																		<Separator className="my-2 bg-gray-300 h-[1px]" />
-																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Рекомендуемая мощность БП</span>
-																			<span>
-																				{memory.RecommendedPowerSupply} W
-																			</span>
+																			<span>Цена</span>
+																			<span>{memory.price} ₽</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
