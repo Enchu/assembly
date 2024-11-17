@@ -3,6 +3,7 @@ import { CPUItem } from '@/interface/CPU';
 import { GPUItem } from '@/interface/GPU';
 import { MotherboardItems } from '@/interface/Motherboard';
 import { RAMItem } from '@/interface/Ram';
+import { PowerSupplyT } from '@/interface/PowerSupply';
 
 interface GPUStore {
 	gpu: GPUItem | null;
@@ -24,6 +25,11 @@ interface MemoryStore {
 	setMemory: (memory: RAMItem | null) => void;
 }
 
+interface PowerSupplyStore {
+	powerSupply: PowerSupplyT | null;
+	setPowerSupply: (powerSupply: PowerSupplyT | null) => void;
+}
+
 export const useGPUStore = create<GPUStore>(set => ({
 	gpu: null,
 	setGPU: gpu => set({ gpu }),
@@ -42,4 +48,9 @@ export const useMotherboardStore = create<MotherboardStore>(set => ({
 export const useMemoryStore = create<MemoryStore>(set => ({
 	memory: null,
 	setMemory: memory => set({ memory }),
+}));
+
+export const usePowerSupplyStore = create<PowerSupplyStore>(set => ({
+	powerSupply: null,
+	setPowerSupply: powerSupply => set({ powerSupply }),
 }));

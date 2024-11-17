@@ -29,7 +29,7 @@ import { useMemoryStore } from '@/store/store';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { RAMItem } from '@/interface/Ram';
 
-const Gpu = () => {
+const MemoryModules = () => {
 	const ramItems: RAMItem[] = items[0].ram;
 
 	const uniqueMemories = Array.from(
@@ -42,8 +42,6 @@ const Gpu = () => {
 	const uniqueManufacturers = Array.from(
 		new Set(ramItems.map(item => item.Manufacturer)),
 	);
-
-	console.log(uniqueManufacturers);
 
 	const minPriceRange = Math.min(
 		...ramItems.map(item => parseInt(item.price, 10)),
@@ -423,7 +421,7 @@ const Gpu = () => {
 								{/*Items*/}
 								{filteredRamItems.length === 0 ? (
 									<div className={'font-bold text-2xl text-center m-10'}>
-										<p>Нет доступных видеокарт для отображения.</p>
+										<p>Нет доступных модулей памяти для отображения.</p>
 									</div>
 								) : (
 									<div>
@@ -563,12 +561,6 @@ const Gpu = () => {
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
-																		<div className="flex justify-between ml-2 mr-2">
-																			<span>Цена</span>
-																			<span>{memory.price} ₽</span>
-																		</div>
-
-																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																	</div>
 																</div>
 															</div>
@@ -589,4 +581,4 @@ const Gpu = () => {
 	);
 };
 
-export default Gpu;
+export default MemoryModules;
