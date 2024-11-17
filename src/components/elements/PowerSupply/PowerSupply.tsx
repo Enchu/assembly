@@ -165,7 +165,7 @@ const PowerSupply = () => {
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Блок питания
 							</div>
-							<div>{powerSupply.name}</div>
+							<div className="text-xl">{powerSupply.name}</div>
 							<div className="flex">
 								<button
 									className={

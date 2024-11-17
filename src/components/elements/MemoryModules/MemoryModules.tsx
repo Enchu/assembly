@@ -165,7 +165,7 @@ const MemoryModules = () => {
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Модули памяти
 							</div>
-							<div>{memory.name}</div>
+							<div className="text-xl">{memory.name}</div>
 							<div className="flex">
 								<button
 									className={

@@ -27,7 +27,7 @@ import { Autocomplete, TextField } from '@mui/material';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
 import { MotherboardItems } from '@/interface/Motherboard';
-import { useMotherboardStore } from '@/store/store';
+import { useCPUStore, useMotherboardStore } from '@/store/store';
 
 const Motherboard = () => {
 	const motherboardItems: MotherboardItems[] = items[0].motherboard;
@@ -45,6 +45,7 @@ const Motherboard = () => {
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 	const { motherboard, setMotherboard } = useMotherboardStore();
+	const { cpu } = useCPUStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -68,12 +69,19 @@ const Motherboard = () => {
 				? motherboard.name === motherboardCPU.name
 				: true;
 
+			// Если выбран CPU проверяем его совподает ли он с socket motherboard
+			const cpuSocketMotherboard =
+				cpu !== null ? motherboard.socket === cpu.socket : true;
+
 			// Проверяем, попадает ли цена в диапазон
 			const cpuPrice = parseFloat(motherboard.price); // Преобразуем цену в число
 			const matchesPriceRange = cpuPrice >= range[0] && cpuPrice <= range[1];
 
 			return (
-				matchesManufacturer && matchesSelectedMotherboard && matchesPriceRange
+				matchesManufacturer &&
+				matchesSelectedMotherboard &&
+				cpuSocketMotherboard &&
+				matchesPriceRange
 			);
 		})
 		.sort((a, b) => {
@@ -142,7 +150,7 @@ const Motherboard = () => {
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Материнская плата
 							</div>
-							<div>{motherboard.name}</div>
+							<div className="text-xl">{motherboard.name}</div>
 							<div className="flex">
 								<button
 									className={
@@ -371,11 +379,9 @@ const Motherboard = () => {
 
 								{/*Title*/}
 								{filteredMotherboardItems.length === 0 ? (
-									<>
-										<div className="font-bold text-2xl text-center m-10">
-											<p>Нет доступных материнских плат для отображения.</p>
-										</div>
-									</>
+									<div className="font-bold text-2xl text-center m-10">
+										<p>Нет доступных материнских плат для отображения.</p>
+									</div>
 								) : (
 									<div className="flex w-full text-base gap-4 mt-4 bg-amber-100 items-center justify-center cursor-default">
 										<div className="ml-2">
@@ -426,7 +432,7 @@ const Motherboard = () => {
 								{/*Items*/}
 								{filteredMotherboardItems.length === 0 ? (
 									<div className={'font-bold text-2xl text-center m-10'}>
-										<p>Нет доступных процессоров для отображения.</p>
+										<p>С данным процессором нету материнских плат</p>
 									</div>
 								) : (
 									<div>

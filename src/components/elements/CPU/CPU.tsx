@@ -26,7 +26,7 @@ import items from '@/data/data.json';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
-import { useCPUStore } from '@/store/store';
+import { useCPUStore, useMotherboardStore } from '@/store/store';
 import { CPUItem } from '@/interface/CPU';
 
 const Cpu = () => {
@@ -59,6 +59,7 @@ const Cpu = () => {
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 	const { cpu, setCPU } = useCPUStore();
+	const { motherboard } = useMotherboardStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -88,6 +89,9 @@ const Cpu = () => {
 			const matchesCores =
 				selectedCores.length > 0 ? selectedCores.includes(cpu.cores) : true;
 
+			const socketMotherboard =
+				motherboard !== null ? cpu.socket === motherboard.socket : true;
+
 			const matchesThreads =
 				selectedThreads.length > 0
 					? selectedThreads.includes(cpu.threads)
@@ -98,6 +102,7 @@ const Cpu = () => {
 				matchesSelectedCPU &&
 				matchesPriceRange &&
 				matchesCores &&
+				socketMotherboard &&
 				matchesThreads
 			);
 		})
@@ -181,7 +186,7 @@ const Cpu = () => {
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Процессор
 							</div>
-							<div>{cpu.name}</div>
+							<div className="text-xl">{cpu.name}</div>
 							<div className="flex">
 								<button
 									className={
@@ -471,7 +476,7 @@ const Cpu = () => {
 																			{cpu.name}
 																		</div>
 																		<div className="w-20">{cpu.cores} ядер</div>
-																		<div className="w-14">{cpu.TDP}</div>
+																		<div className="w-14">{cpu.TDP} Вт</div>
 																		<div className="w-20 text-center">
 																			{cpu.socket}A
 																		</div>

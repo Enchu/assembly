@@ -8,6 +8,7 @@ import Motherboard from '@/components/elements/Motherboard/Motherboard';
 import GPU from '@/components/elements/GPU/GPU';
 import MemoryModules from '@/components/elements/MemoryModules/MemoryModules';
 import PowerSupply from '@/components/elements/PowerSupply/PowerSupply';
+import Summary from '@/components/elements/Summary/Summary';
 
 const Blog = () => {
 	return (
@@ -18,6 +19,7 @@ const Blog = () => {
 				<GPU />
 				<MemoryModules />
 				<PowerSupply />
+				<Summary />
 			</div>
 		</>
 	);
