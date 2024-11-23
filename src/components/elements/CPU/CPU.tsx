@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Disclosure,
 	DisclosureContent,
@@ -171,6 +171,10 @@ const Cpu = () => {
 		);
 	};
 
+	useEffect(() => {
+		localStorage.setItem('cpu', JSON.stringify(cpu));
+	}, [cpu]);
+
 	return (
 		<>
 			<Disclosure
@@ -179,10 +183,7 @@ const Cpu = () => {
 			>
 				<DisclosureTrigger>
 					{cpu !== null ? (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => handleDialogClose()}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Процессор
 							</div>
@@ -192,16 +193,14 @@ const Cpu = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => handleDialogClose()}
 								>
 									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
 								</button>
 							</div>
 						</div>
 					) : (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Процессор
 							</div>
@@ -210,6 +209,7 @@ const Cpu = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
 									<Plus className="mr-1 h-4 w-4" /> | Добавить
 								</button>

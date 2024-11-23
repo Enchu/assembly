@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Disclosure,
 	DisclosureContent,
@@ -134,6 +134,10 @@ const Motherboard = () => {
 				: [...prev, manufacturer],
 		);
 	};
+
+	useEffect(() => {
+		localStorage.setItem('motherboard', JSON.stringify(motherboard));
+	}, [motherboard]);
 
 	return (
 		<>

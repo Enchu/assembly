@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Disclosure,
 	DisclosureContent,
@@ -149,6 +149,10 @@ const MemoryModules = () => {
 				: [...prev, manufacturer],
 		);
 	};
+
+	useEffect(() => {
+		localStorage.setItem('memory', JSON.stringify(memory));
+	}, [memory]);
 
 	return (
 		<>

@@ -31,26 +31,26 @@ interface PowerSupplyStore {
 }
 
 export const useGPUStore = create<GPUStore>(set => ({
-	gpu: null,
+	gpu: JSON.parse(localStorage.getItem('gpu')) || null,
 	setGPU: gpu => set({ gpu }),
 }));
 
 export const useCPUStore = create<CPUStore>(set => ({
-	cpu: null,
+	cpu: JSON.parse(localStorage.getItem('cpu')) || null,
 	setCPU: cpu => set({ cpu }),
 }));
 
 export const useMotherboardStore = create<MotherboardStore>(set => ({
-	motherboard: null,
+	motherboard: JSON.parse(localStorage.getItem('motherboard')) || null,
 	setMotherboard: motherboard => set({ motherboard }),
 }));
 
 export const useMemoryStore = create<MemoryStore>(set => ({
-	memory: null,
+	memory: JSON.parse(localStorage.getItem('memory')) || null,
 	setMemory: memory => set({ memory }),
 }));
 
 export const usePowerSupplyStore = create<PowerSupplyStore>(set => ({
-	powerSupply: null,
+	powerSupply: JSON.parse(localStorage.getItem('powerSupply')) || null,
 	setPowerSupply: powerSupply => set({ powerSupply }),
 }));

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Disclosure,
 	DisclosureContent,
@@ -139,6 +139,10 @@ const Gpu = () => {
 				: [...prev, manufacturer],
 		);
 	};
+
+	useEffect(() => {
+		localStorage.setItem('gpu', JSON.stringify(gpu));
+	}, [gpu]);
 
 	return (
 		<>
