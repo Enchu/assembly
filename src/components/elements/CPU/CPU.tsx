@@ -178,10 +178,10 @@ const Cpu = () => {
 	return (
 		<>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
 			>
-				<DisclosureTrigger>
+				<DisclosureTrigger className={'px-3'}>
 					{cpu !== null ? (
 						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
@@ -217,8 +217,8 @@ const Cpu = () => {
 						</div>
 					)}
 				</DisclosureTrigger>
-				<DisclosureContent>
-					<div className="overflow-hidden pb-3">
+				<DisclosureContent className={`${cpu !== null ? 'bg-white' : ''}`}>
+					<div className="overflow-hidden pb-3 px-3">
 						<div className="font-mono text-sm">
 							<div className="space-x-2">
 								<div className="ml-2 relative w-full flex gap-4 h-12 items-center">

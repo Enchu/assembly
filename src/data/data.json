@@ -13,7 +13,7 @@
         "cores": "64",
         "threads": "128",
         "cache": "256 MB",
-        "socket": "sTRX4",
+        "socket": "sWRX8",
         "manufacturer": "AMD"
       },
       {
@@ -25,7 +25,7 @@
         "price": "88999",
         "baseClock": "3.2 GHz",
         "boostClock": "6.0 GHz",
-        "cores": "24",
+        "cores": "24 (8P + 16E)",
         "threads": "32",
         "cache": "36 MB",
         "socket": "LGA1700",
@@ -70,7 +70,7 @@
         "price": "75999",
         "baseClock": "3.2 GHz",
         "boostClock": "5.9 GHz",
-        "cores": "24",
+        "cores": "24 (8P + 16E)",
         "threads": "32",
         "cache": "36 MB",
         "socket": "LGA1700",
@@ -85,7 +85,7 @@
         "price": "70299",
         "baseClock": "3.0 GHz",
         "boostClock": "5.8 GHz",
-        "cores": "24",
+        "cores": "24 (8P + 16E)",
         "threads": "32",
         "cache": "36 MB",
         "socket": "LGA1700",
@@ -124,16 +124,16 @@
       {
         "id": "9",
         "img": "",
-        "name": "Процессор AMD Ryzen 9 9900X OEM",
+        "name": "Процессор AMD Ryzen 9 7900X OEM",
         "TDP": "120",
         "score": "82",
         "price": "64999",
-        "baseClock": "3.8 GHz",
-        "boostClock": "5.0 GHz",
+        "baseClock": "4.7 GHz",
+        "boostClock": "5.6 GHz",
         "cores": "12",
         "threads": "24",
-        "cache": "64 MB",
-        "socket": "AM4",
+        "cache": "76 MB",
+        "socket": "AM5",
         "manufacturer": "AMD"
       }
     ],
@@ -148,110 +148,28 @@
         "formFactor": "ATX",
         "maxMemory": "64 GB",
         "memoryType": "DDR4",
-        "memorySlots": 4,
+        "memorySlots": "4",
         "ram": "32",
-        "price": "134999"
+        "price": "12500",
+        "powerConsumption": "45"
       },
       {
         "id": "2",
         "img": "",
-        "name": "Материнская плата MSI B450 ATX",
-        "manufacturer": "MSI",
-        "socket": "AM4",
-        "chipset": "AMD B450",
+        "name": "Материнская плата ASUS ROG Crosshair X670E Hero",
+        "manufacturer": "ASUS",
+        "socket": "AM5",
+        "chipset": "AMD X670E",
         "formFactor": "ATX",
-        "maxMemory": "64 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "32",
-        "price": "124999"
+        "maxMemory": "128 GB",
+        "memoryType": "DDR5",
+        "memorySlots": "4",
+        "ram": "64",
+        "price": "52000",
+        "powerConsumption": "70"
       },
       {
         "id": "3",
-        "img": "",
-        "name": "Материнская плата ASUS ROG Strix B550-F Gaming",
-        "manufacturer": "ASUS",
-        "socket": "AM4",
-        "chipset": "AMD B550",
-        "formFactor": "ATX",
-        "maxMemory": "128 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "16",
-        "price": "154999"
-      },
-      {
-        "id": "4",
-        "img": "",
-        "name": "Материнская плата GIGABYTE Z490 AORUS ELITE AC",
-        "manufacturer": "GIGABYTE",
-        "socket": "LGA1200",
-        "chipset": "Intel Z490",
-        "formFactor": "ATX",
-        "maxMemory": "128 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "32",
-        "price": "174999"
-      },
-      {
-        "id": "5",
-        "img": "",
-        "name": "Материнская плата ASRock B560M Steel Legend",
-        "manufacturer": "ASRock",
-        "socket": "LGA1200",
-        "chipset": "Intel B560",
-        "formFactor": "Micro-ATX",
-        "maxMemory": "128 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "32",
-        "price": "119999"
-      },
-      {
-        "id": "6",
-        "img": "",
-        "name": "Материнская плата ASUS TUF Gaming Z590-Plus WiFi",
-        "manufacturer": "ASUS",
-        "socket": "LGA1200",
-        "chipset": "Intel Z590",
-        "formFactor": "ATX",
-        "maxMemory": "128 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "64",
-        "price": "159999"
-      },
-      {
-        "id": "7",
-        "img": "",
-        "name": "Материнская плата GIGABYTE A520M S2H",
-        "manufacturer": "GIGABYTE",
-        "socket": "AM4",
-        "chipset": "AMD A520",
-        "formFactor": "Micro-ATX",
-        "maxMemory": "64 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 2,
-        "ram": "16",
-        "price": "89999"
-      },
-      {
-        "id": "8",
-        "img": "",
-        "name": "Материнская плата ASUS Prime B660-PLUS D4",
-        "manufacturer": "ASUS",
-        "socket": "LGA1700",
-        "chipset": "Intel B660",
-        "formFactor": "ATX",
-        "maxMemory": "128 GB",
-        "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "32",
-        "price": "149999"
-      },
-      {
-        "id": "9",
         "img": "",
         "name": "Материнская плата MSI MAG Z690 Tomahawk WiFi DDR4",
         "manufacturer": "MSI",
@@ -260,23 +178,115 @@
         "formFactor": "ATX",
         "maxMemory": "128 GB",
         "memoryType": "DDR4",
-        "memorySlots": 4,
+        "memorySlots": "4",
         "ram": "64",
-        "price": "189999"
+        "price": "20000",
+        "powerConsumption": "65"
+      },
+      {
+        "id": "4",
+        "img": "",
+        "name": "Материнская плата GIGABYTE Z790 AERO G",
+        "manufacturer": "GIGABYTE",
+        "socket": "LGA1700",
+        "chipset": "Intel Z790",
+        "formFactor": "ATX",
+        "maxMemory": "128 GB",
+        "memoryType": "DDR5",
+        "memorySlots": "4",
+        "ram": "64",
+        "price": "45000",
+        "powerConsumption": "75"
+      },
+      {
+        "id": "5",
+        "img": "",
+        "name": "Материнская плата ASUS ROG Strix B650E-F Gaming WiFi",
+        "manufacturer": "ASUS",
+        "socket": "AM5",
+        "chipset": "AMD B650E",
+        "formFactor": "ATX",
+        "maxMemory": "128 GB",
+        "memoryType": "DDR5",
+        "memorySlots": "4",
+        "ram": "64",
+        "price": "38000",
+        "powerConsumption": "60"
+      },
+      {
+        "id": "6",
+        "img": "",
+        "name": "Материнская плата ASUS Pro WS WRX80E-SAGE SE WIFI",
+        "manufacturer": "ASUS",
+        "socket": "sWRX8",
+        "chipset": "AMD WRX80",
+        "formFactor": "E-ATX",
+        "maxMemory": "2048 GB",
+        "memoryType": "DDR4",
+        "memorySlots": "8",
+        "ram": "512",
+        "price": "130000",
+        "powerConsumption": "120"
+      },
+      {
+        "id": "7",
+        "img": "",
+        "name": "Материнская плата GIGABYTE WRX80 SU8-IPMI",
+        "manufacturer": "GIGABYTE",
+        "socket": "sWRX8",
+        "chipset": "AMD WRX80",
+        "formFactor": "E-ATX",
+        "maxMemory": "2048 GB",
+        "memoryType": "DDR4",
+        "memorySlots": "8",
+        "ram": "512",
+        "price": "145000",
+        "powerConsumption": "130"
+      },
+      {
+        "id": "8",
+        "img": "",
+        "name": "Материнская плата MSI MEG Z790 ACE",
+        "manufacturer": "MSI",
+        "socket": "LGA1700",
+        "chipset": "Intel Z790",
+        "formFactor": "E-ATX",
+        "maxMemory": "128 GB",
+        "memoryType": "DDR5",
+        "memorySlots": "4",
+        "ram": "64",
+        "price": "60000",
+        "powerConsumption": "80"
+      },
+      {
+        "id": "9",
+        "img": "",
+        "name": "Материнская плата ASRock X670E Taichi",
+        "manufacturer": "ASRock",
+        "socket": "AM5",
+        "chipset": "AMD X670E",
+        "formFactor": "ATX",
+        "maxMemory": "128 GB",
+        "memoryType": "DDR5",
+        "memorySlots": "4",
+        "ram": "64",
+        "price": "45000",
+        "powerConsumption": "70"
       },
       {
         "id": "10",
         "img": "",
-        "name": "Материнская плата ASRock X570 Phantom Gaming 4",
-        "manufacturer": "ASRock",
-        "socket": "AM4",
-        "chipset": "AMD X570",
-        "formFactor": "ATX",
-        "maxMemory": "128 GB",
+        "name": "Материнская плата Supermicro M12SWA-TF",
+        "manufacturer": "Supermicro",
+        "socket": "sWRX8",
+        "chipset": "AMD WRX80",
+        "formFactor": "E-ATX",
+        "maxMemory": "2048 GB",
         "memoryType": "DDR4",
-        "memorySlots": 4,
-        "ram": "32",
-        "price": "159999"
+        "memorySlots": "8",
+        "ram": "512",
+        "price": "170000",
+        "powerConsumption": "140"
       }
     ],
     "gpu": [
@@ -285,7 +295,7 @@
         "img": "",
         "name": "Видеокарта MSI GeForce RTX 4090 GAMING X TRIO",
         "Manufacturer": "NVIDIA",
-        "TDP": "",
+        "TDP": "450",
         "Memory": "24",
         "MemoryBus": "384-bit",
         "MemoryType": "GDDR6X",
@@ -480,7 +490,8 @@
         "Latency": "CL16",
         "Voltage": "1.35V",
         "Modules": "2x8GB",
-        "price": "15999"
+        "price": "15999",
+        "powerConsumption": "7"
       },
       {
         "id": "2",
@@ -493,7 +504,8 @@
         "Latency": "CL15",
         "Voltage": "1.2V",
         "Modules": "1x8GB",
-        "price": "8499"
+        "price": "8499",
+        "powerConsumption": "4"
       },
       {
         "id": "3",
@@ -506,7 +518,8 @@
         "Latency": "CL18",
         "Voltage": "1.35V",
         "Modules": "2x8GB",
-        "price": "17999"
+        "price": "17999",
+        "powerConsumption": "7"
       },
       {
         "id": "4",
@@ -519,7 +532,8 @@
         "Latency": "CL16",
         "Voltage": "1.35V",
         "Modules": "2x16GB",
-        "price": "29999"
+        "price": "29999",
+        "powerConsumption": "15"
       },
       {
         "id": "5",
@@ -532,7 +546,8 @@
         "Latency": "CL15",
         "Voltage": "1.35V",
         "Modules": "2x8GB",
-        "price": "14999"
+        "price": "14999",
+        "powerConsumption": "7"
       },
       {
         "id": "6",
@@ -545,7 +560,8 @@
         "Latency": "CL16",
         "Voltage": "1.35V",
         "Modules": "1x8GB",
-        "price": "9999"
+        "price": "9999",
+        "powerConsumption": "4"
       },
       {
         "id": "7",
@@ -558,7 +574,8 @@
         "Latency": "CL19",
         "Voltage": "1.2V",
         "Modules": "1x16GB",
-        "price": "13999"
+        "price": "13999",
+        "powerConsumption": "5"
       },
       {
         "id": "8",
@@ -571,7 +588,8 @@
         "Latency": "CL18",
         "Voltage": "1.35V",
         "Modules": "2x16GB",
-        "price": "31999"
+        "price": "31999",
+        "powerConsumption": "15"
       },
       {
         "id": "9",
@@ -584,7 +602,8 @@
         "Latency": "CL16",
         "Voltage": "1.35V",
         "Modules": "2x32GB",
-        "price": "59999"
+        "price": "59999",
+        "powerConsumption": "30"
       },
       {
         "id": "10",
@@ -597,7 +616,50 @@
         "Latency": "CL17",
         "Voltage": "1.35V",
         "Modules": "2x16GB",
-        "price": "28999"
+        "price": "28999",
+        "powerConsumption": "15"
+      },
+      {
+        "id": "11",
+        "img": "",
+        "name": "Оперативная память Corsair Vengeance DDR5 16GB (2x8GB) DDR5-5200",
+        "Manufacturer": "Corsair",
+        "Capacity": "16",
+        "Speed": "5200 МHz",
+        "Type": "DDR5",
+        "Latency": "CL40",
+        "Voltage": "1.1V",
+        "Modules": "2x8GB",
+        "price": "21999",
+        "powerConsumption": "7"
+      },
+      {
+        "id": "12",
+        "img": "",
+        "name": "Оперативная память Kingston FURY Beast 32GB (2x16GB) DDR5-6000",
+        "Manufacturer": "Kingston",
+        "Capacity": "32",
+        "Speed": "6000 МHz",
+        "Type": "DDR5",
+        "Latency": "CL40",
+        "Voltage": "1.1V",
+        "Modules": "2x16GB",
+        "price": "35999",
+        "powerConsumption": "13"
+      },
+      {
+        "id": "13",
+        "img": "",
+        "name": "Оперативная память G.Skill Ripjaws S5 32GB (2x16GB) DDR5-6000",
+        "Manufacturer": "G.Skill",
+        "Capacity": "32",
+        "Speed": "6000 МHz",
+        "Type": "DDR5",
+        "Latency": "CL40",
+        "Voltage": "1.1V",
+        "Modules": "2x16GB",
+        "price": "34999",
+        "powerConsumption": "13"
       }
     ],
     "power_supply": [

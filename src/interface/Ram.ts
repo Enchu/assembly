@@ -10,4 +10,5 @@ export interface RAMItem {
 	Voltage: string; // Напряжение, например, "1.35V"
 	Modules: string; // Конфигурация модулей, например, "2x16GB"
 	price: string; // Цена, например, "28999"
+	powerConsumption: string;
 }

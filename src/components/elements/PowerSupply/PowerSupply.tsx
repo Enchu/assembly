@@ -25,7 +25,7 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import items from '@/data/data.json';
-import { usePowerSupplyStore } from '@/store/store';
+import { useGPUStore, usePowerSupplyStore } from '@/store/store';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { PowerSupplyT } from '@/interface/PowerSupply';
 
@@ -56,6 +56,7 @@ const PowerSupply = () => {
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 	const { powerSupply, setPowerSupply } = usePowerSupplyStore();
+	const { gpu } = useGPUStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -67,29 +68,35 @@ const PowerSupply = () => {
 
 	// FILTERED
 	const filteredRamItems = powerSupplyTS
-		.filter(memory => {
+		.filter(powerSypply => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
 				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(memory.Manufacturer)
+					? selectedManufacturer.includes(powerSypply.Manufacturer)
 					: true;
 
 			// Если выбран GPU, показываем только его
 			const matchesSelectedGPU = selectedPowerS
-				? memory.name === selectedPowerS.name
+				? powerSypply.name === selectedPowerS.name
 				: true;
 
+			const gpuPowerRecomended =
+				gpu !== null ? gpu.RecommendedPowerSupply === powerSypply.Power : true;
+
 			// Проверяем, попадает ли цена в диапазон
-			const gpuPrice = parseFloat(memory.price); // Преобразуем цену в число
+			const gpuPrice = parseFloat(powerSypply.price); // Преобразуем цену в число
 			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
 			const matchesMemory =
-				selectedPower.length > 0 ? selectedPower.includes(memory.Power) : true;
+				selectedPower.length > 0
+					? selectedPower.includes(powerSypply.Power)
+					: true;
 
 			return (
 				matchesManufacturer &&
 				matchesSelectedGPU &&
 				matchesPriceRange &&
+				gpuPowerRecomended &&
 				matchesMemory
 			);
 		})

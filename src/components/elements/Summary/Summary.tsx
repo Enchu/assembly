@@ -14,6 +14,19 @@ const Summary = () => {
 	const { memory } = useMemoryStore();
 	const { powerSupply } = usePowerSupplyStore();
 
+	console.log(
+		'TDP',
+		gpu?.RecommendedPowerSupply +
+			' ' +
+			cpu?.TDP +
+			' ' +
+			gpu?.TDP +
+			' ' +
+			motherboard?.powerConsumption +
+			' ' +
+			memory?.powerConsumption,
+	);
+
 	/*const ss = calculatePowerRequirement();
 	console.log(ss);*/
 

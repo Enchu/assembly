@@ -27,7 +27,11 @@ import { Autocomplete, TextField } from '@mui/material';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
 import { MotherboardItems } from '@/interface/Motherboard';
-import { useCPUStore, useMotherboardStore } from '@/store/store';
+import {
+	useCPUStore,
+	useMemoryStore,
+	useMotherboardStore,
+} from '@/store/store';
 
 const Motherboard = () => {
 	const motherboardItems: MotherboardItems[] = items[0].motherboard;
@@ -46,6 +50,7 @@ const Motherboard = () => {
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 	const { motherboard, setMotherboard } = useMotherboardStore();
 	const { cpu } = useCPUStore();
+	const { memory } = useMemoryStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -73,6 +78,9 @@ const Motherboard = () => {
 			const cpuSocketMotherboard =
 				cpu !== null ? motherboard.socket === cpu.socket : true;
 
+			const memoryTypeMotherboard =
+				memory !== null ? motherboard.memoryType === memory.Type : true;
+
 			// Проверяем, попадает ли цена в диапазон
 			const cpuPrice = parseFloat(motherboard.price); // Преобразуем цену в число
 			const matchesPriceRange = cpuPrice >= range[0] && cpuPrice <= range[1];
@@ -81,6 +89,7 @@ const Motherboard = () => {
 				matchesManufacturer &&
 				matchesSelectedMotherboard &&
 				cpuSocketMotherboard &&
+				memoryTypeMotherboard &&
 				matchesPriceRange
 			);
 		})

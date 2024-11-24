@@ -8,7 +8,8 @@ export interface MotherboardItems {
 	formFactor: string;
 	maxMemory: string;
 	memoryType: string;
-	memorySlots: number;
+	memorySlots: string;
 	ram: string;
 	price: string;
+	powerConsumption: string;
 }

@@ -25,7 +25,7 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import items from '@/data/data.json';
-import { useMemoryStore } from '@/store/store';
+import { useMemoryStore, useMotherboardStore } from '@/store/store';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { RAMItem } from '@/interface/Ram';
 
@@ -56,6 +56,7 @@ const MemoryModules = () => {
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 	const { memory, setMemory } = useMemoryStore();
+	const { motherboard } = useMotherboardStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
@@ -86,10 +87,14 @@ const MemoryModules = () => {
 					? selectedMemory.includes(memory.Capacity)
 					: true;
 
+			const motherboardTypeMemory =
+				motherboard !== null ? motherboard.memoryType === memory.Type : null;
+
 			return (
 				matchesManufacturer &&
 				matchesSelectedGPU &&
 				matchesPriceRange &&
+				motherboardTypeMemory &&
 				matchesMemory
 			);
 		})

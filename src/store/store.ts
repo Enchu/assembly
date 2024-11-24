@@ -31,12 +31,18 @@ interface PowerSupplyStore {
 }
 
 export const useGPUStore = create<GPUStore>(set => ({
-	gpu: JSON.parse(localStorage.getItem('gpu')) || null,
+	gpu:
+		localStorage.getItem('gpu') !== undefined
+			? JSON.parse(localStorage.getItem('gpu'))
+			: null,
 	setGPU: gpu => set({ gpu }),
 }));
 
 export const useCPUStore = create<CPUStore>(set => ({
-	cpu: JSON.parse(localStorage.getItem('cpu')) || null,
+	cpu:
+		JSON.parse(localStorage.getItem('cpu')) !== undefined
+			? JSON.parse(localStorage.getItem('cpu'))
+			: null,
 	setCPU: cpu => set({ cpu }),
 }));
 
