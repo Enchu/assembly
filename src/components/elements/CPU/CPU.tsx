@@ -178,7 +178,7 @@ const Cpu = () => {
 	return (
 		<>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
 			>
 				<DisclosureTrigger className={'px-3'}>
@@ -448,58 +448,63 @@ const Cpu = () => {
 									</div>
 								) : (
 									<div>
-										{filteredCPUItems.map((cpu: CPUItem) => (
+										{filteredCPUItems.map((cpuT: CPUItem) => (
 											<Dialog
 												transition={{
 													type: 'spring',
 													stiffness: 200,
 													damping: 24,
 												}}
-												key={cpu.id}
+												key={cpuT.id}
 											>
 												<DialogTrigger
 													style={{ borderRadius: '4px' }}
-													className="border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3"
+													className={`border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3`}
 												>
-													<div className="w-full flex flex-col items-center justify-center gap-1 space-y-0">
-														<div className="w-full items-center">
-															<>
-																<div className="bg-white">
-																	<div className="w-full h-full flex p-2 items-center gap-4">
-																		<DialogImage
-																			src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																			alt="What I Talk About When I Talk About Running - book cover"
-																			className="h-8 w-8 object-cover object-top mr-2"
-																			style={{ borderRadius: '4px' }}
-																		/>
-																		<div className="w-[42%] text-left">
-																			{cpu.name}
-																		</div>
-																		<div className="w-20">{cpu.cores} ядер</div>
-																		<div className="w-14">{cpu.TDP} Вт</div>
-																		<div className="w-20 text-center">
-																			{cpu.socket}A
-																		</div>
-																		<div className="w-14 text-center">
-																			{cpu.score}
-																		</div>
-																		<div className="w-24 text-center">
-																			{cpu.price}₽
-																		</div>
-																		<button
-																			className={`ml-auto mr-4 border border-zinc-950/10 
+													<div
+														className={`${cpu && cpuT.id === cpu.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
+													>
+														<div className="w-full h-full flex p-2 items-center gap-4">
+															<DialogImage
+																src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
+																alt="What I Talk About When I Talk About Running - book cover"
+																className="h-8 w-8 object-cover object-top mr-2"
+																style={{ borderRadius: '4px' }}
+															/>
+															<div className="w-[42%] text-left">
+																{cpuT.name}
+															</div>
+															<div className="w-20">{cpuT.cores} ядер</div>
+															<div className="w-14">{cpuT.TDP} Вт</div>
+															<div className="w-20 text-center">
+																{cpuT.socket}A
+															</div>
+															<div className="w-14 text-center">
+																{cpuT.score}
+															</div>
+															<div className="w-24 text-center text-red-600">
+																{cpuT.price}₽
+															</div>
+															{cpu && cpuT.id === cpu.id ? (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																	items-center`}
+																>
+																	Выбранный
+																</button>
+															) : (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
 																	hover:bg-gray-900 hover:text-white items-center`}
-																			onClick={e => {
-																				handleCPUChange(e, cpu);
-																			}}
-																		>
-																			<Plus className="mr-2 h-4 w-4 " /> |
-																			Выбрать
-																		</button>
-																	</div>
-																</div>
-															</>
+																	onClick={e => {
+																		handleCPUChange(e, cpuT);
+																	}}
+																>
+																	<Plus className="mr-2 h-4 w-4 " /> | Выбрать
+																</button>
+															)}
 														</div>
 													</div>
 												</DialogTrigger>
@@ -519,66 +524,81 @@ const Cpu = () => {
 																</div>
 																<div className="">
 																	<DialogTitle className="text-black text-2xl font-bold">
-																		{cpu.name}
+																		{cpuT.name}
 																	</DialogTitle>
 																	<DialogSubtitle>
 																		<div className="flex justify-between text-center items-center my-3">
 																			<div className="text-4xl text-[#F2530C]">
-																				{cpu.price}
+																				{cpuT.price}
 																			</div>
-																			<button
-																				className={
-																					'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																					' inline-flex bg-[#94B90A] text-white item-center text-center'
-																				}
-																				onClick={e => {
-																					handleCPUChange(e, cpu);
-																				}}
-																			>
-																				<Plus /> | Выбрать
-																			</button>
+																			{cpu && cpuT.id === cpu.id ? (
+																				<>
+																					<button
+																						className={
+																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																							' inline-flex bg-[#94B90A] text-white item-center text-center'
+																						}
+																					>
+																						Выбран
+																					</button>
+																				</>
+																			) : (
+																				<>
+																					<button
+																						className={
+																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																							' inline-flex bg-[#94B90A] text-white item-center text-center'
+																						}
+																						onClick={e => {
+																							handleCPUChange(e, cpuT);
+																						}}
+																					>
+																						<Plus /> | Выбрать
+																					</button>
+																				</>
+																			)}
 																		</div>
 																	</DialogSubtitle>
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Количество ядер</span>
-																			<span>{cpu.cores}</span>
+																			<span>{cpuT.cores}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Количество потоков</span>
-																			<span>{cpu.threads}</span>
+																			<span>{cpuT.threads}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Базовая частота</span>
-																			<span>{cpu.baseClock} GHz</span>
+																			<span>{cpuT.baseClock} GHz</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Максимальная частота</span>
-																			<span>{cpu.boostClock} GHz</span>
+																			<span>{cpuT.boostClock} GHz</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Кэш-память</span>
-																			<span>{cpu.cache}</span>
+																			<span>{cpuT.cache}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Сокет</span>
-																			<span>{cpu.socket}</span>
+																			<span>{cpuT.socket}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>TDP</span>
-																			<span>{cpu.TDP}</span>
+																			<span>{cpuT.TDP}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
