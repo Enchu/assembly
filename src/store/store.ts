@@ -31,32 +31,76 @@ interface PowerSupplyStore {
 }
 
 export const useGPUStore = create<GPUStore>(set => ({
-	gpu:
-		localStorage.getItem('gpu') !== undefined
-			? JSON.parse(localStorage.getItem('gpu'))
-			: null,
-	setGPU: gpu => set({ gpu }),
+	gpu: (() => {
+		const storedGpu = localStorage.getItem('gpu');
+		return storedGpu ? JSON.parse(storedGpu) : null;
+	})(),
+	setGPU: gpu => {
+		if (gpu) {
+			localStorage.setItem('gpu', JSON.stringify(gpu));
+		} else {
+			localStorage.removeItem('gpu');
+		}
+		set({ gpu });
+	},
 }));
 
 export const useCPUStore = create<CPUStore>(set => ({
-	cpu:
-		JSON.parse(localStorage.getItem('cpu')) !== undefined
-			? JSON.parse(localStorage.getItem('cpu'))
-			: null,
-	setCPU: cpu => set({ cpu }),
+	cpu: (() => {
+		const storedCpu = localStorage.getItem('cpu');
+		return storedCpu ? JSON.parse(storedCpu) : null;
+	})(),
+	setCPU: cpu => {
+		if (cpu) {
+			localStorage.setItem('cpu', JSON.stringify(cpu));
+		} else {
+			localStorage.removeItem('cpu');
+		}
+		set({ cpu });
+	},
 }));
 
 export const useMotherboardStore = create<MotherboardStore>(set => ({
-	motherboard: JSON.parse(localStorage.getItem('motherboard')) || null,
-	setMotherboard: motherboard => set({ motherboard }),
+	motherboard: (() => {
+		const storedMotherboard = localStorage.getItem('motherboard');
+		return storedMotherboard ? JSON.parse(storedMotherboard) : null;
+	})(),
+	setMotherboard: motherboard => {
+		if (motherboard) {
+			localStorage.setItem('motherboard', JSON.stringify(motherboard));
+		} else {
+			localStorage.removeItem('motherboard');
+		}
+		set({ motherboard });
+	},
 }));
 
 export const useMemoryStore = create<MemoryStore>(set => ({
-	memory: JSON.parse(localStorage.getItem('memory')) || null,
-	setMemory: memory => set({ memory }),
+	memory: (() => {
+		const storedMemory = localStorage.getItem('memory');
+		return storedMemory ? JSON.parse(storedMemory) : null;
+	})(),
+	setMemory: memory => {
+		if (memory) {
+			localStorage.setItem('memory', JSON.stringify(memory));
+		} else {
+			localStorage.removeItem('memory');
+		}
+		set({ memory });
+	},
 }));
 
 export const usePowerSupplyStore = create<PowerSupplyStore>(set => ({
-	powerSupply: JSON.parse(localStorage.getItem('powerSupply')) || null,
-	setPowerSupply: powerSupply => set({ powerSupply }),
+	powerSupply: (() => {
+		const storedPowerSupply = localStorage.getItem('powerSupply');
+		return storedPowerSupply ? JSON.parse(storedPowerSupply) : null;
+	})(),
+	setPowerSupply: powerSupply => {
+		if (powerSupply) {
+			localStorage.setItem('powerSupply', JSON.stringify(powerSupply));
+		} else {
+			localStorage.removeItem('powerSupply');
+		}
+		set({ powerSupply });
+	},
 }));
