@@ -32,14 +32,19 @@ interface PowerSupplyStore {
 
 export const useGPUStore = create<GPUStore>(set => ({
 	gpu: (() => {
-		const storedGpu = localStorage.getItem('gpu');
-		return storedGpu ? JSON.parse(storedGpu) : null;
+		if (typeof window !== 'undefined') {
+			const storedGpu = localStorage.getItem('gpu');
+			return storedGpu ? JSON.parse(storedGpu) : null;
+		}
+		return null;
 	})(),
 	setGPU: gpu => {
-		if (gpu) {
-			localStorage.setItem('gpu', JSON.stringify(gpu));
-		} else {
-			localStorage.removeItem('gpu');
+		if (typeof window !== 'undefined') {
+			if (gpu) {
+				localStorage.setItem('gpu', JSON.stringify(gpu));
+			} else {
+				localStorage.removeItem('gpu');
+			}
 		}
 		set({ gpu });
 	},
@@ -47,14 +52,19 @@ export const useGPUStore = create<GPUStore>(set => ({
 
 export const useCPUStore = create<CPUStore>(set => ({
 	cpu: (() => {
-		const storedCpu = localStorage.getItem('cpu');
-		return storedCpu ? JSON.parse(storedCpu) : null;
+		if (typeof window !== 'undefined') {
+			const storedCpu = localStorage.getItem('cpu');
+			return storedCpu ? JSON.parse(storedCpu) : null;
+		}
+		return null;
 	})(),
 	setCPU: cpu => {
-		if (cpu) {
-			localStorage.setItem('cpu', JSON.stringify(cpu));
-		} else {
-			localStorage.removeItem('cpu');
+		if (typeof window !== 'undefined') {
+			if (cpu) {
+				localStorage.setItem('cpu', JSON.stringify(cpu));
+			} else {
+				localStorage.removeItem('cpu');
+			}
 		}
 		set({ cpu });
 	},
@@ -62,14 +72,19 @@ export const useCPUStore = create<CPUStore>(set => ({
 
 export const useMotherboardStore = create<MotherboardStore>(set => ({
 	motherboard: (() => {
-		const storedMotherboard = localStorage.getItem('motherboard');
-		return storedMotherboard ? JSON.parse(storedMotherboard) : null;
+		if (typeof window !== 'undefined') {
+			const storedMotherboard = localStorage.getItem('motherboard');
+			return storedMotherboard ? JSON.parse(storedMotherboard) : null;
+		}
+		return null;
 	})(),
 	setMotherboard: motherboard => {
-		if (motherboard) {
-			localStorage.setItem('motherboard', JSON.stringify(motherboard));
-		} else {
-			localStorage.removeItem('motherboard');
+		if (typeof window !== 'undefined') {
+			if (motherboard) {
+				localStorage.setItem('motherboard', JSON.stringify(motherboard));
+			} else {
+				localStorage.removeItem('motherboard');
+			}
 		}
 		set({ motherboard });
 	},
@@ -77,14 +92,19 @@ export const useMotherboardStore = create<MotherboardStore>(set => ({
 
 export const useMemoryStore = create<MemoryStore>(set => ({
 	memory: (() => {
-		const storedMemory = localStorage.getItem('memory');
-		return storedMemory ? JSON.parse(storedMemory) : null;
+		if (typeof window !== 'undefined') {
+			const storedMemory = localStorage.getItem('memory');
+			return storedMemory ? JSON.parse(storedMemory) : null;
+		}
+		return null;
 	})(),
 	setMemory: memory => {
-		if (memory) {
-			localStorage.setItem('memory', JSON.stringify(memory));
-		} else {
-			localStorage.removeItem('memory');
+		if (typeof window !== 'undefined') {
+			if (memory) {
+				localStorage.setItem('memory', JSON.stringify(memory));
+			} else {
+				localStorage.removeItem('memory');
+			}
 		}
 		set({ memory });
 	},
@@ -92,14 +112,19 @@ export const useMemoryStore = create<MemoryStore>(set => ({
 
 export const usePowerSupplyStore = create<PowerSupplyStore>(set => ({
 	powerSupply: (() => {
-		const storedPowerSupply = localStorage.getItem('powerSupply');
-		return storedPowerSupply ? JSON.parse(storedPowerSupply) : null;
+		if (typeof window !== 'undefined') {
+			const storedPowerSupply = localStorage.getItem('powerSupply');
+			return storedPowerSupply ? JSON.parse(storedPowerSupply) : null;
+		}
+		return null;
 	})(),
 	setPowerSupply: powerSupply => {
-		if (powerSupply) {
-			localStorage.setItem('powerSupply', JSON.stringify(powerSupply));
-		} else {
-			localStorage.removeItem('powerSupply');
+		if (typeof window !== 'undefined') {
+			if (powerSupply) {
+				localStorage.setItem('powerSupply', JSON.stringify(powerSupply));
+			} else {
+				localStorage.removeItem('powerSupply');
+			}
 		}
 		set({ powerSupply });
 	},

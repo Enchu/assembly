@@ -31,7 +31,7 @@ const Summary = () => {
 	console.log(ss);*/
 
 	return (
-		<div>
+		<section>
 			<div className="flex justify-center text-center text-2xl">Итог</div>
 			<div className="text-lg">
 				<div className="">Характеристики</div>
@@ -60,7 +60,7 @@ const Summary = () => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 

@@ -145,7 +145,7 @@ const Gpu = () => {
 	}, [gpu]);
 
 	return (
-		<>
+		<section>
 			<Disclosure
 				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${gpu !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
@@ -572,7 +572,7 @@ const Gpu = () => {
 					</div>
 				</DisclosureContent>
 			</Disclosure>
-		</>
+		</section>
 	);
 };
 

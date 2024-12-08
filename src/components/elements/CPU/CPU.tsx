@@ -176,7 +176,7 @@ const Cpu = () => {
 	}, [cpu]);
 
 	return (
-		<>
+		<section>
 			<Disclosure
 				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${cpu !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
@@ -618,7 +618,7 @@ const Cpu = () => {
 					</div>
 				</DisclosureContent>
 			</Disclosure>
-		</>
+		</section>
 	);
 };
 

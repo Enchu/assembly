@@ -12,16 +12,14 @@ import Summary from '@/components/elements/Summary/Summary';
 
 const Blog = () => {
 	return (
-		<>
-			<div className="container">
-				<CPU />
-				<Motherboard />
-				<GPU />
-				<MemoryModules />
-				<PowerSupply />
-				<Summary />
-			</div>
-		</>
+		<div className="container">
+			<CPU />
+			<Motherboard />
+			<GPU />
+			<MemoryModules />
+			<PowerSupply />
+			<Summary />
+		</div>
 	);
 };
 

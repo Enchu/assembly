@@ -162,7 +162,7 @@ const PowerSupply = () => {
 	}, [powerSupply]);
 
 	return (
-		<>
+		<section>
 			<Disclosure
 				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${powerSupply !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
@@ -563,7 +563,7 @@ const PowerSupply = () => {
 					</div>
 				</DisclosureContent>
 			</Disclosure>
-		</>
+		</section>
 	);
 };
 

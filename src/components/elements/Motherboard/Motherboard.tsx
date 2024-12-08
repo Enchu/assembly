@@ -149,7 +149,7 @@ const Motherboard = () => {
 	}, [motherboard]);
 
 	return (
-		<>
+		<section>
 			<Disclosure
 				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${motherboard !== null ? 'bg-green-600' : ''}`}
 				open={isOpenDisclosure}
@@ -617,7 +617,7 @@ const Motherboard = () => {
 					</div>
 				</DisclosureContent>
 			</Disclosure>
-		</>
+		</section>
 	);
 };
 
