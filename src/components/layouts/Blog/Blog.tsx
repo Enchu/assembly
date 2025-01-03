@@ -9,16 +9,19 @@ import GPU from '@/components/elements/GPU/GPU';
 import MemoryModules from '@/components/elements/MemoryModules/MemoryModules';
 import PowerSupply from '@/components/elements/PowerSupply/PowerSupply';
 import Summary from '@/components/elements/Summary/Summary';
+import { ScrollArea } from '@/components/core/scroll-area';
 
 const Blog = () => {
 	return (
 		<div className="container">
-			<CPU />
-			<Motherboard />
-			<GPU />
-			<MemoryModules />
-			<PowerSupply />
-			<Summary />
+			<ScrollArea type="scroll">
+				<CPU />
+				<Motherboard />
+				<GPU />
+				<MemoryModules />
+				<PowerSupply />
+				<Summary />
+			</ScrollArea>
 		</div>
 	);
 };

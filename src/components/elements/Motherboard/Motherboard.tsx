@@ -125,7 +125,7 @@ const Motherboard = () => {
 	) => {
 		event.stopPropagation();
 		setMotherboard(value);
-		setIsOpenDisclosure(false);
+		setIsOpenDisclosure(!isOpenDisclosure);
 	};
 
 	const handleDialogClose = () => {
@@ -151,15 +151,12 @@ const Motherboard = () => {
 	return (
 		<section>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${motherboard !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${motherboard !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
 			>
-				<DisclosureTrigger>
+				<DisclosureTrigger className={'px-3'}>
 					{motherboard !== null ? (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => handleDialogClose()}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Материнская плата
 							</div>
@@ -169,16 +166,15 @@ const Motherboard = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => handleDialogClose()}
 								>
-									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
+									<RefreshCw className="mr-2 h-4 w-4" />
+									<strong>| Заменить</strong>
 								</button>
 							</div>
 						</div>
 					) : (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Материнская плата
 							</div>
@@ -187,14 +183,17 @@ const Motherboard = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" /> <strong>| Добавить</strong>
 								</button>
 							</div>
 						</div>
 					)}
 				</DisclosureTrigger>
-				<DisclosureContent>
+				<DisclosureContent
+					className={`${motherboard !== null ? 'bg-white' : ''}`}
+				>
 					<div className="overflow-hidden pb-3">
 						<div className="font-mono text-sm">
 							<div className="space-x-2">
@@ -450,65 +449,72 @@ const Motherboard = () => {
 								) : (
 									<div>
 										{filteredMotherboardItems.map(
-											(motherboard: MotherboardItems) => (
+											(motherboardItem: MotherboardItems) => (
 												<Dialog
 													transition={{
 														type: 'spring',
 														stiffness: 200,
 														damping: 24,
 													}}
-													key={motherboard.id}
+													key={motherboardItem.id}
 												>
 													<DialogTrigger
 														style={{ borderRadius: '4px' }}
 														className="border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3"
 													>
-														<div className="w-full flex flex-col items-center justify-center gap-1 space-y-0">
-															<div className="w-full items-center">
-																<>
-																	<div className="bg-white">
-																		<div className="w-full h-full flex p-2 items-center gap-4">
-																			<DialogImage
-																				src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																				alt="What I Talk About When I Talk About Running - book cover"
-																				className="h-8 w-8 object-cover object-top mr-2"
-																				style={{ borderRadius: '4px' }}
-																			/>
-																			<div className="w-[42%] text-left">
-																				{motherboard.name}
-																			</div>
-																			<div className="w-24 text-center">
-																				{motherboard.socket}
-																			</div>
-																			<div className="w-24 text-center">
-																				{motherboard.memoryType}
-																			</div>
-																			<div className="w-24 text-center">
-																				{motherboard.chipset}
-																			</div>
-																			<div className="w-24 text-center">
-																				{motherboard.maxMemory}
-																			</div>
-																			<div className="w-24 text-center">
-																				{motherboard.price}₽
-																			</div>
-																			<button
-																				className={`ml-auto mr-4 border border-zinc-950/10 
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
+														<div
+															className={`${motherboard && motherboardItem.id === motherboard.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
+														>
+															<div className="w-full h-full flex p-2 items-center gap-4">
+																<DialogImage
+																	src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
+																	alt="What I Talk About When I Talk About Running - book cover"
+																	className="h-8 w-8 object-cover object-top mr-2"
+																	style={{ borderRadius: '4px' }}
+																/>
+																<div className="w-[42%] text-left">
+																	{motherboardItem.name}
+																</div>
+																<div className="w-24 text-center">
+																	{motherboardItem.socket}
+																</div>
+																<div className="w-24 text-center">
+																	{motherboardItem.memoryType}
+																</div>
+																<div className="w-24 text-center">
+																	{motherboardItem.chipset}
+																</div>
+																<div className="w-24 text-center">
+																	{motherboardItem.maxMemory}
+																</div>
+																<div className="w-24 text-center text-red-600">
+																	{motherboardItem.price}₽
+																</div>
+																{motherboard &&
+																motherboardItem.id === motherboard.id ? (
+																	<button
+																		className={`ml-auto mr-4 border border-zinc-950/10 
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																	items-center`}
+																	>
+																		Выбранный
+																	</button>
+																) : (
+																	<button
+																		className={`ml-auto mr-4 border border-zinc-950/10
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
-																				onClick={e => {
-																					handleMotherboardChange(
-																						e,
-																						motherboard,
-																					);
-																				}}
-																			>
-																				<Plus className="mr-2 h-4 w-4 " /> |
-																				Выбрать
-																			</button>
-																		</div>
-																	</div>
-																</>
+																		onClick={e => {
+																			handleMotherboardChange(
+																				e,
+																				motherboardItem,
+																			);
+																		}}
+																	>
+																		<Plus className="mr-2 h-4 w-4 " />{' '}
+																		<a>| Выбрать</a>
+																	</button>
+																)}
 															</div>
 														</div>
 													</DialogTrigger>
@@ -528,75 +534,96 @@ const Motherboard = () => {
 																	</div>
 																	<div className="">
 																		<DialogTitle className="text-black text-2xl font-bold">
-																			{motherboard.name}
+																			{motherboardItem.name}
 																		</DialogTitle>
 																		<DialogSubtitle>
 																			<div className="flex justify-between text-center items-center my-3">
 																				<div className="text-4xl text-[#F2530C]">
-																					{motherboard.price}
+																					{motherboardItem.price}
 																				</div>
-																				<button
-																					className={
-																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																						' inline-flex bg-[#94B90A] text-white item-center text-center'
-																					}
-																					onClick={e => {
-																						handleMotherboardChange(
-																							e,
-																							motherboard,
-																						);
-																					}}
-																				>
-																					<Plus /> | Выбрать
-																				</button>
+																				{motherboard &&
+																				motherboardItem.id ===
+																					motherboard.id ? (
+																					<button
+																						className={
+																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																							' inline-flex bg-[#94B90A] text-white item-center text-center'
+																						}
+																					>
+																						Выбран
+																					</button>
+																				) : (
+																					<button
+																						className={
+																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																							' inline-flex bg-[#94B90A] text-white item-center text-center'
+																						}
+																						onClick={e => {
+																							handleMotherboardChange(
+																								e,
+																								motherboardItem,
+																							);
+																						}}
+																					>
+																						<Plus /> <a>| Выбрать</a>
+																					</button>
+																				)}
 																			</div>
 																		</DialogSubtitle>
 																		<div className="mt-2 text-base text-gray-700">
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Производитель</span>
-																				<span>{motherboard.manufacturer}</span>
+																				<span>
+																					{motherboardItem.manufacturer}
+																				</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Сокет</span>
-																				<span>{motherboard.socket}</span>
+																				<span>{motherboardItem.socket}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Чипсет</span>
-																				<span>{motherboard.chipset}</span>
+																				<span>{motherboardItem.chipset}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Форм-фактор</span>
-																				<span>{motherboard.formFactor}</span>
+																				<span>
+																					{motherboardItem.formFactor}
+																				</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Максимальный объём памяти</span>
-																				<span>{motherboard.maxMemory}</span>
+																				<span>{motherboardItem.maxMemory}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Тип памяти</span>
-																				<span>{motherboard.memoryType}</span>
+																				<span>
+																					{motherboardItem.memoryType}
+																				</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Слоты памяти</span>
-																				<span>{motherboard.memorySlots}</span>
+																				<span>
+																					{motherboardItem.memorySlots}
+																				</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Установленная память (RAM)</span>
-																				<span>{motherboard.ram} GB</span>
+																				<span>{motherboardItem.ram} GB</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />

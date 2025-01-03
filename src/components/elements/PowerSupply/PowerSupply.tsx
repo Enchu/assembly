@@ -164,15 +164,12 @@ const PowerSupply = () => {
 	return (
 		<section>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${powerSupply !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${powerSupply !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
 			>
-				<DisclosureTrigger>
+				<DisclosureTrigger className={'px-3'}>
 					{powerSupply !== null ? (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => handleDialogClose()}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Блок питания
 							</div>
@@ -182,8 +179,10 @@ const PowerSupply = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => handleDialogClose()}
 								>
-									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
+									<RefreshCw className="mr-2 h-4 w-4" />
+									<strong>| Заменить</strong>
 								</button>
 							</div>
 						</div>
@@ -200,14 +199,18 @@ const PowerSupply = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" />
+									<a>| Добавить</a>
 								</button>
 							</div>
 						</div>
 					)}
 				</DisclosureTrigger>
-				<DisclosureContent>
+				<DisclosureContent
+					className={`${powerSupply !== null ? 'bg-white' : ''}`}
+				>
 					<div className="overflow-hidden pb-3">
 						<div className="font-mono text-sm">
 							<div className="space-x-2">
@@ -404,67 +407,74 @@ const PowerSupply = () => {
 									</div>
 								) : (
 									<div>
-										{filteredRamItems.map((powerSupplyT: PowerSupplyT) => (
+										{filteredRamItems.map((powerSupplyItem: PowerSupplyT) => (
 											<Dialog
 												transition={{
 													type: 'spring',
 													stiffness: 200,
 													damping: 24,
 												}}
-												key={powerSupplyT.id}
+												key={powerSupplyItem.id}
 											>
 												<DialogTrigger
 													style={{ borderRadius: '4px' }}
 													className="border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3"
 												>
-													<div className="w-full flex flex-col items-center justify-center gap-1 space-y-0">
-														<div className="w-full items-center">
-															<>
-																<div className="bg-white">
-																	<div
-																		className="w-full h-full grid items-center text-center p-2"
-																		style={{
-																			gridTemplateColumns: `0.3fr 2.7fr 0.7fr 1fr 1.2fr 0.8fr 0.7fr 1fr`,
-																		}}
-																	>
-																		<DialogImage
-																			src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																			alt="What I Talk About When I Talk About Running - book cover"
-																			className="h-8 w-8 object-cover object-top mr-2"
-																			style={{
-																				borderRadius: '4px',
-																			}}
-																		/>
-																		<div className="text-left">
-																			{powerSupplyT.name}
-																		</div>
-																		<div className="">{powerSupplyT.Power}</div>
-																		<div className="">
-																			{powerSupplyT.Efficiency}
-																		</div>
-																		<div className="">
-																			{powerSupplyT.Modularity}
-																		</div>
-																		<div className="">
-																			{powerSupplyT.Cooling} мм
-																		</div>
-																		<div className="">
-																			{powerSupplyT.price}₽
-																		</div>
-																		<button
-																			className={`ml-auto mr-4 border border-zinc-950/10
+													<div
+														className={`${powerSupply && powerSupplyItem.id === powerSupply.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
+													>
+														<div
+															className="w-full h-full grid items-center text-center p-2"
+															style={{
+																gridTemplateColumns: `0.3fr 2.7fr 0.7fr 1fr 1.2fr 0.8fr 0.7fr 1fr`,
+															}}
+														>
+															<DialogImage
+																src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
+																alt="What I Talk About When I Talk About Running - book cover"
+																className="h-8 w-8 object-cover object-top mr-2"
+																style={{
+																	borderRadius: '4px',
+																}}
+															/>
+															<div className="text-left">
+																{powerSupplyItem.name}
+															</div>
+															<div className="">{powerSupplyItem.Power}</div>
+															<div className="">
+																{powerSupplyItem.Efficiency}
+															</div>
+															<div className="">
+																{powerSupplyItem.Modularity}
+															</div>
+															<div className="">
+																{powerSupplyItem.Cooling} мм
+															</div>
+															<div className="text-red-600">
+																{powerSupplyItem.price}₽
+															</div>
+															{powerSupply &&
+															powerSupplyItem.id === powerSupply.id ? (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																	items-center`}
+																>
+																	Выбранный
+																</button>
+															) : (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
-																			onClick={e => {
-																				handleGPUChange(e, powerSupplyT);
-																			}}
-																		>
-																			<Plus className="mr-2 h-4 w-4 " /> |
-																			Выбрать
-																		</button>
-																	</div>
-																</div>
-															</>
+																	onClick={e => {
+																		handleGPUChange(e, powerSupplyItem);
+																	}}
+																>
+																	<Plus className="mr-2 h-4 w-4 " />
+																	<a>| Выбрать</a>
+																</button>
+															)}
 														</div>
 													</div>
 												</DialogTrigger>
@@ -482,68 +492,79 @@ const PowerSupply = () => {
 																		className="h-auto w-[200px]"
 																	/>
 																</div>
-																<div className="">
+																<div>
 																	<DialogTitle className="text-black text-2xl font-bold">
-																		{powerSupplyT.name}
+																		{powerSupplyItem.name}
 																	</DialogTitle>
 																	<DialogSubtitle>
 																		<div className="flex justify-between text-center items-center my-3">
 																			<div className="text-4xl text-[#F2530C]">
-																				{powerSupplyT.price}
+																				{powerSupplyItem.price}
 																			</div>
-																			<button
-																				className={
-																					'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																					' inline-flex bg-[#94B90A] text-white item-center text-center'
-																				}
-																				onClick={e => {
-																					handleGPUChange(e, powerSupplyT);
-																				}}
-																			>
-																				<Plus /> | Выбрать
-																			</button>
+																			{powerSupply &&
+																			powerSupplyItem.id === powerSupply.id ? (
+																				<button
+																					className={
+																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																						' inline-flex bg-[#94B90A] text-white item-center text-center'
+																					}
+																				>
+																					Выбран
+																				</button>
+																			) : (
+																				<button
+																					className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4`}
+																					onClick={e => {
+																						handleGPUChange(e, powerSupplyItem);
+																					}}
+																				>
+																					<Plus />|<a>Выбрать</a>
+																				</button>
+																			)}
 																		</div>
 																	</DialogSubtitle>
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Производитель</span>
-																			<span>{powerSupplyT.Manufacturer}</span>
+																			<span>
+																				{powerSupplyItem.Manufacturer}
+																			</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Мощность</span>
-																			<span>{powerSupplyT.Power} Вт</span>
+																			<span>{powerSupplyItem.Power} Вт</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Эффективность</span>
-																			<span>{powerSupplyT.Efficiency}</span>
+																			<span>{powerSupplyItem.Efficiency}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Модульность</span>
-																			<span>{powerSupplyT.Modularity}</span>
+																			<span>{powerSupplyItem.Modularity}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Тип кабелей</span>
-																			<span>{powerSupplyT.CableType}</span>
+																			<span>{powerSupplyItem.CableType}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Охлаждение</span>
-																			<span>{powerSupplyT.Cooling} мм</span>
+																			<span>{powerSupplyItem.Cooling} мм</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Гарантия</span>
-																			<span>{powerSupplyT.Warranty}</span>
+																			<span>{powerSupplyItem.Warranty}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />

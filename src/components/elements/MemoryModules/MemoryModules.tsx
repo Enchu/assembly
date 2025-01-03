@@ -88,7 +88,7 @@ const MemoryModules = () => {
 					: true;
 
 			const motherboardTypeMemory =
-				motherboard !== null ? motherboard.memoryType === memory.Type : null;
+				motherboard !== null ? motherboard.memoryType === memory.Type : true;
 
 			return (
 				matchesManufacturer &&
@@ -162,15 +162,12 @@ const MemoryModules = () => {
 	return (
 		<section>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${memory !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${memory !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
 			>
-				<DisclosureTrigger>
+				<DisclosureTrigger className={'px-3'}>
 					{memory !== null ? (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => handleDialogClose()}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Модули памяти
 							</div>
@@ -180,16 +177,15 @@ const MemoryModules = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => handleDialogClose()}
 								>
-									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
+									<RefreshCw className="mr-2 h-4 w-4" />
+									<strong>| Заменить</strong>
 								</button>
 							</div>
 						</div>
 					) : (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Модули памяти
 							</div>
@@ -198,15 +194,17 @@ const MemoryModules = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" />
+									<strong>| Добавить</strong>
 								</button>
 							</div>
 						</div>
 					)}
 				</DisclosureTrigger>
-				<DisclosureContent>
-					<div className="overflow-hidden pb-3">
+				<DisclosureContent className={`${memory !== null ? 'bg-white' : ''}`}>
+					<div className="overflow-hidden pb-3 px-3">
 						<div className="font-mono text-sm">
 							<div className="space-x-2">
 								<div className="ml-2 relative w-full flex gap-4 h-12 items-center">
@@ -335,46 +333,6 @@ const MemoryModules = () => {
 											</DialogContent>
 										</DialogContainer>
 									</Dialog>
-
-									{/*<Dialog
-										transition={{
-											type: 'spring',
-											bounce: 0.05,
-											duration: 0.25,
-										}}
-									>
-										<DialogTrigger>
-											<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
-												<span>Количество потоков</span>
-												<ArrowDownFromLine className="h-5 w-5" />
-											</div>
-										</DialogTrigger>
-
-										<DialogContainer>
-											<DialogContent
-												style={{ borderRadius: '24px' }}
-												className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
-											>
-												<div className="p-6">
-													<DialogTitle className="text-2xl text-zinc-950">
-														Количество потоков
-													</DialogTitle>
-													<div className="p-2" />
-													<div className="relative flex flex-col p-2 w-full">
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
-													</div>
-												</div>
-												<DialogClose className="text-zinc-950 " />
-											</DialogContent>
-										</DialogContainer>
-									</Dialog>*/}
 								</div>
 
 								{/*Title*/}
@@ -434,60 +392,64 @@ const MemoryModules = () => {
 									</div>
 								) : (
 									<div>
-										{filteredRamItems.map((memory: RAMItem) => (
+										{filteredRamItems.map((memoryItem: RAMItem) => (
 											<Dialog
 												transition={{
 													type: 'spring',
 													stiffness: 200,
 													damping: 24,
 												}}
-												key={memory.id}
+												key={memoryItem.id}
 											>
 												<DialogTrigger
 													style={{ borderRadius: '4px' }}
 													className="border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3"
 												>
-													<div className="w-full flex flex-col items-center justify-center gap-1 space-y-0">
-														<div className="w-full items-center">
-															<>
-																<div className="bg-white gap-4">
-																	<div className="w-full h-full flex p-2 items-center">
-																		<DialogImage
-																			src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																			alt="What I Talk About When I Talk About Running - book cover"
-																			className="h-8 w-8 object-cover object-top mr-2"
-																			style={{ borderRadius: '4px' }}
-																		/>
-																		<div className="w-3/6 text-left">
-																			{memory.name}
-																		</div>
-																		<div className="w-14">
-																			{memory.Capacity}
-																		</div>
-																		<div className="w-14">{memory.Speed}</div>
-																		<div className="w-20 text-center">
-																			{memory.Type}
-																		</div>
-																		<div className="w-14 text-center">
-																			{memory.Modules}
-																		</div>
-																		<div className="w-24 text-center">
-																			{memory.price}₽
-																		</div>
-																		<button
-																			className={`ml-auto mr-4 border border-zinc-950/10 
+													<div
+														className={`${memory && memoryItem.id === memory.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
+													>
+														<div className="w-full h-full flex p-2 items-center gap-4">
+															<DialogImage
+																src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
+																alt="What I Talk About When I Talk About Running - book cover"
+																className="h-8 w-8 object-cover object-top mr-2"
+																style={{ borderRadius: '4px' }}
+															/>
+															<div className="w-3/6 text-left">
+																{memoryItem.name}
+															</div>
+															<div className="w-14">{memoryItem.Capacity}</div>
+															<div className="w-14">{memoryItem.Speed}</div>
+															<div className="w-20 text-center">
+																{memoryItem.Type}
+															</div>
+															<div className="w-14 text-center">
+																{memoryItem.Modules}
+															</div>
+															<div className="w-24 text-center text-red-600">
+																{memoryItem.price}₽
+															</div>
+															{memory && memoryItem.id === memory.id ? (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																	items-center`}
+																>
+																	Выбранный
+																</button>
+															) : (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
 																	hover:bg-gray-900 hover:text-white items-center`}
-																			onClick={e => {
-																				handleGPUChange(e, memory);
-																			}}
-																		>
-																			<Plus className="mr-2 h-4 w-4 " /> |
-																			Выбрать
-																		</button>
-																	</div>
-																</div>
-															</>
+																	onClick={e => {
+																		handleGPUChange(e, memoryItem);
+																	}}
+																>
+																	<Plus className="mr-2 h-4 w-4 " />
+																	<a>| Выбрать</a>
+																</button>
+															)}
 														</div>
 													</div>
 												</DialogTrigger>
@@ -507,66 +469,75 @@ const MemoryModules = () => {
 																</div>
 																<div className="">
 																	<DialogTitle className="text-black text-2xl font-bold">
-																		{memory.name}
+																		{memoryItem.name}
 																	</DialogTitle>
 																	<DialogSubtitle>
 																		<div className="flex justify-between text-center items-center my-3">
 																			<div className="text-4xl text-[#F2530C]">
-																				{memory.price}
+																				{memoryItem.price}
 																			</div>
-																			<button
-																				className={
-																					'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																					' inline-flex bg-[#94B90A] text-white item-center text-center'
-																				}
-																				onClick={e => {
-																					handleGPUChange(e, memory);
-																				}}
-																			>
-																				<Plus /> | Выбрать
-																			</button>
+																			{memory && memoryItem.id === memory.id ? (
+																				<button
+																					className={
+																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																						' inline-flex bg-[#94B90A] text-white item-center text-center'
+																					}
+																				>
+																					Выбран
+																				</button>
+																			) : (
+																				<button
+																					className={`border border-zinc-950/10 rounded-3xl px-14 py-2
+																						inline-flex bg-[#94B90A] text-white item-center text-center`}
+																					onClick={e => {
+																						handleGPUChange(e, memoryItem);
+																					}}
+																				>
+																					<Plus /> <a>| Выбрать</a>
+																				</button>
+																			)}
 																		</div>
 																	</DialogSubtitle>
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Производитель</span>
-																			<span>{memory.Manufacturer}</span>
+																			<span>{memoryItem.Manufacturer}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Объем памяти</span>
-																			<span>{memory.Capacity}</span>
+																			<span>{memoryItem.Capacity}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Частота</span>
-																			<span>{memory.Speed}</span>
+																			<span>{memoryItem.Speed}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Тип</span>
-																			<span>{memory.Type}</span>
+																			<span>{memoryItem.Type}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Латентность</span>
-																			<span>{memory.Latency}</span>
+																			<span>{memoryItem.Latency}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Напряжение</span>
-																			<span>{memory.Voltage}</span>
+																			<span>{memoryItem.Voltage}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Модули</span>
-																			<span>{memory.Modules}</span>
+																			<span>{memoryItem.Modules}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />

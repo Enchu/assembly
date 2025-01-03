@@ -154,7 +154,7 @@ const Cpu = () => {
 	) => {
 		event.stopPropagation();
 		setCPU(value);
-		setIsOpenDisclosure(false);
+		setIsOpenDisclosure(!isOpenDisclosure);
 	};
 
 	const handleDialogClose = () => {
@@ -195,7 +195,8 @@ const Cpu = () => {
 									}
 									onClick={() => handleDialogClose()}
 								>
-									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
+									<RefreshCw className="mr-2 h-4 w-4" />
+									<strong>| Заменить</strong>
 								</button>
 							</div>
 						</div>
@@ -211,7 +212,8 @@ const Cpu = () => {
 									}
 									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" />
+									<a>| Добавить</a>
 								</button>
 							</div>
 						</div>
@@ -502,7 +504,8 @@ const Cpu = () => {
 																		handleCPUChange(e, cpuT);
 																	}}
 																>
-																	<Plus className="mr-2 h-4 w-4 " /> | Выбрать
+																	<Plus className="mr-2 h-4 w-4 " />
+																	<a>| Выбрать</a>
 																</button>
 															)}
 														</div>
@@ -522,7 +525,7 @@ const Cpu = () => {
 																		className="h-auto w-[200px]"
 																	/>
 																</div>
-																<div className="">
+																<div>
 																	<DialogTitle className="text-black text-2xl font-bold">
 																		{cpuT.name}
 																	</DialogTitle>
@@ -532,30 +535,23 @@ const Cpu = () => {
 																				{cpuT.price}
 																			</div>
 																			{cpu && cpuT.id === cpu.id ? (
-																				<>
-																					<button
-																						className={
-																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																							' inline-flex bg-[#94B90A] text-white item-center text-center'
-																						}
-																					>
-																						Выбран
-																					</button>
-																				</>
+																				<button
+																					className={
+																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																						' inline-flex bg-[#94B90A] text-white item-center text-center'
+																					}
+																				>
+																					Выбран
+																				</button>
 																			) : (
-																				<>
-																					<button
-																						className={
-																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																							' inline-flex bg-[#94B90A] text-white item-center text-center'
-																						}
-																						onClick={e => {
-																							handleCPUChange(e, cpuT);
-																						}}
-																					>
-																						<Plus /> | Выбрать
-																					</button>
-																				</>
+																				<button
+																					className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4`}
+																					onClick={e => {
+																						handleCPUChange(e, cpuT);
+																					}}
+																				>
+																					<Plus />|<a>Выбрать</a>
+																				</button>
 																			)}
 																		</div>
 																	</DialogSubtitle>

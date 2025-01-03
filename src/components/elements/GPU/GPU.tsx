@@ -147,15 +147,12 @@ const Gpu = () => {
 	return (
 		<section>
 			<Disclosure
-				className={`w-full rounded-md border border-zinc-200 px-3 dark:border-zinc-700 mb-5 ${gpu !== null ? 'bg-green-600' : ''}`}
+				className={`w-full rounded-md border border-zinc-200 dark:border-zinc-700 mb-5 ${gpu !== null ? 'bg-green-400' : ''}`}
 				open={isOpenDisclosure}
 			>
-				<DisclosureTrigger>
+				<DisclosureTrigger className={'px-3'}>
 					{gpu !== null ? (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => handleDialogClose()}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Видеокарта
 							</div>
@@ -165,16 +162,15 @@ const Gpu = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => handleDialogClose()}
 								>
-									<RefreshCw className="mr-2 h-4 w-4" /> | Заменить
+									<RefreshCw className="mr-2 h-4 w-4" />|
+									<strong>Заменить</strong>
 								</button>
 							</div>
 						</div>
 					) : (
-						<div
-							className="px-5 py-3 flex justify-between items-center relative"
-							onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-						>
+						<div className="px-5 py-3 flex justify-between items-center relative">
 							<div className="text-lg leading-none m-0 font-semibold relative pr-4">
 								Видеокарта
 							</div>
@@ -183,14 +179,15 @@ const Gpu = () => {
 									className={
 										'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
 									}
+									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> | Добавить
+									<Plus className="mr-1 h-4 w-4" /> <strong>| Добавить</strong>
 								</button>
 							</div>
 						</div>
 					)}
 				</DisclosureTrigger>
-				<DisclosureContent>
+				<DisclosureContent className={`${gpu !== null ? 'bg-white' : ''}`}>
 					<div className="overflow-hidden pb-3">
 						<div className="font-mono text-sm">
 							<div className="space-x-2">
@@ -414,58 +411,63 @@ const Gpu = () => {
 									</div>
 								) : (
 									<div>
-										{filteredGpuItems.map((gpu: GPUItem) => (
+										{filteredGpuItems.map((gpuItem: GPUItem) => (
 											<Dialog
 												transition={{
 													type: 'spring',
 													stiffness: 200,
 													damping: 24,
 												}}
-												key={gpu.id}
+												key={gpuItem.id}
 											>
 												<DialogTrigger
 													style={{ borderRadius: '4px' }}
-													className="border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3"
+													className={`border border-gray-200/60 bg-white mb-1 mt-1 w-full flex items-center space-x-3`}
 												>
-													<div className="w-full flex flex-col items-center justify-center gap-1 space-y-0">
-														<div className="w-full items-center">
-															<>
-																<div className="bg-white gap-4">
-																	<div className="w-full h-full flex p-2 items-center">
-																		<DialogImage
-																			src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																			alt="What I Talk About When I Talk About Running - book cover"
-																			className="h-8 w-8 object-cover object-top mr-2"
-																			style={{ borderRadius: '4px' }}
-																		/>
-																		<div className="w-3/6 text-left">
-																			{gpu.name}
-																		</div>
-																		<div className="w-14">{gpu.Memory}</div>
-																		<div className="w-14">{gpu.TDP}</div>
-																		<div className="w-20 text-center">
-																			{gpu.RecommendedPowerSupply}
-																		</div>
-																		<div className="w-14 text-center">
-																			{gpu.score}
-																		</div>
-																		<div className="w-24 text-center">
-																			{gpu.price}₽
-																		</div>
-																		<button
-																			className={`ml-auto mr-4 border border-zinc-950/10 
+													<div
+														className={`${gpu && gpuItem.id === gpu.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
+													>
+														<div className="w-full h-full flex p-2 items-center gap-4">
+															<DialogImage
+																src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
+																alt="What I Talk About When I Talk About Running - book cover"
+																className="h-8 w-8 object-cover object-top mr-2"
+																style={{ borderRadius: '4px' }}
+															/>
+															<div className="w-3/6 text-left">
+																{gpuItem.name}
+															</div>
+															<div className="w-14">{gpuItem.Memory}</div>
+															<div className="w-14">{gpuItem.TDP}</div>
+															<div className="w-20 text-center">
+																{gpuItem.RecommendedPowerSupply}
+															</div>
+															<div className="w-14 text-center">
+																{gpuItem.score}
+															</div>
+															<div className="w-24 text-center text-red-600">
+																{gpuItem.price}₽
+															</div>
+															{gpu && gpuItem.id === gpu.id ? (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																	items-center`}
+																>
+																	Выбранный
+																</button>
+															) : (
+																<button
+																	className={`ml-auto mr-4 border border-zinc-950/10 
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
 																	hover:bg-gray-900 hover:text-white items-center`}
-																			onClick={e => {
-																				handleGPUChange(e, gpu);
-																			}}
-																		>
-																			<Plus className="mr-2 h-4 w-4 " /> |
-																			Выбрать
-																		</button>
-																	</div>
-																</div>
-															</>
+																	onClick={e => {
+																		handleGPUChange(e, gpuItem);
+																	}}
+																>
+																	<Plus className="mr-2 h-4 w-4 " /> | Выбрать
+																</button>
+															)}
 														</div>
 													</div>
 												</DialogTrigger>
@@ -485,73 +487,84 @@ const Gpu = () => {
 																</div>
 																<div className="">
 																	<DialogTitle className="text-black text-2xl font-bold">
-																		{gpu.name}
+																		{gpuItem.name}
 																	</DialogTitle>
 																	<DialogSubtitle>
 																		<div className="flex justify-between text-center items-center my-3">
 																			<div className="text-4xl text-[#F2530C]">
-																				{gpu.price}
+																				{gpuItem.price}
 																			</div>
-																			<button
-																				className={
-																					'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																					' inline-flex bg-[#94B90A] text-white item-center text-center'
-																				}
-																				onClick={e => {
-																					handleGPUChange(e, gpu);
-																				}}
-																			>
-																				<Plus /> | Выбрать
-																			</button>
+																			{gpu && gpuItem.id === gpu.id ? (
+																				<button
+																					className={
+																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																						' inline-flex bg-[#94B90A] text-white item-center text-center'
+																					}
+																				>
+																					Выбран
+																				</button>
+																			) : (
+																				<button
+																					className={
+																						'border border-zinc-950/10 rounded-3xl px-14 py-2' +
+																						' inline-flex bg-[#94B90A] text-white item-center text-center'
+																					}
+																					onClick={e => {
+																						handleGPUChange(e, gpuItem);
+																					}}
+																				>
+																					<Plus /> | Выбрать
+																				</button>
+																			)}
 																		</div>
 																	</DialogSubtitle>
 																	<div className="mt-2 text-base text-gray-700">
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Объем памяти</span>
-																			<span>{gpu.Memory} GB</span>
+																			<span>{gpuItem.Memory} GB</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Шина памяти</span>
-																			<span>{gpu.MemoryBus} bit</span>
+																			<span>{gpuItem.MemoryBus} bit</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Тип памяти</span>
-																			<span>{gpu.MemoryType}</span>
+																			<span>{gpuItem.MemoryType}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Частота графического ядра</span>
-																			<span>{gpu.CoreClock} MHz</span>
+																			<span>{gpuItem.CoreClock} MHz</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Производительность</span>
-																			<span>{gpu.Performance}</span>
+																			<span>{gpuItem.Performance}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Интерфейс</span>
-																			<span>{gpu.Interface}</span>
+																			<span>{gpuItem.Interface}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Разъемы</span>
-																			<span>{gpu.Connectors}</span>
+																			<span>{gpuItem.Connectors}</span>
 																		</div>
 
 																		<Separator className="my-2 bg-gray-300 h-[1px]" />
 																		<div className="flex justify-between ml-2 mr-2">
 																			<span>Рекомендуемая мощность БП</span>
 																			<span>
-																				{gpu.RecommendedPowerSupply} W
+																				{gpuItem.RecommendedPowerSupply} W
 																			</span>
 																		</div>
 

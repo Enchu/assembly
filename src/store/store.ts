@@ -39,13 +39,6 @@ export const useGPUStore = create<GPUStore>(set => ({
 		return null;
 	})(),
 	setGPU: gpu => {
-		if (typeof window !== 'undefined') {
-			if (gpu) {
-				localStorage.setItem('gpu', JSON.stringify(gpu));
-			} else {
-				localStorage.removeItem('gpu');
-			}
-		}
 		set({ gpu });
 	},
 }));
@@ -59,13 +52,6 @@ export const useCPUStore = create<CPUStore>(set => ({
 		return null;
 	})(),
 	setCPU: cpu => {
-		if (typeof window !== 'undefined') {
-			if (cpu) {
-				localStorage.setItem('cpu', JSON.stringify(cpu));
-			} else {
-				localStorage.removeItem('cpu');
-			}
-		}
 		set({ cpu });
 	},
 }));
@@ -79,13 +65,6 @@ export const useMotherboardStore = create<MotherboardStore>(set => ({
 		return null;
 	})(),
 	setMotherboard: motherboard => {
-		if (typeof window !== 'undefined') {
-			if (motherboard) {
-				localStorage.setItem('motherboard', JSON.stringify(motherboard));
-			} else {
-				localStorage.removeItem('motherboard');
-			}
-		}
 		set({ motherboard });
 	},
 }));
@@ -99,13 +78,6 @@ export const useMemoryStore = create<MemoryStore>(set => ({
 		return null;
 	})(),
 	setMemory: memory => {
-		if (typeof window !== 'undefined') {
-			if (memory) {
-				localStorage.setItem('memory', JSON.stringify(memory));
-			} else {
-				localStorage.removeItem('memory');
-			}
-		}
 		set({ memory });
 	},
 }));
@@ -119,13 +91,6 @@ export const usePowerSupplyStore = create<PowerSupplyStore>(set => ({
 		return null;
 	})(),
 	setPowerSupply: powerSupply => {
-		if (typeof window !== 'undefined') {
-			if (powerSupply) {
-				localStorage.setItem('powerSupply', JSON.stringify(powerSupply));
-			} else {
-				localStorage.removeItem('powerSupply');
-			}
-		}
 		set({ powerSupply });
 	},
 }));
