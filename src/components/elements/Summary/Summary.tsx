@@ -7,6 +7,8 @@ import {
 	usePowerSupplyStore,
 } from '@/store/store';
 
+import { calculatePowerRequirement } from '@/utils/util';
+
 const Summary = () => {
 	const { cpu } = useCPUStore();
 	const { motherboard } = useMotherboardStore();
@@ -14,21 +16,8 @@ const Summary = () => {
 	const { memory } = useMemoryStore();
 	const { powerSupply } = usePowerSupplyStore();
 
-	console.log(
-		'TDP',
-		gpu?.RecommendedPowerSupply +
-			' ' +
-			cpu?.TDP +
-			' ' +
-			gpu?.TDP +
-			' ' +
-			motherboard?.powerConsumption +
-			' ' +
-			memory?.powerConsumption,
-	);
-
-	/*const ss = calculatePowerRequirement();
-	console.log(ss);*/
+	const ss = calculatePowerRequirement();
+	console.log(ss);
 
 	return (
 		<section>
@@ -58,6 +47,10 @@ const Summary = () => {
 					<div>
 						{powerSupply !== null ? <div>{powerSupply.name}</div> : <></>}
 					</div>
+				</div>
+				<div className="flex justify-between mx-20">
+					<div>Требуемая мощность блока питания:</div>
+					<div>{ss !== null ? <div>{ss.result} ВТ</div> : <></>}</div>
 				</div>
 			</div>
 		</section>

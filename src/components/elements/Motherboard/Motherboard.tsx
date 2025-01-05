@@ -169,7 +169,7 @@ const Motherboard = () => {
 									onClick={() => handleDialogClose()}
 								>
 									<RefreshCw className="mr-2 h-4 w-4" />
-									<strong>| Заменить</strong>
+									<span>| Заменить</span>
 								</button>
 							</div>
 						</div>
@@ -185,7 +185,7 @@ const Motherboard = () => {
 									}
 									onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
 								>
-									<Plus className="mr-1 h-4 w-4" /> <strong>| Добавить</strong>
+									<Plus className="mr-1 h-4 w-4" /> <span>| Добавить</span>
 								</button>
 							</div>
 						</div>

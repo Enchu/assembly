@@ -1,5 +1,10 @@
-/*
-import { useCPUStore } from '@/store/store';
+import {
+	useCPUStore,
+	useGPUStore,
+	useMemoryStore,
+	useMotherboardStore,
+	usePowerSupplyStore,
+} from '@/store/store';
 
 export const calculatePowerRequirement = () => {
 	const { cpu } = useCPUStore();
@@ -7,33 +12,34 @@ export const calculatePowerRequirement = () => {
 	const { gpu } = useGPUStore();
 	const { memory } = useMemoryStore();
 	const { powerSupply } = usePowerSupplyStore();
-	console.log(cpu !== null ? cpu.TDP : 0);
-	const result = 0;
 
-	if (cpu) {
-    totalPower += parseInt(cpu.Power || '0', 10); // Мощность CPU
-  }
+	let result = 0;
 
-  if (motherboard) {
-    totalPower += parseInt(motherboard.Power || '0', 10); // Мощность материнской платы
-  }
+	if (cpu?.TDP) {
+		result += parseInt(cpu.TDP || '0', 10);
+	}
 
-  if (gpu) {
-    totalPower += parseInt(gpu.Power || '0', 10); // Мощность GPU
-  }
+	if (motherboard?.powerConsumption) {
+		result += parseInt(motherboard.powerConsumption || '0', 10);
+	}
 
-  if (memory) {
-    totalPower += parseInt(memory.Power || '0', 10); // Мощность RAM (если указано)
-  }
+	if (gpu?.TDP) {
+		result += parseInt(gpu.TDP || '0', 10);
+	}
 
-  const powerSupplyPower = powerSupply ? parseInt(powerSupply.Power || '0', 10) : 0;
+	if (memory?.powerConsumption) {
+		result += parseInt(memory.powerConsumption || '0', 10);
+	}
 
-  return {
-    totalPower,
-    powerSupplyPower,
-    isSufficient: totalPower <= powerSupplyPower, // Достаточна ли мощность блока питания
-  };
+	const roundedResult = Math.ceil(result / 100) * 100;
 
-	return result;
+	const powerSupplyPower = powerSupply
+		? parseInt(powerSupply.Power || '0', 10)
+		: 0;
+
+	return {
+		result: roundedResult,
+		powerSupplyPower,
+		isSufficient: result <= powerSupplyPower,
+	};
 };
-*/
