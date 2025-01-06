@@ -6,7 +6,7 @@ import {
 	usePowerSupplyStore,
 } from '@/store/store';
 
-export const calculatePowerRequirement = () => {
+export const useCalculatePowerRequirement = () => {
 	const { cpu } = useCPUStore();
 	const { motherboard } = useMotherboardStore();
 	const { gpu } = useGPUStore();

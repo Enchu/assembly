@@ -7,7 +7,7 @@ import {
 	usePowerSupplyStore,
 } from '@/store/store';
 
-import { calculatePowerRequirement } from '@/utils/util';
+import { useCalculatePowerRequirement } from '@/utils/util';
 
 const Summary = () => {
 	const { cpu } = useCPUStore();
@@ -16,7 +16,7 @@ const Summary = () => {
 	const { memory } = useMemoryStore();
 	const { powerSupply } = usePowerSupplyStore();
 
-	const ss = calculatePowerRequirement();
+	const ss = useCalculatePowerRequirement();
 	console.log(ss);
 
 	return (
