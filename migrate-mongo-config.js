@@ -1,12 +1,14 @@
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-require-imports,no-undef
 require('dotenv').config();
 
 const config = {
 	mongodb: {
 		// TODO Change (or review) the url to your MongoDB:
+		// eslint-disable-next-line no-undef
 		url: process.env.NEXT_PUBLIC_DB_URL,
 
 		// TODO Change this to your database name:
+		// eslint-disable-next-line no-undef
 		databaseName: process.env.NEXT_PUBLIC_DB_NAME,
 
 		options: {

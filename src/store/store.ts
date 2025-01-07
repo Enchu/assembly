@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CPUItem } from '@/interface/CPU';
+
 import { GPUItem } from '@/interface/GPU';
 import { MotherboardItems } from '@/interface/Motherboard';
 import { RAMItem } from '@/interface/Ram';
@@ -8,11 +8,6 @@ import { PowerSupplyT } from '@/interface/PowerSupply';
 interface GPUStore {
 	gpu: GPUItem | null;
 	setGPU: (gpu: GPUItem | null) => void;
-}
-
-interface CPUStore {
-	cpu: CPUItem | null;
-	setCPU: (cpu: CPUItem | null) => void;
 }
 
 interface MotherboardStore {
@@ -40,19 +35,6 @@ export const useGPUStore = create<GPUStore>(set => ({
 	})(),
 	setGPU: gpu => {
 		set({ gpu });
-	},
-}));
-
-export const useCPUStore = create<CPUStore>(set => ({
-	cpu: (() => {
-		if (typeof window !== 'undefined') {
-			const storedCpu = localStorage.getItem('cpu');
-			return storedCpu ? JSON.parse(storedCpu) : null;
-		}
-		return null;
-	})(),
-	setCPU: cpu => {
-		set({ cpu });
 	},
 }));
 

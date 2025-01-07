@@ -22,43 +22,60 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import items from '@/data/data.json';
+/*import items from '@/data/data.json';*/
 import { Autocomplete, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
-import { useCPUStore, useMotherboardStore } from '@/store/store';
+import { useMotherboardStore } from '@/store/store';
+import { useCPUApiStore, useCPUStore } from '@/store/cpuStore';
 import { CPUItem } from '@/interface/CPU';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
+import { fetchCPUs } from '@/context/cpuService';
 
 const Cpu = () => {
-	const cpuItems: CPUItem[] = items[0].cpu;
+	const { cpus, isLoading } = useCPUApiStore();
 
-	const uniqueCores = Array.from(
-		new Set(cpuItems.map(item => item.cores)),
-	).sort((a, b) => {
-		return Number(b) - Number(a);
-	});
+	useEffect(() => {
+		fetchCPUs();
+	}, []);
+
+	const [uniqueCores, setUniqueCores] = useState<string[]>([]);
+	const [uniqueThreads, setUniqueThreads] = useState<string[]>([]);
+	const [range, setRange] = useState<number[]>([0, 0]);
 	const [selectedCores, setSelectedCores] = useState<string[]>([]);
-
-	const uniqueThreads = Array.from(
-		new Set(cpuItems.map(item => item.threads)),
-	).sort((a, b) => {
-		return Number(b) - Number(a);
-	});
 	const [selectedThreads, setSelectedThreads] = useState<string[]>([]);
+	const [minPrice, setMinPrice] = useState<number>(0);
+	const [maxPrice, setMaxPrice] = useState<number>(0);
 
-	const minPriceRange = Math.min(
-		...cpuItems.map(item => parseInt(item.price, 10)),
-	);
-	const maxPriceRange = Math.max(
-		...cpuItems.map(item => parseInt(item.price, 10)),
-	);
-	const [range, setRange] = useState<number[]>([minPriceRange, maxPriceRange]);
+	useEffect(() => {
+		if (!isLoading && cpus.length > 0) {
+			// Для уникальных ядер
+			const cores = Array.from(
+				new Set(cpus.map(item => item.cores.slice(0, 2))),
+			).sort((a, b) => Number(b) - Number(a));
+			setUniqueCores(cores);
 
-	const [minPrice, setMinPrice] = useState<number>(minPriceRange);
-	const [maxPrice, setMaxPrice] = useState<number>(maxPriceRange);
+			// Для уникальных потоков
+			const threads = Array.from(new Set(cpus.map(item => item.threads))).sort(
+				(a, b) => Number(b) - Number(a),
+			);
+			setUniqueThreads(threads);
+
+			// Для минимальной и максимальной цены
+			const minPriceRange = Math.min(
+				...cpus.map(item => parseInt(item.price, 10)),
+			);
+			const maxPriceRange = Math.max(
+				...cpus.map(item => parseInt(item.price, 10)),
+			);
+			setRange([minPriceRange, maxPriceRange]);
+			setMinPrice(minPriceRange);
+			setMaxPrice(maxPriceRange);
+		}
+	}, [cpus, isLoading]);
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
+
 	const { cpu, setCPU } = useCPUStore();
 	const { motherboard } = useMotherboardStore();
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
@@ -69,7 +86,7 @@ const Cpu = () => {
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
 	// FILTERED
-	const filteredCPUItems = cpuItems
+	const filteredCPUItems = cpus
 		.filter(cpu => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
@@ -135,7 +152,7 @@ const Cpu = () => {
 
 	const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = Number(event.target.value);
-		if (value >= minPriceRange && value <= range[1]) {
+		if (value >= range[0] && value <= range[1]) {
 			setMinPrice(value);
 			setRange([value, range[1]]); // Обновляем диапазон слайдера
 		}
@@ -143,7 +160,7 @@ const Cpu = () => {
 
 	const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = Number(event.target.value);
-		if (value >= range[0] && value <= maxPriceRange) {
+		if (value >= range[0] && value <= range[1]) {
 			setMaxPrice(value);
 			setRange([range[0], value]); // Обновляем диапазон слайдера
 		}
@@ -172,22 +189,9 @@ const Cpu = () => {
 		);
 	};
 
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setLoading(false);
-		}, 3000);
-		return () => clearTimeout(timer);
-	}, []);
-
-	useEffect(() => {
-		localStorage.setItem('cpu', JSON.stringify(cpu));
-	}, [cpu]);
-
 	return (
 		<section>
-			{loading ? (
+			{isLoading ? (
 				<Skeleton />
 			) : (
 				<Disclosure
@@ -249,13 +253,11 @@ const Cpu = () => {
 											renderInput={params => (
 												<TextField {...params} label="CPU" />
 											)}
-											options={cpuItems.map((cpu: CPUItem) => {
+											options={cpus.map((cpu: CPUItem) => {
 												return cpu.name;
 											})}
 											onChange={(event, value) => {
-												const selected = cpuItems.find(
-													cpu => cpu.name === value,
-												);
+												const selected = cpus.find(cpu => cpu.name === value);
 												setSelectedCPU(selected || null);
 											}}
 										/>
@@ -263,8 +265,8 @@ const Cpu = () => {
 										<PriceDialog
 											minPrice={minPrice}
 											maxPrice={maxPrice}
-											minPriceRange={minPriceRange}
-											maxPriceRange={maxPriceRange}
+											minPriceRange={range[0]}
+											maxPriceRange={range[1]}
 											range={range}
 											setRange={setRange}
 											setMinPrice={setMinPrice}

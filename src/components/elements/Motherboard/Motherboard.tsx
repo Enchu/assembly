@@ -27,11 +27,8 @@ import { Autocomplete, TextField } from '@mui/material';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
 import { MotherboardItems } from '@/interface/Motherboard';
-import {
-	useCPUStore,
-	useMemoryStore,
-	useMotherboardStore,
-} from '@/store/store';
+import { useMemoryStore, useMotherboardStore } from '@/store/store';
+import { useCPUStore } from '@/store/cpuStore';
 
 const Motherboard = () => {
 	const motherboardItems: MotherboardItems[] = items[0].motherboard;

@@ -20,7 +20,7 @@ const Blog = () => {
 				<GPU />
 				<MemoryModules />
 				<PowerSupply />
-				<Summary />
+				{/*<Summary />*/}
 			</ScrollArea>
 		</div>
 	);
