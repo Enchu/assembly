@@ -1,10 +1,8 @@
-import {
-	useGPUStore,
-	useMemoryStore,
-	useMotherboardStore,
-	usePowerSupplyStore,
-} from '@/store/store';
 import { useCPUStore } from '@/store/cpuStore';
+import { useMotherboardStore } from '@/store/motherboardStore';
+import { useGPUStore } from '@/store/gpuStore';
+import { useMemoryStore } from '@/store/ramStore';
+import { usePowerSupplyStore } from '@/store/power-supply';
 
 export const useCalculatePowerRequirement = () => {
 	const { cpu } = useCPUStore();

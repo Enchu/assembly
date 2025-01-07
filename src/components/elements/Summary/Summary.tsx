@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-	useGPUStore,
-	useMemoryStore,
-	useMotherboardStore,
-	usePowerSupplyStore,
-} from '@/store/store';
 
 import { useCalculatePowerRequirement } from '@/hooks/useCalculatePowerRequirement';
 import { useCPUStore } from '@/store/cpuStore';
+import { useMotherboardStore } from '@/store/motherboardStore';
+import { useGPUStore } from '@/store/gpuStore';
+import { useMemoryStore } from '@/store/ramStore';
+import { usePowerSupplyStore } from '@/store/power-supply';
 
 const Summary = () => {
 	const { cpu } = useCPUStore();
