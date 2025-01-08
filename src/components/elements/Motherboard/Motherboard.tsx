@@ -421,46 +421,52 @@ const Motherboard = () => {
 											<p>Нет доступных материнских плат для отображения.</p>
 										</div>
 									) : (
-										<div className="flex w-full text-base gap-4 mt-4 bg-amber-100 items-center justify-center cursor-default">
+										<div
+											className="grid w-full text-base gap-4 mt-4 bg-amber-100 items-center justify-center cursor-default"
+											style={{
+												gridTemplateColumns:
+													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+											}}
+										>
 											<div className="ml-2">
 												<div className="Icon" />
 												<span>Изображение</span>
 											</div>
 
-											<div className="w-[38%] text-left">
+											<div className="text-left">
 												<div className="Icon" />
 												<span>Название</span>
 											</div>
 
-											<div className="w-20 text-center">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Сокет</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Тип памяти</span>
 											</div>
 
-											<div className="w-24 text-center">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Чипсет</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Макс памяти</span>
 											</div>
 
 											<div
-												className="flex ml-4 cursor-pointer"
+												className="flex justify-center cursor-pointer"
 												onClick={toggleSortOrder}
 											>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
 
-											<div className="ml-auto mr-14">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Показать еще</span>
 											</div>
@@ -491,29 +497,34 @@ const Motherboard = () => {
 															<div
 																className={`${motherboard && motherboardItem.id === motherboard.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
 															>
-																<div className="w-full h-full flex p-2 items-center gap-4">
+																<div
+																	className="w-full h-full grid p-2 items-center gap-4"
+																	style={{
+																		gridTemplateColumns: `0.3fr 3fr 1.2fr 0.7fr 1fr 0.8fr 0.6fr 1fr`,
+																	}}
+																>
 																	<DialogImage
 																		src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
 																		alt="What I Talk About When I Talk About Running - book cover"
 																		className="h-8 w-8 object-cover object-top mr-2"
 																		style={{ borderRadius: '4px' }}
 																	/>
-																	<div className="w-[42%] text-left">
+																	<div className="text-left">
 																		{motherboardItem.name}
 																	</div>
-																	<div className="w-24 text-center">
+																	<div className="text-center">
 																		{motherboardItem.socket}
 																	</div>
-																	<div className="w-24 text-center">
+																	<div className="text-center">
 																		{motherboardItem.memoryType}
 																	</div>
-																	<div className="w-24 text-center">
+																	<div className="text-center">
 																		{motherboardItem.chipset}
 																	</div>
-																	<div className="w-24 text-center">
+																	<div className="text-center">
 																		{motherboardItem.maxMemory}
 																	</div>
-																	<div className="w-24 text-center text-red-600">
+																	<div className="text-center text-red-600">
 																		{motherboardItem.price}₽
 																	</div>
 																	{motherboard &&

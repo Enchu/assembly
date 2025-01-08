@@ -428,46 +428,52 @@ const Cpu = () => {
 									{filteredCPUItems.length === 0 ? (
 										<></>
 									) : (
-										<div className="flex w-full text-base gap-4 mt-4 bg-amber-100 items-center justify-center cursor-default">
-											<div className="ml-2">
+										<div
+											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
+											style={{
+												gridTemplateColumns:
+													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+											}}
+										>
+											<div className="">
 												<div className="Icon" />
 												<span>Изображение</span>
 											</div>
 
-											<div className="w-[35%]">
+											<div className="">
 												<div className="Icon" />
 												<span>Название</span>
 											</div>
 
-											<div className="mr-2">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Кол-во ядер</span>
 											</div>
 
-											<div className="mr-10">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>TDP</span>
 											</div>
 
-											<div className="mr-6">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Сокет</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Score</span>
 											</div>
 
 											<div
-												className="flex ml-4 cursor-pointer"
+												className="flex justify-center cursor-pointer"
 												onClick={toggleSortOrder}
 											>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
 
-											<div className="ml-auto mr-14">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Показать еще</span>
 											</div>
@@ -497,25 +503,28 @@ const Cpu = () => {
 														<div
 															className={`${cpu && cpuT.id === cpu.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
 														>
-															<div className="w-full h-full flex p-2 items-center gap-4">
+															<div
+																className="w-full h-full grid p-2 items-center gap-4"
+																style={{
+																	gridTemplateColumns: `0.3fr 3fr 1.2fr 0.7fr 1fr 0.8fr 0.6fr 1fr`,
+																}}
+															>
 																<DialogImage
 																	src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
 																	alt="What I Talk About When I Talk About Running - book cover"
 																	className="h-8 w-8 object-cover object-top mr-2"
 																	style={{ borderRadius: '4px' }}
 																/>
-																<div className="w-[42%] text-left">
-																	{cpuT.name}
+																<div className="text-left">{cpuT.name}</div>
+																<div className="text-center">
+																	{cpuT.cores} ядер
 																</div>
-																<div className="w-20">{cpuT.cores} ядер</div>
-																<div className="w-14">{cpuT.TDP} Вт</div>
-																<div className="w-20 text-center">
+																<div className="text-center">{cpuT.TDP} Вт</div>
+																<div className="text-center">
 																	{cpuT.socket}A
 																</div>
-																<div className="w-14 text-center">
-																	{cpuT.score}
-																</div>
-																<div className="w-24 text-center text-red-600">
+																<div className="text-center ">{cpuT.score}</div>
+																<div className="text-center text-red-600">
 																	{cpuT.price}₽
 																</div>
 																{cpu && cpuT.id === cpu.id ? (

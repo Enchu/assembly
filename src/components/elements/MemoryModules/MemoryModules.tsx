@@ -372,46 +372,52 @@ const MemoryModules = () => {
 									{filteredRamItems.length === 0 ? (
 										<></>
 									) : (
-										<div className="flex w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default">
+										<div
+											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
+											style={{
+												gridTemplateColumns:
+													'0.3fr 2.8fr 1fr 0.6fr 0.7fr 0.8fr 0.5fr 1fr',
+											}}
+										>
 											<div className="ml-2">
 												<div className="Icon" />
 												<span>Изображение</span>
 											</div>
 
-											<div className="w-[38%]">
+											<div className="">
 												<div className="Icon" />
 												<span>Название</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Объем памяти</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Скорость</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Тип</span>
 											</div>
 
-											<div className="flex">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Модули</span>
 											</div>
 
 											<div
-												className="flex ml-14 cursor-pointer"
+												className="flex justify-center cursor-pointer"
 												onClick={toggleSortOrder}
 											>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
 
-											<div className="ml-auto mr-14">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Показать еще</span>
 											</div>
@@ -441,27 +447,34 @@ const MemoryModules = () => {
 														<div
 															className={`${memory && memoryItem.id === memory.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
 														>
-															<div className="w-full h-full flex p-2 items-center gap-4">
+															<div
+																className="w-full h-full grid p-2 items-center gap-4"
+																style={{
+																	gridTemplateColumns: `0.3fr 3.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr`,
+																}}
+															>
 																<DialogImage
 																	src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
 																	alt="What I Talk About When I Talk About Running - book cover"
 																	className="h-8 w-8 object-cover object-top mr-2"
 																	style={{ borderRadius: '4px' }}
 																/>
-																<div className="w-3/6 text-left">
+																<div className="text-left">
 																	{memoryItem.name}
 																</div>
-																<div className="w-14">
+																<div className="text-center">
 																	{memoryItem.Capacity}
 																</div>
-																<div className="w-14">{memoryItem.Speed}</div>
-																<div className="w-20 text-center">
+																<div className="text-center">
+																	{memoryItem.Speed}
+																</div>
+																<div className="text-center">
 																	{memoryItem.Type}
 																</div>
-																<div className="w-14 text-center">
+																<div className="text-center">
 																	{memoryItem.Modules}
 																</div>
-																<div className="w-24 text-center text-red-600">
+																<div className="text-center text-red-600">
 																	{memoryItem.price}₽
 																</div>
 																{memory && memoryItem.id === memory.id ? (

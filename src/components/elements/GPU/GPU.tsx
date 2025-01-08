@@ -75,8 +75,8 @@ const Gpu = () => {
 	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
 		[],
 	);
+	const [isPerformanceChecked, setIsPerformanceChecked] = useState(false);
 	const [selectedGPU, setSelectedGPU] = useState<GPUItem | null>(null);
-
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
 	// FILTERED
@@ -100,11 +100,15 @@ const Gpu = () => {
 			const matchesMemory =
 				selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
 
+			const matchesPerformance =
+				!isPerformanceChecked || parseFloat(gpu.Performance) / gpuPrice >= 1;
+
 			return (
 				matchesManufacturer &&
 				matchesSelectedGPU &&
 				matchesPriceRange &&
-				matchesMemory
+				matchesMemory &&
+				matchesPerformance
 			);
 		})
 		.sort((a, b) => {
@@ -164,6 +168,10 @@ const Gpu = () => {
 				? prev.filter((item: string) => item !== manufacturer)
 				: [...prev, manufacturer],
 		);
+	};
+
+	const handlePerformanceCheck = () => {
+		setIsPerformanceChecked(prev => !prev);
 	};
 
 	return (
@@ -347,86 +355,65 @@ const Gpu = () => {
 											</DialogContainer>
 										</Dialog>
 
-										{/*<Dialog
-										transition={{
-											type: 'spring',
-											bounce: 0.05,
-											duration: 0.25,
-										}}
-									>
-										<DialogTrigger>
-											<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
-												<span>Количество потоков</span>
-												<ArrowDownFromLine className="h-5 w-5" />
-											</div>
-										</DialogTrigger>
-
-										<DialogContainer>
-											<DialogContent
-												style={{ borderRadius: '24px' }}
-												className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
-											>
-												<div className="p-6">
-													<DialogTitle className="text-2xl text-zinc-950">
-														Количество потоков
-													</DialogTitle>
-													<div className="p-2" />
-													<div className="relative flex flex-col p-2 w-full">
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
-														<div className="flex text-center items-center">
-															<Checkbox />
-															<span>123</span>
-														</div>
-													</div>
-												</div>
-												<DialogClose className="text-zinc-950 " />
-											</DialogContent>
-										</DialogContainer>
-									</Dialog>*/}
+										<div className="flex text-center items-center">
+											<Checkbox
+												checked={isPerformanceChecked}
+												onClick={handlePerformanceCheck}
+											/>
+											<span>Производительность за цену</span>
+										</div>
 									</div>
 
 									{/*Title*/}
 									{filteredGpuItems.length === 0 ? (
 										<></>
 									) : (
-										<div className="flex w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default">
-											<div className="ml-2">
+										<div
+											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
+											style={{
+												gridTemplateColumns:
+													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+											}}
+										>
+											<div className="">
 												<div className="Icon" />
 												<span>Изображение</span>
 											</div>
 
-											<div className="w-[38%]">
+											<div className="">
 												<div className="Icon" />
 												<span>Название</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Объем памяти</span>
 											</div>
 
-											<div className="">
+											<div className="text-center">
+												<div className="Icon" />
+												<span>Тип памяти</span>
+											</div>
+
+											<div className="text-center">
 												<div className="Icon" />
 												<span>Score</span>
 											</div>
 
-											<div className="flex">
+											<div className="text-center">
 												<div className="Icon" />
-												<span>Мощность БП</span>
+												<span>TDP</span>
 											</div>
 
 											<div
-												className="flex ml-14 cursor-pointer"
+												className="flex justify-center cursor-pointer"
 												onClick={toggleSortOrder}
 											>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
 
-											<div className="ml-auto mr-14">
+											<div className="text-center mr-14">
 												<div className="Icon" />
 												<span>Показать еще</span>
 											</div>
@@ -456,25 +443,32 @@ const Gpu = () => {
 														<div
 															className={`${gpu && gpuItem.id === gpu.id ? 'bg-green-400' : ''} w-full flex flex-col items-center justify-center gap-1 space-y-0`}
 														>
-															<div className="w-full h-full flex p-2 items-center gap-4">
+															<div
+																className="w-full h-full grid p-2 items-center gap-4"
+																style={{
+																	gridTemplateColumns: `0.3fr 3fr 1.2fr 0.7fr 1fr 0.8fr 0.6fr 1fr`,
+																}}
+															>
 																<DialogImage
 																	src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
 																	alt="What I Talk About When I Talk About Running - book cover"
 																	className="h-8 w-8 object-cover object-top mr-2"
 																	style={{ borderRadius: '4px' }}
 																/>
-																<div className="w-3/6 text-left">
-																	{gpuItem.name}
+																<div className="text-left">{gpuItem.name}</div>
+																<div className="text-center">
+																	{gpuItem.Memory}
 																</div>
-																<div className="w-14">{gpuItem.Memory}</div>
-																<div className="w-14">{gpuItem.TDP}</div>
-																<div className="w-20 text-center">
-																	{gpuItem.RecommendedPowerSupply}
+																<div className="text-center">
+																	{gpuItem.MemoryType}
 																</div>
-																<div className="w-14 text-center">
-																	{gpuItem.score}
+																<div className="text-center">
+																	{gpuItem.score} 0
 																</div>
-																<div className="w-24 text-center text-red-600">
+																<div className="text-center">
+																	{gpuItem.TDP} ВТ
+																</div>
+																<div className="text-center text-red-600">
 																	{gpuItem.price}₽
 																</div>
 																{gpu && gpuItem.id === gpu.id ? (
@@ -574,7 +568,9 @@ const Gpu = () => {
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Производительность</span>
-																				<span>{gpuItem.Performance}</span>
+																				<span>
+																					{gpuItem.Performance} TFLOPs
+																				</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
