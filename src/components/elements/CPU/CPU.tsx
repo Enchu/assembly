@@ -30,6 +30,7 @@ import { CPUItem } from '@/interface/CPU';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import { fetchCPUs } from '@/context/cpuService';
 import { useMotherboardStore } from '@/store/motherboardStore';
+import toast from 'react-hot-toast';
 
 const Cpu = () => {
 	const { cpus, isLoading } = useCPUApiStore();
@@ -174,12 +175,14 @@ const Cpu = () => {
 		event.stopPropagation();
 		setCPU(value);
 		setIsOpenDisclosure(!isOpenDisclosure);
+		toast.success('Успешно изменен процессор');
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		resetCPU();
 		setSelectedCPU(null);
+		toast.success('Успешно очищен процессор');
 	};
 
 	const handleManufacture = (manufacturer: 'Intel' | 'AMD') => {
@@ -284,7 +287,9 @@ const Cpu = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : '!bg-transparent !text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Производитель</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -332,7 +337,9 @@ const Cpu = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedCores.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Количество ядер</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -376,7 +383,9 @@ const Cpu = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedThreads.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Количество потоков</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -511,7 +520,7 @@ const Cpu = () => {
 																</div>
 																{cpu && cpuT.id === cpu.id ? (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
+																		className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
 																	items-center`}
 																	>
@@ -519,8 +528,8 @@ const Cpu = () => {
 																	</button>
 																) : (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
+																		className={`ml-auto mr-4 border border-zinc-950/10
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
 																			handleCPUChange(e, cpuT);

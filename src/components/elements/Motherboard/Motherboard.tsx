@@ -34,6 +34,7 @@ import {
 import { useMemoryStore } from '@/store/ramStore';
 import { fetchMotherboards } from '@/context/motherboardService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
+import toast from 'react-hot-toast';
 
 const Motherboard = () => {
 	const { motherboards, isLoading } = useMotherboardApiStore();
@@ -146,12 +147,14 @@ const Motherboard = () => {
 		event.stopPropagation();
 		setMotherboard(value);
 		setIsOpenDisclosure(!isOpenDisclosure);
+		toast.success('Успешно изменена материнская плата');
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		resetMotherboard();
 		setMotherboardCPU(null);
+		toast.success('Успешно очищена материнская плата');
 	};
 
 	const handleManufacture = (
@@ -263,7 +266,9 @@ const Motherboard = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Производитель</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>

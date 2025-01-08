@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	Dialog,
 	DialogClose,
@@ -35,11 +35,21 @@ const PriceDialog: React.FC<PriceDialogProps> = ({
 	handleMinPriceChange,
 	handleMaxPriceChange,
 }) => {
+	const [changePrice, setChangePrice] = useState<boolean>(false);
+
+	// TODO: Придумать как сделать измнение
 	const handleChange = (event: Event, newValue: number | number[]) => {
 		if (Array.isArray(newValue)) {
+			if (newValue[0] === minPrice && newValue[1] === maxPrice) {
+				setChangePrice(false);
+			} else {
+				setChangePrice(true);
+			}
 			setRange(newValue);
 			setMinPrice(newValue[0]); // Обновляем minPrice
 			setMaxPrice(newValue[1]); // Обновляем maxPrice
+		} else {
+			setChangePrice(false);
 		}
 	};
 
@@ -52,7 +62,9 @@ const PriceDialog: React.FC<PriceDialogProps> = ({
 			}}
 		>
 			<DialogTrigger>
-				<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+				<div
+					className={`${changePrice ? '!bg-green-400 !text-white' : ''} border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2`}
+				>
 					<span>Цена</span>
 					<ArrowDownFromLine className="h-5 w-5" />
 				</div>

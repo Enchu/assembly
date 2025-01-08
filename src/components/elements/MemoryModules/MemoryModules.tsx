@@ -30,6 +30,7 @@ import { useMemoryStore, useRAMApiStore } from '@/store/ramStore';
 import { useMotherboardStore } from '@/store/motherboardStore';
 import { fetchRAMs } from '@/context/ramService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
+import toast from 'react-hot-toast';
 
 const MemoryModules = () => {
 	const { rams, isLoading } = useRAMApiStore();
@@ -162,12 +163,14 @@ const MemoryModules = () => {
 		event.stopPropagation();
 		setMemory(value);
 		setIsOpenDisclosure(false);
+		toast.success('Успешно изменены модули памяти');
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		resetMemory();
 		setSelectedGPU(null);
+		toast.success('Успешно очищены модули памяти');
 	};
 
 	const handleManufacture = (manufacturer: string) => {
@@ -272,7 +275,9 @@ const MemoryModules = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Производитель</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -320,7 +325,13 @@ const MemoryModules = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${
+														selectedMemory.length > 0
+															? '!bg-green-400 !text-white'
+															: 'bg-transparent text-zinc-900'
+													} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Объем памяти</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -455,7 +466,7 @@ const MemoryModules = () => {
 																</div>
 																{memory && memoryItem.id === memory.id ? (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
+																		className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
 																	items-center`}
 																	>
@@ -463,8 +474,8 @@ const MemoryModules = () => {
 																	</button>
 																) : (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
+																		className={`ml-auto mr-4 border border-zinc-950/10
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
 																			handleGPUChange(e, memoryItem);

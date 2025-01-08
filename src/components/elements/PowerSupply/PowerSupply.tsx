@@ -33,6 +33,7 @@ import {
 import { useGPUStore } from '@/store/gpuStore';
 import { fetchPowerSupplys } from '@/context/powerSupplyService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
+import toast from 'react-hot-toast';
 
 const PowerSupply = () => {
 	const { powerSupplies, isLoading } = usePowerSupplyApiStore();
@@ -162,19 +163,21 @@ const PowerSupply = () => {
 		}
 	};
 
-	const handleGPUChange = (
+	const handlePowerSupplyChange = (
 		event: React.ChangeEvent<unknown>,
 		value: PowerSupplyT,
 	) => {
 		event.stopPropagation();
 		setPowerSupply(value);
 		setIsOpenDisclosure(false);
+		toast.success('Успешно изменен блок питания');
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		resetPowerSupply();
 		setSelectedPowerS(null);
+		toast.success('Успешно очищен блок питания');
 	};
 
 	const handleManufacture = (manufacturer: string) => {
@@ -286,7 +289,9 @@ const PowerSupply = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Производитель</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -334,7 +339,9 @@ const PowerSupply = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Мощность</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -347,7 +354,7 @@ const PowerSupply = () => {
 												>
 													<div className="p-6">
 														<DialogTitle className="text-2xl text-zinc-950">
-															Объем памяти
+															Объем мощности
 														</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
@@ -360,7 +367,7 @@ const PowerSupply = () => {
 																		checked={selectedPower.includes(memory)}
 																		onChange={() => handleMemoryChange(memory)}
 																	/>
-																	<span>{memory}</span>
+																	<span>{memory} ВТ</span>
 																</div>
 															))}
 														</div>
@@ -467,7 +474,9 @@ const PowerSupply = () => {
 																<div className="text-left">
 																	{powerSupplyItem.name}
 																</div>
-																<div className="">{powerSupplyItem.Power}</div>
+																<div className="">
+																	{powerSupplyItem.Power} ВТ
+																</div>
 																<div className="">
 																	{powerSupplyItem.Efficiency}
 																</div>
@@ -483,7 +492,7 @@ const PowerSupply = () => {
 																{powerSupply &&
 																powerSupplyItem.id === powerSupply.id ? (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
+																		className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
 																	items-center`}
 																	>
@@ -495,7 +504,10 @@ const PowerSupply = () => {
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
-																			handleGPUChange(e, powerSupplyItem);
+																			handlePowerSupplyChange(
+																				e,
+																				powerSupplyItem,
+																			);
 																		}}
 																	>
 																		<Plus className="mr-2 h-4 w-4 " />
@@ -543,7 +555,7 @@ const PowerSupply = () => {
 																					<button
 																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4`}
 																						onClick={e => {
-																							handleGPUChange(
+																							handlePowerSupplyChange(
 																								e,
 																								powerSupplyItem,
 																							);

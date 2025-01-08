@@ -29,6 +29,7 @@ import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { useGPUApiStore, useGPUStore } from '@/store/gpuStore';
 import { fetchGPUs } from '@/context/gpuService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
+import toast from 'react-hot-toast';
 
 const Gpu = () => {
 	const { gpus, isLoading } = useGPUApiStore();
@@ -147,12 +148,14 @@ const Gpu = () => {
 		event.stopPropagation();
 		setGPU(value);
 		setIsOpenDisclosure(false);
+		toast.success('Успешно изменена видеокарта');
 	};
 
 	const handleDialogClose = () => {
 		setIsOpenDisclosure(true);
 		resetGPU();
 		setSelectedGPU(null);
+		toast.success('Успешно очищена видеокарта');
 	};
 
 	const handleManufacture = (manufacturer: 'NVIDIA' | 'AMD') => {
@@ -256,7 +259,9 @@ const Gpu = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Производитель</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -304,7 +309,9 @@ const Gpu = () => {
 											}}
 										>
 											<DialogTrigger>
-												<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
+												<div
+													className={`${selectedMemory.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+												>
 													<span>Объем памяти</span>
 													<ArrowDownFromLine className="h-5 w-5" />
 												</div>
@@ -472,7 +479,7 @@ const Gpu = () => {
 																</div>
 																{gpu && gpuItem.id === gpu.id ? (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
+																		className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
 																	items-center`}
 																	>
@@ -480,8 +487,8 @@ const Gpu = () => {
 																	</button>
 																) : (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer 
+																		className={`ml-auto mr-4 border border-zinc-950/10
+																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
 																			handleGPUChange(e, gpuItem);
