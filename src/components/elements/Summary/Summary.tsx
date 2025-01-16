@@ -1,23 +1,11 @@
 import React from 'react';
 
-import { useCalculatePowerRequirement } from '@/hooks/useCalculatePowerRequirement';
-import { useCPUStore } from '@/store/cpuStore';
-import { useMotherboardStore } from '@/store/motherboardStore';
-import { useGPUStore } from '@/store/gpuStore';
-import { useMemoryStore } from '@/store/ramStore';
-import { usePowerSupplyStore } from '@/store/power-supply';
-
 const Summary = () => {
-	const { cpu } = useCPUStore();
-	const { motherboard } = useMotherboardStore();
-	const { gpu } = useGPUStore();
-	const { memory } = useMemoryStore();
-	const { powerSupply } = usePowerSupplyStore();
-
-	const ss = useCalculatePowerRequirement();
+	/*const ss = useCalculatePowerRequirement();*/
 
 	return (
 		<section>
+			{/*
 			<div className="flex justify-center text-center text-2xl">Итог</div>
 			<div className="text-lg">
 				<div className="">Характеристики</div>
@@ -49,7 +37,7 @@ const Summary = () => {
 					<div>Требуемая мощность блока питания:</div>
 					<div>{ss !== null ? <div>{ss.result} ВТ</div> : <></>}</div>
 				</div>
-			</div>
+    </div>*/}
 		</section>
 	);
 };

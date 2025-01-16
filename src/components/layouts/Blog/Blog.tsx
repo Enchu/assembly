@@ -10,6 +10,7 @@ import MemoryModules from '@/components/elements/MemoryModules/MemoryModules';
 import PowerSupply from '@/components/elements/PowerSupply/PowerSupply';
 import { ScrollArea } from '@/components/core/scroll-area';
 import { Toaster } from 'react-hot-toast';
+import Summary from '@/components/elements/Summary/Summary';
 
 const Blog = () => {
 	return (
@@ -23,7 +24,7 @@ const Blog = () => {
 				<GPU />
 				<MemoryModules />
 				<PowerSupply />
-				{/*<Summary />*/}
+				<Summary />
 			</ScrollArea>
 		</div>
 	);
