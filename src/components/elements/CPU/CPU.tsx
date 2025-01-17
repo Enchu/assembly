@@ -41,11 +41,11 @@ const Cpu = () => {
 
 	const [uniqueCores, setUniqueCores] = useState<string[]>([]);
 	const [uniqueThreads, setUniqueThreads] = useState<string[]>([]);
+	const [selectedCores, setSelectedCores] = useState<string[]>([]);
+	const [selectedThreads, setSelectedThreads] = useState<string[]>([]);
 	const [minPriceRange, setMinPriceRange] = useState<number>(0);
 	const [maxPriceRange, setMaxPriceRange] = useState<number>(0);
 	const [range, setRange] = useState<number[]>([minPriceRange, maxPriceRange]);
-	const [selectedCores, setSelectedCores] = useState<string[]>([]);
-	const [selectedThreads, setSelectedThreads] = useState<string[]>([]);
 	const [minPrice, setMinPrice] = useState<number>(0);
 	const [maxPrice, setMaxPrice] = useState<number>(0);
 
