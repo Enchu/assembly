@@ -31,6 +31,7 @@ import { useMotherboardStore } from '@/store/motherboardStore';
 import { fetchRAMs } from '@/context/ramService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
+import { Pagination } from '@mui/material';
 
 const MemoryModules = () => {
 	const { rams, isLoading } = useRAMApiStore();
@@ -180,6 +181,26 @@ const MemoryModules = () => {
 				: [...prev, manufacturer],
 		);
 	};
+
+	// Добавляем состояние для пагинации
+	const [currentPage, setCurrentPage] = useState(1);
+	const [itemsPerPage] = useState(10); // Количество элементов на странице
+
+	// Обработчик изменения страницы
+	const handlePageChange = (
+		event: React.ChangeEvent<unknown>,
+		value: number,
+	) => {
+		setCurrentPage(value);
+	};
+
+	// Получаем элементы для текущей страницы
+	const indexOfLastItem = currentPage * itemsPerPage;
+	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+	const currentItems = filteredRamItems.slice(
+		indexOfFirstItem,
+		indexOfLastItem,
+	);
 
 	return (
 		<section>
@@ -431,7 +452,7 @@ const MemoryModules = () => {
 										</div>
 									) : (
 										<div>
-											{filteredRamItems.map((memoryItem: RAMItem) => (
+											{currentItems.map(memoryItem => (
 												<Dialog
 													transition={{
 														type: 'spring',
@@ -597,6 +618,16 @@ const MemoryModules = () => {
 													</DialogContainer>
 												</Dialog>
 											))}
+											<Pagination
+												count={Math.ceil(
+													filteredRamItems.length / itemsPerPage,
+												)}
+												page={currentPage}
+												onChange={handlePageChange}
+												shape="rounded"
+												size={'large'}
+												className={'flex justify-center mt-4'}
+											/>
 										</div>
 									)}
 								</div>

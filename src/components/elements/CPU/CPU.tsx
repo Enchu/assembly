@@ -22,7 +22,7 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Pagination, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { useCPUApiStore, useCPUStore } from '@/store/cpuStore';
@@ -48,6 +48,9 @@ const Cpu = () => {
 	const [range, setRange] = useState<number[]>([minPriceRange, maxPriceRange]);
 	const [minPrice, setMinPrice] = useState<number>(0);
 	const [maxPrice, setMaxPrice] = useState<number>(0);
+
+	const [currentPage, setCurrentPage] = useState(1);
+	const [cpuPerPage] = useState(10);
 
 	useEffect(() => {
 		if (!isLoading && cpus.length > 0) {
@@ -131,6 +134,19 @@ const Cpu = () => {
 			const priceB = parseFloat(b.price);
 			return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
 		});
+
+	// Получаем текущие процессоры для отображения
+	const indexOfLastCpu = currentPage * cpuPerPage;
+	const indexOfFirstCpu = indexOfLastCpu - cpuPerPage;
+	const currentCpus = filteredCPUItems.slice(indexOfFirstCpu, indexOfLastCpu);
+
+	// Обработчик изменения страницы
+	const handlePageChange = (
+		event: React.ChangeEvent<unknown>,
+		value: number,
+	) => {
+		setCurrentPage(value);
+	};
 
 	const toggleSortOrder = () => {
 		setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
@@ -487,7 +503,7 @@ const Cpu = () => {
 										</div>
 									) : (
 										<div>
-											{filteredCPUItems.map((cpuT: CPUItem) => (
+											{currentCpus.map((cpuT: CPUItem) => (
 												<Dialog
 													transition={{
 														type: 'spring',
@@ -644,6 +660,14 @@ const Cpu = () => {
 													</DialogContainer>
 												</Dialog>
 											))}
+											<Pagination
+												count={Math.ceil(filteredCPUItems.length / cpuPerPage)}
+												page={currentPage}
+												onChange={handlePageChange}
+												shape="rounded"
+												size={'large'}
+												className={'flex justify-center mt-4'}
+											/>
 										</div>
 									)}
 								</div>

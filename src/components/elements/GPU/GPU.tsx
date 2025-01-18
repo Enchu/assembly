@@ -30,6 +30,7 @@ import { useGPUApiStore, useGPUStore } from '@/store/gpuStore';
 import { fetchGPUs } from '@/context/gpuService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
+import { Pagination } from '@mui/material';
 
 const Gpu = () => {
 	const { gpus, isLoading } = useGPUApiStore();
@@ -173,6 +174,26 @@ const Gpu = () => {
 	const handlePerformanceCheck = () => {
 		setIsPerformanceChecked(prev => !prev);
 	};
+
+	// Добавляем состояние для пагинации
+	const [currentPage, setCurrentPage] = useState(1);
+	const [itemsPerPage] = useState(10); // Количество элементов на странице
+
+	// Обработчик изменения страницы
+	const handlePageChange = (
+		event: React.ChangeEvent<unknown>,
+		value: number,
+	) => {
+		setCurrentPage(value);
+	};
+
+	// Получаем элементы для текущей страницы
+	const indexOfLastItem = currentPage * itemsPerPage;
+	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+	const currentItems = filteredGpuItems.slice(
+		indexOfFirstItem,
+		indexOfLastItem,
+	);
 
 	return (
 		<section>
@@ -427,7 +448,7 @@ const Gpu = () => {
 										</div>
 									) : (
 										<div>
-											{filteredGpuItems.map((gpuItem: GPUItem) => (
+											{currentItems.map(gpuItem => (
 												<Dialog
 													transition={{
 														type: 'spring',
@@ -599,6 +620,16 @@ const Gpu = () => {
 													</DialogContainer>
 												</Dialog>
 											))}
+											<Pagination
+												count={Math.ceil(
+													filteredGpuItems.length / itemsPerPage,
+												)}
+												page={currentPage}
+												onChange={handlePageChange}
+												shape="rounded"
+												size={'large'}
+												className={'flex justify-center mt-4'}
+											/>
 										</div>
 									)}
 								</div>
