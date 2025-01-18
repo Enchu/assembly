@@ -76,7 +76,7 @@ const PriceDialog: React.FC<PriceDialogProps> = ({
 					className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 				>
 					<div className="p-6">
-						<DialogTitle className="text-2xl text-zinc-950">Price</DialogTitle>
+						<DialogTitle className="text-2xl text-zinc-950">Цена</DialogTitle>
 						<div className="p-4" />
 						<div className="relative flex items-center gap-2 p-2 h-9 w-full">
 							<input
