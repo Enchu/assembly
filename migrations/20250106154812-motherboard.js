@@ -1,9 +1,11 @@
+const imageMotherboard = '/img/motherboard/motherboard.png';
+
 module.exports = {
 	async up(db) {
 		return db.collection('motherboard').insertMany([
 			{
 				id: '1',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата MSI B450 Tomahawk MAX',
 				manufacturer: 'MSI',
 				socket: 'AM4',
@@ -18,7 +20,7 @@ module.exports = {
 			},
 			{
 				id: '2',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата ASUS ROG Crosshair X670E Hero',
 				manufacturer: 'ASUS',
 				socket: 'AM5',
@@ -33,7 +35,7 @@ module.exports = {
 			},
 			{
 				id: '3',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата MSI MAG Z690 Tomahawk WiFi DDR4',
 				manufacturer: 'MSI',
 				socket: 'LGA1700',
@@ -48,7 +50,7 @@ module.exports = {
 			},
 			{
 				id: '4',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата GIGABYTE Z790 AERO G',
 				manufacturer: 'GIGABYTE',
 				socket: 'LGA1700',
@@ -63,7 +65,7 @@ module.exports = {
 			},
 			{
 				id: '5',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата ASUS ROG Strix B650E-F Gaming WiFi',
 				manufacturer: 'ASUS',
 				socket: 'AM5',
@@ -78,7 +80,7 @@ module.exports = {
 			},
 			{
 				id: '6',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата ASUS Pro WS WRX80E-SAGE SE WIFI',
 				manufacturer: 'ASUS',
 				socket: 'sWRX8',
@@ -93,7 +95,7 @@ module.exports = {
 			},
 			{
 				id: '7',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата GIGABYTE WRX80 SU8-IPMI',
 				manufacturer: 'GIGABYTE',
 				socket: 'sWRX8',
@@ -108,7 +110,7 @@ module.exports = {
 			},
 			{
 				id: '8',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата MSI MEG Z790 ACE',
 				manufacturer: 'MSI',
 				socket: 'LGA1700',
@@ -123,7 +125,7 @@ module.exports = {
 			},
 			{
 				id: '9',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата ASRock X670E Taichi',
 				manufacturer: 'ASRock',
 				socket: 'AM5',
@@ -138,7 +140,7 @@ module.exports = {
 			},
 			{
 				id: '10',
-				img: '',
+				img: imageMotherboard,
 				name: 'Материнская плата Supermicro M12SWA-TF',
 				manufacturer: 'Supermicro',
 				socket: 'sWRX8',

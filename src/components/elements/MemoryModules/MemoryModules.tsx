@@ -454,10 +454,9 @@ const MemoryModules = () => {
 																}}
 															>
 																<DialogImage
-																	src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																	alt="What I Talk About When I Talk About Running - book cover"
-																	className="h-8 w-8 object-cover object-top mr-2"
-																	style={{ borderRadius: '4px' }}
+																	src={`${memoryItem.img}`}
+																	alt="Memory module"
+																	className="h-8 w-8 object-cover object-top"
 																/>
 																<div className="text-left">
 																	{memoryItem.name}
@@ -510,9 +509,9 @@ const MemoryModules = () => {
 																<div className="relative p-6">
 																	<div className="flex justify-center py-10">
 																		<DialogImage
-																			src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																			alt="What I Talk About When I Talk About Running - book cover"
-																			className="h-auto w-[200px]"
+																			src={`${memoryItem.img}`}
+																			alt="Memory module"
+																			className="h-auto w-[400px]"
 																		/>
 																	</div>
 																	<div className="">

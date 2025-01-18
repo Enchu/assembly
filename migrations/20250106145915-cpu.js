@@ -1,9 +1,12 @@
+const imageAMD = '/img/cpu/cpuAmd.png';
+const imageIntel = '/img/cpu/cpuIntel.png';
+
 module.exports = {
 	async up(db) {
 		return db.collection('cpu').insertMany([
 			{
 				id: '1',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen Threadripper PRO 5995WX OEM',
 				TDP: '280',
 				score: '95',
@@ -18,7 +21,7 @@ module.exports = {
 			},
 			{
 				id: '2',
-				img: '',
+				img: imageIntel,
 				name: 'Процессор Intel Core i9-14900KS OEM',
 				TDP: '253',
 				score: '92',
@@ -33,7 +36,7 @@ module.exports = {
 			},
 			{
 				id: '3',
-				img: '',
+				img: imageIntel,
 				name: 'Процессор Intel Core i9-14940X OEM',
 				TDP: '165',
 				score: '90',
@@ -48,7 +51,7 @@ module.exports = {
 			},
 			{
 				id: '4',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 9 9950X OEM',
 				TDP: '170',
 				score: '88',
@@ -63,7 +66,7 @@ module.exports = {
 			},
 			{
 				id: '5',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор Intel Core i9-14900K BOX',
 				TDP: '253',
 				score: '87',
@@ -78,7 +81,7 @@ module.exports = {
 			},
 			{
 				id: '6',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор Intel Core i9-13900K BOX',
 				TDP: '253',
 				score: '85',
@@ -93,7 +96,7 @@ module.exports = {
 			},
 			{
 				id: '7',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 9 7950X3D OEM',
 				TDP: '120',
 				score: '84',
@@ -108,7 +111,7 @@ module.exports = {
 			},
 			{
 				id: '8',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 7 7800X3D 4.2(5.0)GHz 96MB sAM5 BOX',
 				TDP: '120',
 				score: '80',
@@ -123,7 +126,7 @@ module.exports = {
 			},
 			{
 				id: '9',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 9 7900X OEM',
 				TDP: '120',
 				score: '82',
@@ -138,7 +141,7 @@ module.exports = {
 			},
 			{
 				id: '10',
-				img: '',
+				img: imageIntel,
 				name: 'Процессор Intel Xeon W9-3495X OEM',
 				TDP: '350',
 				score: '96',
@@ -153,7 +156,7 @@ module.exports = {
 			},
 			{
 				id: '11',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD EPYC 9654P OEM',
 				TDP: '360',
 				score: '98',
@@ -168,7 +171,7 @@ module.exports = {
 			},
 			{
 				id: '12',
-				img: '',
+				img: imageIntel,
 				name: 'Процессор Intel Core i7-14700K BOX',
 				TDP: '253',
 				score: '85',
@@ -183,7 +186,7 @@ module.exports = {
 			},
 			{
 				id: '13',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 7 7700X BOX',
 				TDP: '105',
 				score: '81',
@@ -198,7 +201,7 @@ module.exports = {
 			},
 			{
 				id: '14',
-				img: '',
+				img: imageIntel,
 				name: 'Процессор Intel Xeon Platinum 8480+ OEM',
 				TDP: '300',
 				score: '97',
@@ -213,7 +216,7 @@ module.exports = {
 			},
 			{
 				id: '15',
-				img: '',
+				img: imageAMD,
 				name: 'Процессор AMD Ryzen 5 7600 BOX',
 				TDP: '65',
 				score: '78',

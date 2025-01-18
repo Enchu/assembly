@@ -1,9 +1,11 @@
+const gpu = '/img/gpu/gpu.png';
+
 module.exports = {
 	async up(db) {
 		return db.collection('gpu').insertMany([
 			{
 				id: '1',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта MSI GeForce RTX 4090 GAMING X TRIO',
 				Manufacturer: 'NVIDIA',
 				TDP: '450',
@@ -20,7 +22,7 @@ module.exports = {
 			},
 			{
 				id: '2',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта GIGABYTE GeForce RTX 4080 SUPER GAMING OC',
 				Manufacturer: 'NVIDIA',
 				TDP: '320',
@@ -37,7 +39,7 @@ module.exports = {
 			},
 			{
 				id: '3',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта Colorful GeForce RTX 4070 Ti SUPER iGame Vulcan W OC',
 				Manufacturer: 'NVIDIA',
 				TDP: '285',
@@ -54,7 +56,7 @@ module.exports = {
 			},
 			{
 				id: '4',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта KFA2 GeForce RTX 4080 SG',
 				Manufacturer: 'NVIDIA',
 				TDP: '320',
@@ -71,7 +73,7 @@ module.exports = {
 			},
 			{
 				id: '5',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта Palit GeForce RTX 4070 Ti GameRock OC',
 				Manufacturer: 'NVIDIA',
 				TDP: '285',
@@ -88,7 +90,7 @@ module.exports = {
 			},
 			{
 				id: '6',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта Colorful GeForce RTX 4070 SUPER iGame Loong Edition OC',
 				Manufacturer: 'NVIDIA',
 				TDP: '200',
@@ -105,7 +107,7 @@ module.exports = {
 			},
 			{
 				id: '7',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта GIGABYTE GeForce RTX 4070 AERO OC 12G',
 				Manufacturer: 'NVIDIA',
 				TDP: '200',
@@ -122,7 +124,7 @@ module.exports = {
 			},
 			{
 				id: '8',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта GIGABYTE GeForce RTX 4060 Ti AERO OC',
 				Manufacturer: 'NVIDIA',
 				TDP: '160',
@@ -139,7 +141,7 @@ module.exports = {
 			},
 			{
 				id: '9',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта GIGABYTE GeForce RTX 4060 AORUS ELITE',
 				Manufacturer: 'NVIDIA',
 				TDP: '115',
@@ -156,7 +158,7 @@ module.exports = {
 			},
 			{
 				id: '10',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта Sapphire AMD Radeon RX 7900 XTX NITRO+ Vapor-X',
 				Manufacturer: 'AMD',
 				TDP: '420',
@@ -173,7 +175,7 @@ module.exports = {
 			},
 			{
 				id: '11',
-				img: '',
+				img: gpu,
 				name: 'Видеокарта Sapphire AMD Radeon RX 7800 XT PURE OC',
 				Manufacturer: 'AMD',
 				TDP: '270',

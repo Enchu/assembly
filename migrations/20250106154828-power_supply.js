@@ -1,9 +1,11 @@
+const powerUnit = '/img/powerUnit/powerUnit.png';
+
 module.exports = {
 	async up(db) {
 		return db.collection('power_supply').insertMany([
 			{
 				id: '1',
-				img: '',
+				img: powerUnit,
 				name: 'Corsair RM750x',
 				Manufacturer: 'Corsair',
 				Power: '750',
@@ -16,7 +18,7 @@ module.exports = {
 			},
 			{
 				id: '2',
-				img: '',
+				img: powerUnit,
 				name: 'Seasonic FOCUS GX-650',
 				Manufacturer: 'Seasonic',
 				Power: '650',
@@ -29,7 +31,7 @@ module.exports = {
 			},
 			{
 				id: '3',
-				img: '',
+				img: powerUnit,
 				name: 'Cooler Master MWE Gold 750',
 				Manufacturer: 'Cooler Master',
 				Power: '750',
@@ -42,7 +44,7 @@ module.exports = {
 			},
 			{
 				id: '4',
-				img: '',
+				img: powerUnit,
 				name: 'EVGA SuperNOVA 850 G5',
 				Manufacturer: 'EVGA',
 				Power: '850',
@@ -55,7 +57,7 @@ module.exports = {
 			},
 			{
 				id: '5',
-				img: '',
+				img: powerUnit,
 				name: 'be quiet! Straight Power 11 750W',
 				Manufacturer: 'be quiet!',
 				Power: '750',
@@ -68,7 +70,7 @@ module.exports = {
 			},
 			{
 				id: '6',
-				img: '',
+				img: powerUnit,
 				name: 'Thermaltake Toughpower GF1 650W',
 				Manufacturer: 'Thermaltake',
 				Power: '650',
@@ -81,7 +83,7 @@ module.exports = {
 			},
 			{
 				id: '7',
-				img: '',
+				img: powerUnit,
 				name: 'ASUS ROG Strix 750W',
 				Manufacturer: 'ASUS',
 				Power: '750',
@@ -94,7 +96,7 @@ module.exports = {
 			},
 			{
 				id: '8',
-				img: '',
+				img: powerUnit,
 				name: 'NZXT C750',
 				Manufacturer: 'NZXT',
 				Power: '750',
@@ -107,7 +109,7 @@ module.exports = {
 			},
 			{
 				id: '9',
-				img: '',
+				img: powerUnit,
 				name: 'SilverStone ST1000-PT',
 				Manufacturer: 'SilverStone',
 				Power: '1000',
@@ -120,7 +122,7 @@ module.exports = {
 			},
 			{
 				id: '10',
-				img: '',
+				img: powerUnit,
 				name: 'Antec Earthwatts EA750G Pro',
 				Manufacturer: 'Antec',
 				Power: '750',
@@ -133,7 +135,7 @@ module.exports = {
 			},
 			{
 				id: '11',
-				img: '',
+				img: powerUnit,
 				name: 'Corsair HX1200',
 				Manufacturer: 'Corsair',
 				Power: '1200',
@@ -146,7 +148,7 @@ module.exports = {
 			},
 			{
 				id: '12',
-				img: '',
+				img: powerUnit,
 				name: 'Seasonic PRIME TX-1000',
 				Manufacturer: 'Seasonic',
 				Power: '1000',
@@ -159,7 +161,7 @@ module.exports = {
 			},
 			{
 				id: '13',
-				img: '',
+				img: powerUnit,
 				name: 'Cooler Master V850 SFX Gold',
 				Manufacturer: 'Cooler Master',
 				Power: '850',
@@ -172,7 +174,7 @@ module.exports = {
 			},
 			{
 				id: '14',
-				img: '',
+				img: powerUnit,
 				name: 'EVGA SuperNOVA 1000 G6',
 				Manufacturer: 'EVGA',
 				Power: '1000',
@@ -185,7 +187,7 @@ module.exports = {
 			},
 			{
 				id: '15',
-				img: '',
+				img: powerUnit,
 				name: 'be quiet! Dark Power Pro 12 1200W',
 				Manufacturer: 'be quiet!',
 				Power: '1200',
@@ -198,7 +200,7 @@ module.exports = {
 			},
 			{
 				id: '16',
-				img: '',
+				img: powerUnit,
 				name: 'Thermaltake Toughpower PF1 1050W',
 				Manufacturer: 'Thermaltake',
 				Power: '1050',
@@ -211,7 +213,7 @@ module.exports = {
 			},
 			{
 				id: '17',
-				img: '',
+				img: powerUnit,
 				name: 'ASUS ROG Thor 1200W Platinum',
 				Manufacturer: 'ASUS',
 				Power: '1200',
@@ -224,7 +226,7 @@ module.exports = {
 			},
 			{
 				id: '18',
-				img: '',
+				img: powerUnit,
 				name: 'NZXT C1000 Gold',
 				Manufacturer: 'NZXT',
 				Power: '1000',
@@ -237,7 +239,7 @@ module.exports = {
 			},
 			{
 				id: '19',
-				img: '',
+				img: powerUnit,
 				name: 'SilverStone Strider Titanium 1100W',
 				Manufacturer: 'SilverStone',
 				Power: '1100',
@@ -250,7 +252,7 @@ module.exports = {
 			},
 			{
 				id: '20',
-				img: '',
+				img: powerUnit,
 				name: 'Antec Signature Series 1300W',
 				Manufacturer: 'Antec',
 				Power: '1300',

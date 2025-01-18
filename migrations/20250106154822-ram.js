@@ -1,9 +1,11 @@
+const ram = '/img/ram/RAM.png';
+
 module.exports = {
 	async up(db) {
 		return db.collection('ram').insertMany([
 			{
 				id: '1',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Corsair Vengeance LPX 16GB (2x8GB) DDR4-3200',
 				Manufacturer: 'Corsair',
 				Capacity: '16',
@@ -17,7 +19,7 @@ module.exports = {
 			},
 			{
 				id: '2',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Kingston HyperX Fury 8GB DDR4-2666',
 				Manufacturer: 'Kingston',
 				Capacity: '8',
@@ -31,7 +33,7 @@ module.exports = {
 			},
 			{
 				id: '3',
-				img: '',
+				img: ram,
 				name: 'Оперативная память G.Skill Ripjaws V 16GB (2x8GB) DDR4-3600',
 				Manufacturer: 'G.Skill',
 				Capacity: '16',
@@ -45,7 +47,7 @@ module.exports = {
 			},
 			{
 				id: '4',
-				img: '',
+				img: ram,
 				name: 'Оперативная память TeamGroup T-Force Vulcan 32GB (2x16GB) DDR4-3200',
 				Manufacturer: 'TeamGroup',
 				Capacity: '32',
@@ -59,7 +61,7 @@ module.exports = {
 			},
 			{
 				id: '5',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Crucial Ballistix 16GB (2x8GB) DDR4-3000',
 				Manufacturer: 'Crucial',
 				Capacity: '16',
@@ -73,7 +75,7 @@ module.exports = {
 			},
 			{
 				id: '6',
-				img: '',
+				img: ram,
 				name: 'Оперативная память ADATA XPG Spectrix D60G 8GB DDR4-3200',
 				Manufacturer: 'ADATA',
 				Capacity: '8',
@@ -87,7 +89,7 @@ module.exports = {
 			},
 			{
 				id: '7',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Samsung 16GB DDR4-2666',
 				Manufacturer: 'Samsung',
 				Capacity: '16',
@@ -101,7 +103,7 @@ module.exports = {
 			},
 			{
 				id: '8',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Patriot Viper Steel 32GB (2x16GB) DDR4-3600',
 				Manufacturer: 'Patriot',
 				Capacity: '32',
@@ -115,7 +117,7 @@ module.exports = {
 			},
 			{
 				id: '9',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Corsair Dominator Platinum RGB 64GB (2x32GB) DDR4-3200',
 				Manufacturer: 'Corsair',
 				Capacity: '64',
@@ -129,7 +131,7 @@ module.exports = {
 			},
 			{
 				id: '10',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Kingston HyperX Predator 32GB (2x16GB) DDR4-2933',
 				Manufacturer: 'Kingston',
 				Capacity: '32',
@@ -143,7 +145,7 @@ module.exports = {
 			},
 			{
 				id: '11',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Corsair Vengeance DDR5 16GB (2x8GB) DDR5-5200',
 				Manufacturer: 'Corsair',
 				Capacity: '16',
@@ -157,7 +159,7 @@ module.exports = {
 			},
 			{
 				id: '12',
-				img: '',
+				img: ram,
 				name: 'Оперативная память Kingston FURY Beast 32GB (2x16GB) DDR5-6000',
 				Manufacturer: 'Kingston',
 				Capacity: '32',
@@ -171,7 +173,7 @@ module.exports = {
 			},
 			{
 				id: '13',
-				img: '',
+				img: ram,
 				name: 'Оперативная память G.Skill Ripjaws S5 32GB (2x16GB) DDR5-6000',
 				Manufacturer: 'G.Skill',
 				Capacity: '32',

@@ -504,10 +504,9 @@ const Motherboard = () => {
 																	}}
 																>
 																	<DialogImage
-																		src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																		alt="What I Talk About When I Talk About Running - book cover"
-																		className="h-8 w-8 object-cover object-top mr-2"
-																		style={{ borderRadius: '4px' }}
+																		src={`${motherboardItem.img}`}
+																		alt="Motherboard"
+																		className="h-8 w-8 object-cover object-top"
 																	/>
 																	<div className="text-left">
 																		{motherboardItem.name}
@@ -564,9 +563,9 @@ const Motherboard = () => {
 																	<div className="relative p-6">
 																		<div className="flex justify-center py-10">
 																			<DialogImage
-																				src="https://m.media-amazon.com/images/I/71skAxiMC2L._AC_UF1000,1000_QL80_.jpg"
-																				alt="What I Talk About When I Talk About Running - book cover"
-																				className="h-auto w-[200px]"
+																				src={`${motherboardItem.img}`}
+																				alt="Motherboard"
+																				className="h-auto w-[400px]"
 																			/>
 																		</div>
 																		<div className="">
