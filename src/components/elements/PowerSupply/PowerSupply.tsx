@@ -502,7 +502,7 @@ const PowerSupply = () => {
 																	<button
 																		className={`ml-auto mr-4 border border-zinc-950/10
 																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
-																	hover:bg-gray-900 hover:text-white items-center`}
+																	hover:bg-gray-900 hover:text-white items-center justify-center content-center`}
 																		onClick={e => {
 																			handlePowerSupplyChange(
 																				e,
@@ -553,7 +553,7 @@ const PowerSupply = () => {
 																					</button>
 																				) : (
 																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4`}
+																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
 																						onClick={e => {
 																							handlePowerSupplyChange(
 																								e,

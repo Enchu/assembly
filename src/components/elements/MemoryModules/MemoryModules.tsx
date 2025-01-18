@@ -536,13 +536,12 @@ const MemoryModules = () => {
 																					</button>
 																				) : (
 																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2
-																						inline-flex bg-[#94B90A] text-white item-center text-center`}
+																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
 																						onClick={e => {
 																							handleGPUChange(e, memoryItem);
 																						}}
 																					>
-																						<Plus /> <a>| Выбрать</a>
+																						<Plus />|<a>Выбрать</a>
 																					</button>
 																				)}
 																			</div>
