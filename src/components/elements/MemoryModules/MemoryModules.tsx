@@ -525,14 +525,14 @@ const MemoryModules = () => {
 																) : (
 																	<button
 																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
+																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
 																			handleGPUChange(e, memoryItem);
 																		}}
 																	>
 																		<Plus className="mr-2 h-4 w-4 " />
-																		<a>| Выбрать</a>
+																		<a>Выбрать</a>
 																	</button>
 																)}
 															</div>

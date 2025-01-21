@@ -535,9 +535,9 @@ const PowerSupply = () => {
 																	</button>
 																) : (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
-																	hover:bg-gray-900 hover:text-white items-center justify-center content-center`}
+																		className={
+																			'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
+																		}
 																		onClick={e => {
 																			handlePowerSupplyChange(
 																				e,
@@ -546,7 +546,7 @@ const PowerSupply = () => {
 																		}}
 																	>
 																		<Plus className="mr-2 h-4 w-4 " />
-																		<a>| Выбрать</a>
+																		<a>Выбрать</a>
 																	</button>
 																)}
 															</div>
