@@ -32,7 +32,7 @@ import { fetchCPUs } from '@/context/cpuService';
 import { useMotherboardStore } from '@/store/motherboardStore';
 import toast from 'react-hot-toast';
 
-const Cpu = () => {
+const CPU = () => {
 	const { cpus, isLoading } = useCPUApiStore();
 
 	useEffect(() => {
@@ -207,6 +207,17 @@ const Cpu = () => {
 				? prev.filter((item: string) => item !== manufacturer)
 				: [...prev, manufacturer],
 		);
+	};
+
+	const clearAllFilters = () => {
+		setSelectedManufacturer([]);
+		setSelectedCores([]);
+		setSelectedThreads([]);
+		setSelectedCPU(null);
+		setRange([minPriceRange, maxPriceRange]);
+		setMinPrice(minPriceRange);
+		setMaxPrice(maxPriceRange);
+		setCurrentPage(1);
 	};
 
 	return (
@@ -438,6 +449,14 @@ const Cpu = () => {
 												</DialogContent>
 											</DialogContainer>
 										</Dialog>
+
+										<button
+											onClick={clearAllFilters}
+											className="border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2 hover:bg-red-50"
+										>
+											<RefreshCw className="h-5 w-5" />
+											<span>Сбросить фильтры</span>
+										</button>
 									</div>
 
 									{/*Title*/}
@@ -553,14 +572,14 @@ const Cpu = () => {
 																) : (
 																	<button
 																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer
+																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
 																			handleCPUChange(e, cpuT);
 																		}}
 																	>
-																		<Plus className="mr-2 h-4 w-4 " />
-																		<a>| Выбрать</a>
+																		<Plus className="mr-1 h-4 w-4" />
+																		Выбрать
 																	</button>
 																)}
 															</div>
@@ -598,12 +617,14 @@ const Cpu = () => {
 																					</button>
 																				) : (
 																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
+																						className={`border border-zinc-950/10 rounded-lg px-8 py-2 
+																							inline-flex bg-[#94B90A] text-white items-center justify-center gap-2`}
 																						onClick={e => {
 																							handleCPUChange(e, cpuT);
 																						}}
 																					>
-																						<Plus />|<a>Выбрать</a>
+																						<Plus className="h-4 w-4" />
+																						Выбрать
 																					</button>
 																				)}
 																			</div>
@@ -680,4 +701,4 @@ const Cpu = () => {
 	);
 };
 
-export default Cpu;
+export default CPU;

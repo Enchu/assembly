@@ -6,9 +6,9 @@ import {
 } from '@/components/core/disclosure';
 import {
 	ArrowDownFromLine,
+	ChevronsDownUp,
 	Plus,
 	RefreshCw,
-	ChevronsDownUp,
 } from 'lucide-react';
 import {
 	Dialog,
@@ -22,7 +22,7 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Pagination, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { RAMItem } from '@/interface/Ram';
@@ -31,7 +31,6 @@ import { useMotherboardStore } from '@/store/motherboardStore';
 import { fetchRAMs } from '@/context/ramService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
-import { Pagination } from '@mui/material';
 
 const MemoryModules = () => {
 	const { rams, isLoading } = useRAMApiStore();
@@ -201,6 +200,16 @@ const MemoryModules = () => {
 		indexOfFirstItem,
 		indexOfLastItem,
 	);
+
+	const clearAllFilters = () => {
+		setSelectedManufacturer([]);
+		setSelectedGPU(null);
+		setSelectedMemory([]);
+		setRange([minPriceRange, maxPriceRange]);
+		setMinPrice(minPriceRange);
+		setMaxPrice(maxPriceRange);
+		setCurrentPage(1);
+	};
 
 	return (
 		<section>
@@ -387,6 +396,14 @@ const MemoryModules = () => {
 												</DialogContent>
 											</DialogContainer>
 										</Dialog>
+
+										<button
+											onClick={clearAllFilters}
+											className="border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2 hover:bg-red-50"
+										>
+											<RefreshCw className="h-5 w-5" />
+											<span>Сбросить фильтры</span>
+										</button>
 									</div>
 
 									{/*Title*/}

@@ -22,7 +22,7 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Pagination, TextField } from '@mui/material';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
 import { MotherboardItems } from '@/interface/Motherboard';
@@ -35,7 +35,6 @@ import { useMemoryStore } from '@/store/ramStore';
 import { fetchMotherboards } from '@/context/motherboardService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
-import { Pagination } from '@mui/material';
 
 const Motherboard = () => {
 	const { motherboards, isLoading } = useMotherboardApiStore();
@@ -183,6 +182,15 @@ const Motherboard = () => {
 				? prev.filter((item: string) => item !== manufacturer)
 				: [...prev, manufacturer],
 		);
+	};
+
+	const clearAllFilters = () => {
+		setSelectedManufacturer([]);
+		setMotherboardCPU(null);
+		setRange([minPriceRange, maxPriceRange]);
+		setMinPrice(minPriceRange);
+		setMaxPrice(maxPriceRange);
+		setCurrentPage(1);
 	};
 
 	return (
@@ -344,93 +352,13 @@ const Motherboard = () => {
 											</DialogContainer>
 										</Dialog>
 
-										{/*<Dialog
-										transition={{
-											type: 'spring',
-											bounce: 0.05,
-											duration: 0.25,
-										}}
-									>
-										<DialogTrigger>
-											<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
-												<span>Количество ядер</span>
-												<ArrowDownFromLine className="h-5 w-5" />
-											</div>
-										</DialogTrigger>
-
-										<DialogContainer>
-											<DialogContent
-												style={{ borderRadius: '24px' }}
-												className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
-											>
-												<div className="p-6">
-													<DialogTitle className="text-2xl text-zinc-950">
-														Количество ядер
-													</DialogTitle>
-													<div className="p-2" />
-													<div className="relative flex flex-col p-2 w-full">
-														{uniqueCores.map(cores => (
-															<div
-																key={cores}
-																className="flex text-center items-center"
-															>
-																<Checkbox
-																	checked={selectedCores.includes(cores)}
-																	onChange={() => handleCoresChange(cores)}
-																/>
-																<span>{cores}</span>
-															</div>
-														))}
-													</div>
-												</div>
-												<DialogClose className="text-zinc-950 " />
-											</DialogContent>
-										</DialogContainer>
-									</Dialog>*/}
-
-										{/*<Dialog
-										transition={{
-											type: 'spring',
-											bounce: 0.05,
-											duration: 0.25,
-										}}
-									>
-										<DialogTrigger>
-											<div className="border border-zinc-950/10 bg-transparent rounded-lg p-2 text-zinc-900 placeholder-zinc-500 flex text-center items-center gap-2">
-												<span>Количество потоков</span>
-												<ArrowDownFromLine className="h-5 w-5" />
-											</div>
-										</DialogTrigger>
-
-										<DialogContainer>
-											<DialogContent
-												style={{ borderRadius: '24px' }}
-												className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
-											>
-												<div className="p-6">
-													<DialogTitle className="text-2xl text-zinc-950">
-														Количество потоков
-													</DialogTitle>
-													<div className="p-2" />
-													<div className="relative flex flex-col p-2 w-full">
-														{uniqueThreads.map(threads => (
-															<div
-																key={threads}
-																className="flex text-center items-center"
-															>
-																<Checkbox
-																	checked={selectedThreads.includes(threads)}
-																	onChange={() => handleThreadsChange(threads)}
-																/>
-																<span>{threads}</span>
-															</div>
-														))}
-													</div>
-												</div>
-												<DialogClose className="text-zinc-950 " />
-											</DialogContent>
-										</DialogContainer>
-									</Dialog>*/}
+										<button
+											onClick={clearAllFilters}
+											className="border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2 hover:bg-red-50"
+										>
+											<RefreshCw className="h-5 w-5" />
+											<span>Сбросить фильтры</span>
+										</button>
 									</div>
 
 									{/*Title*/}

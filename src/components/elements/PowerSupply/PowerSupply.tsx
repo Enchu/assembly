@@ -6,9 +6,9 @@ import {
 } from '@/components/core/disclosure';
 import {
 	ArrowDownFromLine,
+	ChevronsDownUp,
 	Plus,
 	RefreshCw,
-	ChevronsDownUp,
 } from 'lucide-react';
 import {
 	Dialog,
@@ -22,7 +22,7 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Pagination, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { PowerSupplyT } from '@/interface/PowerSupply';
@@ -34,7 +34,6 @@ import { useGPUStore } from '@/store/gpuStore';
 import { fetchPowerSupplys } from '@/context/powerSupplyService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
-import { Pagination } from '@mui/material';
 
 const PowerSupply = () => {
 	const { powerSupplies, isLoading } = usePowerSupplyApiStore();
@@ -209,6 +208,16 @@ const PowerSupply = () => {
 		indexOfLastItem,
 	);
 
+	const clearAllFilters = () => {
+		setSelectedManufacturer([]);
+		setSelectedPower([]);
+		setSelectedPowerS(null);
+		setRange([minPriceRange, maxPriceRange]);
+		setMinPrice(minPriceRange);
+		setMaxPrice(maxPriceRange);
+		setCurrentPage(1);
+	};
+
 	return (
 		<section>
 			{isLoading ? (
@@ -361,7 +370,7 @@ const PowerSupply = () => {
 										>
 											<DialogTrigger>
 												<div
-													className={`${selectedManufacturer.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
+													className={`${selectedPower.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
 												>
 													<span>Мощность</span>
 													<ArrowDownFromLine className="h-5 w-5" />
@@ -397,6 +406,14 @@ const PowerSupply = () => {
 												</DialogContent>
 											</DialogContainer>
 										</Dialog>
+
+										<button
+											onClick={() => clearAllFilters()}
+											className="border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2 hover:bg-red-50"
+										>
+											<RefreshCw className="h-5 w-5" />
+											<span>Сбросить фильтры</span>
+										</button>
 									</div>
 
 									{/*Title*/}

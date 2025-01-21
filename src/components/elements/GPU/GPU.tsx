@@ -6,9 +6,9 @@ import {
 } from '@/components/core/disclosure';
 import {
 	ArrowDownFromLine,
+	ChevronsDownUp,
 	Plus,
 	RefreshCw,
-	ChevronsDownUp,
 } from 'lucide-react';
 import {
 	Dialog,
@@ -22,7 +22,7 @@ import {
 } from '@/components/core/dialog';
 import Checkbox from '@mui/material/Checkbox';
 import { ScrollArea } from '@/components/core/scroll-area';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Pagination, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import { GPUItem } from '@/interface/GPU';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
@@ -30,7 +30,6 @@ import { useGPUApiStore, useGPUStore } from '@/store/gpuStore';
 import { fetchGPUs } from '@/context/gpuService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
-import { Pagination } from '@mui/material';
 
 const Gpu = () => {
 	const { gpus, isLoading } = useGPUApiStore();
@@ -194,6 +193,16 @@ const Gpu = () => {
 		indexOfFirstItem,
 		indexOfLastItem,
 	);
+
+	const clearAllFilters = () => {
+		setSelectedManufacturer([]);
+		setSelectedMemory([]);
+		setSelectedGPU(null);
+		setRange([minPriceRange, maxPriceRange]);
+		setMinPrice(minPriceRange);
+		setMaxPrice(maxPriceRange);
+		setCurrentPage(1);
+	};
 
 	return (
 		<section>
@@ -383,6 +392,14 @@ const Gpu = () => {
 											/>
 											<span>Производительность за цену</span>
 										</div>
+
+										<button
+											onClick={clearAllFilters}
+											className="border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2 hover:bg-red-50"
+										>
+											<RefreshCw className="h-5 w-5" />
+											<span>Сбросить фильтры</span>
+										</button>
 									</div>
 
 									{/*Title*/}
