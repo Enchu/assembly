@@ -1,6 +1,10 @@
-.container{
-  max-width: 1580px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin: 0 auto;
+.container {
+	max-width: 1580px;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin: 0 auto;
+}
+
+[data-radix-scroll-area-viewport] > div {
+	display: block !important;
 }

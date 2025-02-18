@@ -98,13 +98,11 @@ const PowerSupply = () => {
 	// FILTERED
 	const filteredRamItems = powerSupplies
 		.filter(powerSypply => {
-			// Фильтруем по производителю
 			const matchesManufacturer =
 				selectedManufacturer.length > 0
 					? selectedManufacturer.includes(powerSypply.Manufacturer)
 					: true;
 
-			// Если выбран GPU, показываем только его
 			const matchesSelectedGPU = selectedPowerS
 				? powerSypply.name === selectedPowerS.name
 				: true;
@@ -112,8 +110,7 @@ const PowerSupply = () => {
 			const gpuPowerRecommended =
 				gpu !== null ? gpu.RecommendedPowerSupply === powerSypply.Power : true;
 
-			// Проверяем, попадает ли цена в диапазон
-			const gpuPrice = parseFloat(powerSypply.price); // Преобразуем цену в число
+			const gpuPrice = parseFloat(powerSypply.price);
 			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
 			const matchesMemory =
