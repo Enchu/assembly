@@ -1,8 +1,6 @@
-## Todo
+## Calculator for assembling a computer
 
-- [ ] Make it deploy (vercel)
-- [ ] Make it
-
+## Install
 ```bash
 npm run dev
 ```
