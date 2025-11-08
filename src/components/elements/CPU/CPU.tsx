@@ -1,15 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import {
-	Disclosure,
-	DisclosureContent,
-	DisclosureTrigger,
-} from '@/components/core/disclosure';
-import {
-	ArrowDownFromLine,
-	ChevronsDownUp,
-	Plus,
-	RefreshCw,
-} from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
+import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -31,6 +22,9 @@ import Skeleton from '@/components/modules/Skelet/Skeleton';
 import { fetchCPUs } from '@/context/cpuService';
 import { useMotherboardStore } from '@/store/motherboardStore';
 import toast from 'react-hot-toast';
+import { useDebounceValue } from '@/hooks/useDebounce';
+import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
+import ChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
 
 const CPU = () => {
 	const { cpus, isLoading } = useCPUApiStore();
@@ -54,22 +48,14 @@ const CPU = () => {
 
 	useEffect(() => {
 		if (!isLoading && cpus.length > 0) {
-			const cores = Array.from(
-				new Set(cpus.map(item => item.cores.slice(0, 2))),
-			).sort((a, b) => Number(b) - Number(a));
+			const cores = Array.from(new Set(cpus.map(item => item.cores.slice(0, 2)))).sort((a, b) => Number(b) - Number(a));
 			setUniqueCores(cores);
 
-			const threads = Array.from(new Set(cpus.map(item => item.threads))).sort(
-				(a, b) => Number(b) - Number(a),
-			);
+			const threads = Array.from(new Set(cpus.map(item => item.threads))).sort((a, b) => Number(b) - Number(a));
 			setUniqueThreads(threads);
 
-			const minPriceRange = Math.min(
-				...cpus.map(item => parseInt(item.price, 10)),
-			);
-			const maxPriceRange = Math.max(
-				...cpus.map(item => parseInt(item.price, 10)),
-			);
+			const minPriceRange = Math.min(...cpus.map(item => parseInt(item.price, 10)));
+			const maxPriceRange = Math.max(...cpus.map(item => parseInt(item.price, 10)));
 
 			setMinPriceRange(minPriceRange);
 			setMaxPriceRange(maxPriceRange);
@@ -83,42 +69,39 @@ const CPU = () => {
 
 	const { cpu, setCPU, resetCPU } = useCPUStore();
 	const { motherboard } = useMotherboardStore();
-	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
-		[],
-	);
+	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>([]);
+	const [inputAutocompleteValue, setInputAutocompleteValue] = useState('');
 	const [selectedCPU, setSelectedCPU] = useState<CPUItem | null>(null);
 
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+
+	const debounceValue = useDebounceValue(inputAutocompleteValue);
+
+	const filteredCpus = useMemo(() => {
+		if (!debounceValue.trim()) return cpus;
+		return cpus.filter(cpu => cpu.name.toLowerCase().includes(inputAutocompleteValue.toLowerCase()));
+	}, [debounceValue, cpus]);
 
 	// FILTERED
 	const filteredCPUItems = cpus
 		.filter(cpu => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
-				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(cpu.manufacturer)
-					: true;
+				selectedManufacturer.length > 0 ? selectedManufacturer.includes(cpu.manufacturer) : true;
 
 			// Если выбран конкретный CPU, показываем только его
-			const matchesSelectedCPU = selectedCPU
-				? cpu.name === selectedCPU.name
-				: true;
+			const matchesSelectedCPU = selectedCPU ? cpu.name === selectedCPU.name : true;
 
 			// Проверяем, попадает ли цена в диапазон
 			const cpuPrice = parseFloat(cpu.price); // Преобразуем цену в число
 			const matchesPriceRange = cpuPrice >= range[0] && cpuPrice <= range[1];
 
 			// Фильтруем по количеству ядер
-			const matchesCores =
-				selectedCores.length > 0 ? selectedCores.includes(cpu.cores) : true;
+			const matchesCores = selectedCores.length > 0 ? selectedCores.includes(cpu.cores) : true;
 
-			const socketMotherboard =
-				motherboard !== null ? cpu.socket === motherboard.socket : true;
+			const socketMotherboard = motherboard !== null ? cpu.socket === motherboard.socket : true;
 
-			const matchesThreads =
-				selectedThreads.length > 0
-					? selectedThreads.includes(cpu.threads)
-					: true;
+			const matchesThreads = selectedThreads.length > 0 ? selectedThreads.includes(cpu.threads) : true;
 
 			return (
 				matchesManufacturer &&
@@ -141,10 +124,7 @@ const CPU = () => {
 	const currentCpus = filteredCPUItems.slice(indexOfFirstCpu, indexOfLastCpu);
 
 	// Обработчик изменения страницы
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		value: number,
-	) => {
+	const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
 	};
 
@@ -153,19 +133,11 @@ const CPU = () => {
 	};
 
 	const handleCoresChange = (cores: string) => {
-		setSelectedCores(prev =>
-			prev.includes(cores)
-				? prev.filter(item => item !== cores)
-				: [...prev, cores],
-		);
+		setSelectedCores(prev => (prev.includes(cores) ? prev.filter(item => item !== cores) : [...prev, cores]));
 	};
 
 	const handleThreadsChange = (threads: string) => {
-		setSelectedThreads(prev =>
-			prev.includes(threads)
-				? prev.filter(item => item !== threads)
-				: [...prev, threads],
-		);
+		setSelectedThreads(prev => (prev.includes(threads) ? prev.filter(item => item !== threads) : [...prev, threads]));
 	};
 
 	const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,10 +156,7 @@ const CPU = () => {
 		}
 	};
 
-	const handleCPUChange = (
-		event: React.ChangeEvent<unknown>,
-		value: CPUItem,
-	) => {
+	const handleCPUChange = (event: React.ChangeEvent<unknown>, value: CPUItem) => {
 		event.stopPropagation();
 		setCPU(value);
 		setIsOpenDisclosure(!isOpenDisclosure);
@@ -203,9 +172,7 @@ const CPU = () => {
 
 	const handleManufacture = (manufacturer: 'Intel' | 'AMD') => {
 		setSelectedManufacturer((prev: string[]) =>
-			prev.includes(manufacturer)
-				? prev.filter((item: string) => item !== manufacturer)
-				: [...prev, manufacturer],
+			prev.includes(manufacturer) ? prev.filter((item: string) => item !== manufacturer) : [...prev, manufacturer],
 		);
 	};
 
@@ -232,9 +199,7 @@ const CPU = () => {
 					<DisclosureTrigger className={'px-3'}>
 						{cpu !== null ? (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Процессор
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Процессор</div>
 								<div className="text-xl">{cpu.name}</div>
 								<div className="flex">
 									<button
@@ -250,9 +215,7 @@ const CPU = () => {
 							</div>
 						) : (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Процессор
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Процессор</div>
 								<div className="flex">
 									<button
 										className={
@@ -274,6 +237,9 @@ const CPU = () => {
 									<div className="ml-2 relative w-full flex gap-4 h-12 items-center">
 										<Autocomplete
 											disablePortal
+											value={selectedCPU?.name || ''}
+											inputValue={inputAutocompleteValue}
+											onInputChange={(_, newInputValue) => setInputAutocompleteValue(newInputValue)}
 											sx={{
 												width: 500,
 												alignItems: 'center',
@@ -281,12 +247,8 @@ const CPU = () => {
 												display: 'flex',
 											}}
 											size="small"
-											renderInput={params => (
-												<TextField {...params} label="CPU" />
-											)}
-											options={cpus.map((cpu: CPUItem) => {
-												return cpu.name;
-											})}
+											renderInput={params => <TextField {...params} label="CPU" />}
+											options={filteredCpus.map(cpu => cpu.name)}
 											onChange={(event, value) => {
 												const selected = cpus.find(cpu => cpu.name === value);
 												setSelectedCPU(selected || null);
@@ -328,16 +290,12 @@ const CPU = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Производитель
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Производитель</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															<div className="flex text-center items-center">
 																<Checkbox
-																	checked={selectedManufacturer.includes(
-																		'Intel',
-																	)}
+																	checked={selectedManufacturer.includes('Intel')}
 																	onClick={() => handleManufacture('Intel')}
 																/>
 																<span>Intel</span>
@@ -378,16 +336,11 @@ const CPU = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Количество ядер
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Количество ядер</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															{uniqueCores.map(cores => (
-																<div
-																	key={cores}
-																	className="flex text-center items-center"
-																>
+																<div key={cores} className="flex text-center items-center">
 																	<Checkbox
 																		checked={selectedCores.includes(cores)}
 																		onChange={() => handleCoresChange(cores)}
@@ -424,21 +377,14 @@ const CPU = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Количество потоков
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Количество потоков</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															{uniqueThreads.map(threads => (
-																<div
-																	key={threads}
-																	className="flex text-center items-center"
-																>
+																<div key={threads} className="flex text-center items-center">
 																	<Checkbox
 																		checked={selectedThreads.includes(threads)}
-																		onChange={() =>
-																			handleThreadsChange(threads)
-																		}
+																		onChange={() => handleThreadsChange(threads)}
 																	/>
 																	<span>{threads}</span>
 																</div>
@@ -466,8 +412,7 @@ const CPU = () => {
 										<div
 											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
 											style={{
-												gridTemplateColumns:
-													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+												gridTemplateColumns: '0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
 											}}
 										>
 											<div className="">
@@ -500,10 +445,7 @@ const CPU = () => {
 												<span>Score</span>
 											</div>
 
-											<div
-												className="flex justify-center cursor-pointer"
-												onClick={toggleSortOrder}
-											>
+											<div className="flex justify-center cursor-pointer" onClick={toggleSortOrder}>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
@@ -550,28 +492,22 @@ const CPU = () => {
 																	className="h-8 w-8 object-cover object-top"
 																/>
 																<div className="text-left">{cpuT.name}</div>
-																<div className="text-center">
-																	{cpuT.cores} ядер
-																</div>
+																<div className="text-center">{cpuT.cores} ядер</div>
 																<div className="text-center">{cpuT.TDP} Вт</div>
-																<div className="text-center">
-																	{cpuT.socket}A
-																</div>
+																<div className="text-center">{cpuT.socket}A</div>
 																<div className="text-center ">{cpuT.score}</div>
-																<div className="text-center text-red-600">
-																	{cpuT.price}₽
-																</div>
+																<div className="text-center text-red-600">{cpuT.price}₽</div>
 																{cpu && cpuT.id === cpu.id ? (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
+																		className={`w-[110px] ml-auto mr-4 border border-zinc-950/10
+																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer bg-gray-100
 																	items-center`}
 																	>
 																		Выбранный
 																	</button>
 																) : (
 																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
+																		className={`w-[110px] ml-auto mr-4 border border-zinc-950/10
 																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer
 																	hover:bg-gray-900 hover:text-white items-center`}
 																		onClick={e => {
@@ -579,7 +515,7 @@ const CPU = () => {
 																		}}
 																	>
 																		<Plus className="mr-1 h-4 w-4" />
-																		Выбрать
+																		Добавить
 																	</button>
 																)}
 															</div>
@@ -593,39 +529,22 @@ const CPU = () => {
 															<ScrollArea className="h-[90vh]" type="scroll">
 																<div className="relative p-6">
 																	<div className="flex justify-center py-10">
-																		<DialogImage
-																			src={`${cpuT.img}`}
-																			alt="Cpu"
-																			className="h-auto w-[400px]"
-																		/>
+																		<DialogImage src={`${cpuT.img}`} alt="Cpu" className="h-auto w-[400px]" />
 																	</div>
 																	<div>
-																		<DialogTitle className="text-black text-2xl font-bold">
-																			{cpuT.name}
-																		</DialogTitle>
+																		<DialogTitle className="text-black text-2xl font-bold">{cpuT.name}</DialogTitle>
 																		<DialogSubtitle>
 																			<div className="flex justify-between text-center items-center my-3">
-																				<div className="text-4xl text-[#F2530C]">
-																					{cpuT.price}
-																				</div>
+																				<div className="text-4xl text-[#F2530C]">{cpuT.price}</div>
 																				{cpu && cpuT.id === cpu.id ? (
-																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2
-																							inline-flex bg-[#94B90A] text-white item-center text-center`}
-																					>
-																						Выбран
-																					</button>
+																					<ScrollAreaSelectedButton />
 																				) : (
-																					<button
-																						className={`border border-zinc-950/10 rounded-lg px-8 py-2 
-																							inline-flex bg-[#94B90A] text-white items-center justify-center gap-2`}
+																					<ChooseButton
 																						onClick={e => {
 																							handleCPUChange(e, cpuT);
 																						}}
-																					>
-																						<Plus className="h-4 w-4" />
-																						Выбрать
-																					</button>
+																						name={'Выбрать'}
+																					/>
 																				)}
 																			</div>
 																		</DialogSubtitle>
