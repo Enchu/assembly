@@ -24,7 +24,9 @@ import { useMotherboardStore } from '@/store/motherboardStore';
 import toast from 'react-hot-toast';
 import { useDebounceValue } from '@/hooks/useDebounce';
 import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
-import ChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
+import ChooseButton from '@/components/modules/Buttons/ChooseButton';
+import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
+import SelectedButton from '@/components/modules/Buttons/SelectedButton';
 
 const CPU = () => {
 	const { cpus, isLoading } = useCPUApiStore();
@@ -498,25 +500,14 @@ const CPU = () => {
 																<div className="text-center ">{cpuT.score}</div>
 																<div className="text-center text-red-600">{cpuT.price}₽</div>
 																{cpu && cpuT.id === cpu.id ? (
-																	<button
-																		className={`w-[110px] ml-auto mr-4 border border-zinc-950/10
-																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer bg-gray-100
-																	items-center`}
-																	>
-																		Выбранный
-																	</button>
+																	<SelectedButton />
 																) : (
-																	<button
-																		className={`w-[110px] ml-auto mr-4 border border-zinc-950/10
-																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer
-																	hover:bg-gray-900 hover:text-white items-center`}
+																	<ChooseButton
+																		name={'Выбрать'}
 																		onClick={e => {
 																			handleCPUChange(e, cpuT);
 																		}}
-																	>
-																		<Plus className="mr-1 h-4 w-4" />
-																		Добавить
-																	</button>
+																	/>
 																)}
 															</div>
 														</div>
@@ -539,7 +530,7 @@ const CPU = () => {
 																				{cpu && cpuT.id === cpu.id ? (
 																					<ScrollAreaSelectedButton />
 																				) : (
-																					<ChooseButton
+																					<ScrollAreaChooseButton
 																						onClick={e => {
 																							handleCPUChange(e, cpuT);
 																						}}

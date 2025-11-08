@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-	Disclosure,
-	DisclosureContent,
-	DisclosureTrigger,
-} from '@/components/core/disclosure';
-import {
-	ArrowDownFromLine,
-	ChevronsDownUp,
-	Plus,
-	RefreshCw,
-} from 'lucide-react';
+import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
+import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -27,14 +18,15 @@ import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
 import { Separator } from '@radix-ui/react-separator';
 import { MotherboardItems } from '@/interface/Motherboard';
 import { useCPUStore } from '@/store/cpuStore';
-import {
-	useMotherboardApiStore,
-	useMotherboardStore,
-} from '@/store/motherboardStore';
+import { useMotherboardApiStore, useMotherboardStore } from '@/store/motherboardStore';
 import { useMemoryStore } from '@/store/ramStore';
 import { fetchMotherboards } from '@/context/motherboardService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
+import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
+import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
+import ChooseButton from '@/components/modules/Buttons/ChooseButton';
+import SelectedButton from '@/components/modules/Buttons/SelectedButton';
 
 const Motherboard = () => {
 	const { motherboards, isLoading } = useMotherboardApiStore();
@@ -51,12 +43,8 @@ const Motherboard = () => {
 
 	useEffect(() => {
 		if (!isLoading && motherboards.length > 0) {
-			const minPriceRange = Math.min(
-				...motherboards.map(item => parseInt(item.price, 10)),
-			);
-			const maxPriceRange = Math.max(
-				...motherboards.map(item => parseInt(item.price, 10)),
-			);
+			const minPriceRange = Math.min(...motherboards.map(item => parseInt(item.price, 10)));
+			const maxPriceRange = Math.max(...motherboards.map(item => parseInt(item.price, 10)));
 
 			setMinPriceRange(minPriceRange);
 			setMaxPriceRange(maxPriceRange);
@@ -66,18 +54,13 @@ const Motherboard = () => {
 		}
 	}, [motherboards, isLoading]);
 
-	const { motherboard, setMotherboard, resetMotherboard } =
-		useMotherboardStore();
+	const { motherboard, setMotherboard, resetMotherboard } = useMotherboardStore();
 	const { cpu } = useCPUStore();
 	const { memory } = useMemoryStore();
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
-	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
-		[],
-	);
-	const [motherboardCPU, setMotherboardCPU] = useState<MotherboardItems | null>(
-		null,
-	);
+	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>([]);
+	const [motherboardCPU, setMotherboardCPU] = useState<MotherboardItems | null>(null);
 
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
@@ -89,21 +72,15 @@ const Motherboard = () => {
 		.filter(motherboard => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
-				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(motherboard.manufacturer)
-					: true;
+				selectedManufacturer.length > 0 ? selectedManufacturer.includes(motherboard.manufacturer) : true;
 
 			// Если выбран конкретный Motherboard, показываем только его
-			const matchesSelectedMotherboard = motherboardCPU
-				? motherboard.name === motherboardCPU.name
-				: true;
+			const matchesSelectedMotherboard = motherboardCPU ? motherboard.name === motherboardCPU.name : true;
 
 			// Если выбран CPU проверяем его совподает ли он с socket motherboard
-			const cpuSocketMotherboard =
-				cpu !== null ? motherboard.socket === cpu.socket : true;
+			const cpuSocketMotherboard = cpu !== null ? motherboard.socket === cpu.socket : true;
 
-			const memoryTypeMotherboard =
-				memory !== null ? motherboard.memoryType === memory.Type : true;
+			const memoryTypeMotherboard = memory !== null ? motherboard.memoryType === memory.Type : true;
 
 			// Проверяем, попадает ли цена в диапазон
 			const cpuPrice = parseFloat(motherboard.price); // Преобразуем цену в число
@@ -123,19 +100,13 @@ const Motherboard = () => {
 			return sortOrder === 'desc' ? priceB - priceA : priceA - priceB;
 		});
 
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		value: number,
-	) => {
+	const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
 	};
 
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = filteredMotherboardItems.slice(
-		indexOfFirstItem,
-		indexOfLastItem,
-	);
+	const currentItems = filteredMotherboardItems.slice(indexOfFirstItem, indexOfLastItem);
 
 	const toggleSortOrder = () => {
 		setSortOrder(prevOrder => (prevOrder === 'asc' ? 'desc' : 'asc'));
@@ -157,10 +128,7 @@ const Motherboard = () => {
 		}
 	};
 
-	const handleMotherboardChange = (
-		event: React.ChangeEvent<unknown>,
-		value: MotherboardItems,
-	) => {
+	const handleMotherboardChange = (event: React.ChangeEvent<unknown>, value: MotherboardItems) => {
 		event.stopPropagation();
 		setMotherboard(value);
 		setIsOpenDisclosure(!isOpenDisclosure);
@@ -174,13 +142,9 @@ const Motherboard = () => {
 		toast.success('Успешно очищена материнская плата');
 	};
 
-	const handleManufacture = (
-		manufacturer: 'MSI' | 'ASRock' | 'ASUS' | 'GIGABYTE',
-	) => {
+	const handleManufacture = (manufacturer: 'MSI' | 'ASRock' | 'ASUS' | 'GIGABYTE') => {
 		setSelectedManufacturer((prev: string[]) =>
-			prev.includes(manufacturer)
-				? prev.filter((item: string) => item !== manufacturer)
-				: [...prev, manufacturer],
+			prev.includes(manufacturer) ? prev.filter((item: string) => item !== manufacturer) : [...prev, manufacturer],
 		);
 	};
 
@@ -205,9 +169,7 @@ const Motherboard = () => {
 					<DisclosureTrigger className={'px-3'}>
 						{motherboard !== null ? (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Материнская плата
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Материнская плата</div>
 								<div className="text-xl">{motherboard.name}</div>
 								<div className="flex">
 									<button
@@ -223,9 +185,7 @@ const Motherboard = () => {
 							</div>
 						) : (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Материнская плата
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Материнская плата</div>
 								<div className="flex">
 									<button
 										className={
@@ -239,9 +199,7 @@ const Motherboard = () => {
 							</div>
 						)}
 					</DisclosureTrigger>
-					<DisclosureContent
-						className={`${motherboard !== null ? 'bg-white' : ''}`}
-					>
+					<DisclosureContent className={`${motherboard !== null ? 'bg-white' : ''}`}>
 						<div className="overflow-hidden pb-3">
 							<div className="font-mono text-sm">
 								<div className="space-x-2">
@@ -255,18 +213,12 @@ const Motherboard = () => {
 												display: 'flex',
 											}}
 											size="small"
-											renderInput={params => (
-												<TextField {...params} label="Motheboard" />
-											)}
-											options={motherboards.map(
-												(motherboard: MotherboardItems) => {
-													return motherboard.name;
-												},
-											)}
+											renderInput={params => <TextField {...params} label="Motheboard" />}
+											options={motherboards.map((motherboard: MotherboardItems) => {
+												return motherboard.name;
+											})}
 											onChange={(event, value) => {
-												const selected = motherboards.find(
-													motherboards => motherboards.name === value,
-												);
+												const selected = motherboards.find(motherboards => motherboards.name === value);
 												setMotherboardCPU(selected || null);
 											}}
 										/>
@@ -306,9 +258,7 @@ const Motherboard = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Производитель
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Производитель</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															<div className="flex text-center items-center">
@@ -320,27 +270,21 @@ const Motherboard = () => {
 															</div>
 															<div className="flex text-center items-center">
 																<Checkbox
-																	checked={selectedManufacturer.includes(
-																		'ASUS',
-																	)}
+																	checked={selectedManufacturer.includes('ASUS')}
 																	onClick={() => handleManufacture('ASUS')}
 																/>
 																<span>ASUS</span>
 															</div>
 															<div className="flex text-center items-center">
 																<Checkbox
-																	checked={selectedManufacturer.includes(
-																		'GIGABYTE',
-																	)}
+																	checked={selectedManufacturer.includes('GIGABYTE')}
 																	onClick={() => handleManufacture('GIGABYTE')}
 																/>
 																<span>GIGABYTE</span>
 															</div>
 															<div className="flex text-center items-center">
 																<Checkbox
-																	checked={selectedManufacturer.includes(
-																		'ASRock',
-																	)}
+																	checked={selectedManufacturer.includes('ASRock')}
 																	onClick={() => handleManufacture('ASRock')}
 																/>
 																<span>ASRock</span>
@@ -370,8 +314,7 @@ const Motherboard = () => {
 										<div
 											className="grid w-full text-base gap-4 mt-4 bg-amber-100 items-center justify-center cursor-default"
 											style={{
-												gridTemplateColumns:
-													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+												gridTemplateColumns: '0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
 											}}
 										>
 											<div className="ml-2">
@@ -404,10 +347,7 @@ const Motherboard = () => {
 												<span>Макс памяти</span>
 											</div>
 
-											<div
-												className="flex justify-center cursor-pointer"
-												onClick={toggleSortOrder}
-											>
+											<div className="flex justify-center cursor-pointer" onClick={toggleSortOrder}>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
@@ -453,48 +393,21 @@ const Motherboard = () => {
 																	alt="Motherboard"
 																	className="h-8 w-8 object-cover object-top"
 																/>
-																<div className="text-left">
-																	{motherboardItem.name}
-																</div>
-																<div className="text-center">
-																	{motherboardItem.socket}
-																</div>
-																<div className="text-center">
-																	{motherboardItem.memoryType}
-																</div>
-																<div className="text-center">
-																	{motherboardItem.chipset}
-																</div>
-																<div className="text-center">
-																	{motherboardItem.maxMemory}
-																</div>
-																<div className="text-center text-red-600">
-																	{motherboardItem.price}₽
-																</div>
-																{motherboard &&
-																motherboardItem.id === motherboard.id ? (
-																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10 
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
-																	items-center`}
-																	>
-																		Выбранный
-																	</button>
+																<div className="text-left">{motherboardItem.name}</div>
+																<div className="text-center">{motherboardItem.socket}</div>
+																<div className="text-center">{motherboardItem.memoryType}</div>
+																<div className="text-center">{motherboardItem.chipset}</div>
+																<div className="text-center">{motherboardItem.maxMemory}</div>
+																<div className="text-center text-red-600">{motherboardItem.price}₽</div>
+																{motherboard && motherboardItem.id === motherboard.id ? (
+																	<SelectedButton />
 																) : (
-																	<button
-																		className={
-																			'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-																		}
+																	<ChooseButton
+																		name={'Выбрать'}
 																		onClick={e => {
-																			handleMotherboardChange(
-																				e,
-																				motherboardItem,
-																			);
+																			handleMotherboardChange(e, motherboardItem);
 																		}}
-																	>
-																		<Plus className="mr-2 h-4 w-4" />
-																		<a>Выбрать</a>
-																	</button>
+																	/>
 																)}
 															</div>
 														</div>
@@ -519,41 +432,23 @@ const Motherboard = () => {
 																		</DialogTitle>
 																		<DialogSubtitle>
 																			<div className="flex justify-between text-center items-center my-3">
-																				<div className="text-4xl text-[#F2530C]">
-																					{motherboardItem.price}
-																				</div>
-																				{motherboard &&
-																				motherboardItem.id ===
-																					motherboard.id ? (
-																					<button
-																						className={
-																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																							' inline-flex bg-[#94B90A] text-white item-center text-center'
-																						}
-																					>
-																						Выбран
-																					</button>
+																				<div className="text-4xl text-[#F2530C]">{motherboardItem.price}</div>
+																				{motherboard && motherboardItem.id === motherboard.id ? (
+																					<ScrollAreaSelectedButton />
 																				) : (
-																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
+																					<ScrollAreaChooseButton
+																						name={'Выбрать'}
 																						onClick={e => {
-																							handleMotherboardChange(
-																								e,
-																								motherboardItem,
-																							);
+																							handleMotherboardChange(e, motherboardItem);
 																						}}
-																					>
-																						<Plus />|<a>Выбрать</a>
-																					</button>
+																					/>
 																				)}
 																			</div>
 																		</DialogSubtitle>
 																		<div className="mt-2 text-base text-gray-700">
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Производитель</span>
-																				<span>
-																					{motherboardItem.manufacturer}
-																				</span>
+																				<span>{motherboardItem.manufacturer}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
@@ -571,9 +466,7 @@ const Motherboard = () => {
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Форм-фактор</span>
-																				<span>
-																					{motherboardItem.formFactor}
-																				</span>
+																				<span>{motherboardItem.formFactor}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
@@ -585,17 +478,13 @@ const Motherboard = () => {
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Тип памяти</span>
-																				<span>
-																					{motherboardItem.memoryType}
-																				</span>
+																				<span>{motherboardItem.memoryType}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Слоты памяти</span>
-																				<span>
-																					{motherboardItem.memorySlots}
-																				</span>
+																				<span>{motherboardItem.memorySlots}</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
@@ -615,9 +504,7 @@ const Motherboard = () => {
 												</Dialog>
 											))}
 											<Pagination
-												count={Math.ceil(
-													filteredMotherboardItems.length / itemsPerPage,
-												)}
+												count={Math.ceil(filteredMotherboardItems.length / itemsPerPage)}
 												page={currentPage}
 												onChange={handlePageChange}
 												shape="rounded"

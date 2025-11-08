@@ -22,6 +22,10 @@ import { useMotherboardStore } from '@/store/motherboardStore';
 import { fetchRAMs } from '@/context/ramService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
+import SelectedButton from '@/components/modules/Buttons/SelectedButton';
+import ChooseButton from '@/components/modules/Buttons/ChooseButton';
+import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
+import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
 
 const MemoryModules = () => {
 	const { rams, isLoading } = useRAMApiStore();
@@ -429,25 +433,14 @@ const MemoryModules = () => {
 																<div className="text-center">{memoryItem.Modules}</div>
 																<div className="text-center text-red-600">{memoryItem.price}₽</div>
 																{memory && memoryItem.id === memory.id ? (
-																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
-																	items-center`}
-																	>
-																		Выбранный
-																	</button>
+																	<SelectedButton />
 																) : (
-																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-lg px-3 py-1.5 inline-flex cursor-pointer
-																	hover:bg-gray-900 hover:text-white items-center`}
+																	<ChooseButton
+																		name={'Выбрать'}
 																		onClick={e => {
 																			handleGPUChange(e, memoryItem);
 																		}}
-																	>
-																		<Plus className="mr-2 h-4 w-4 " />
-																		<a>Выбрать</a>
-																	</button>
+																	/>
 																)}
 															</div>
 														</div>
@@ -474,23 +467,14 @@ const MemoryModules = () => {
 																			<div className="flex justify-between text-center items-center my-3">
 																				<div className="text-4xl text-[#F2530C]">{memoryItem.price}</div>
 																				{memory && memoryItem.id === memory.id ? (
-																					<button
-																						className={
-																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																							' inline-flex bg-[#94B90A] text-white item-center text-center'
-																						}
-																					>
-																						Выбран
-																					</button>
+																					<ScrollAreaSelectedButton />
 																				) : (
-																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
+																					<ScrollAreaChooseButton
+																						name={'Выбрать'}
 																						onClick={e => {
 																							handleGPUChange(e, memoryItem);
 																						}}
-																					>
-																						<Plus />|<a>Выбрать</a>
-																					</button>
+																					/>
 																				)}
 																			</div>
 																		</DialogSubtitle>

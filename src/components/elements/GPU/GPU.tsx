@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-	Disclosure,
-	DisclosureContent,
-	DisclosureTrigger,
-} from '@/components/core/disclosure';
-import {
-	ArrowDownFromLine,
-	ChevronsDownUp,
-	Plus,
-	RefreshCw,
-} from 'lucide-react';
+import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
+import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -30,6 +21,10 @@ import { useGPUApiStore, useGPUStore } from '@/store/gpuStore';
 import { fetchGPUs } from '@/context/gpuService';
 import Skeleton from '@/components/modules/Skelet/Skeleton';
 import toast from 'react-hot-toast';
+import SelectedButton from '@/components/modules/Buttons/SelectedButton';
+import ChooseButton from '@/components/modules/Buttons/ChooseButton';
+import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
+import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
 
 const Gpu = () => {
 	const { gpus, isLoading } = useGPUApiStore();
@@ -48,17 +43,11 @@ const Gpu = () => {
 
 	useEffect(() => {
 		if (!isLoading && gpus.length > 0) {
-			const memories = Array.from(new Set(gpus.map(item => item.Memory))).sort(
-				(a, b) => Number(b) - Number(a),
-			);
+			const memories = Array.from(new Set(gpus.map(item => item.Memory))).sort((a, b) => Number(b) - Number(a));
 			setUniqueMemories(memories);
 
-			const minPriceRange = Math.min(
-				...gpus.map(item => parseInt(item.price, 10)),
-			);
-			const maxPriceRange = Math.max(
-				...gpus.map(item => parseInt(item.price, 10)),
-			);
+			const minPriceRange = Math.min(...gpus.map(item => parseInt(item.price, 10)));
+			const maxPriceRange = Math.max(...gpus.map(item => parseInt(item.price, 10)));
 
 			setMinPriceRange(minPriceRange);
 			setMaxPriceRange(maxPriceRange);
@@ -72,9 +61,7 @@ const Gpu = () => {
 
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 
-	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
-		[],
-	);
+	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>([]);
 	const [isPerformanceChecked, setIsPerformanceChecked] = useState(false);
 	const [selectedGPU, setSelectedGPU] = useState<GPUItem | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -84,32 +71,20 @@ const Gpu = () => {
 		.filter(gpu => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
-				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(gpu.Manufacturer)
-					: true;
+				selectedManufacturer.length > 0 ? selectedManufacturer.includes(gpu.Manufacturer) : true;
 
 			// Если выбран GPU, показываем только его
-			const matchesSelectedGPU = selectedGPU
-				? gpu.name === selectedGPU.name
-				: true;
+			const matchesSelectedGPU = selectedGPU ? gpu.name === selectedGPU.name : true;
 
 			// Проверяем, попадает ли цена в диапазон
 			const gpuPrice = parseFloat(gpu.price); // Преобразуем цену в число
 			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
-			const matchesMemory =
-				selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
+			const matchesMemory = selectedMemory.length > 0 ? selectedMemory.includes(gpu.Memory) : true;
 
-			const matchesPerformance =
-				!isPerformanceChecked || parseFloat(gpu.Performance) / gpuPrice >= 1;
+			const matchesPerformance = !isPerformanceChecked || parseFloat(gpu.Performance) / gpuPrice >= 1;
 
-			return (
-				matchesManufacturer &&
-				matchesSelectedGPU &&
-				matchesPriceRange &&
-				matchesMemory &&
-				matchesPerformance
-			);
+			return matchesManufacturer && matchesSelectedGPU && matchesPriceRange && matchesMemory && matchesPerformance;
 		})
 		.sort((a, b) => {
 			const priceA = parseFloat(a.price);
@@ -122,11 +97,7 @@ const Gpu = () => {
 	};
 
 	const handleMemoryChange = (memory: string) => {
-		setSelectedMemory(prev =>
-			prev.includes(memory)
-				? prev.filter(item => item !== memory)
-				: [...prev, memory],
-		);
+		setSelectedMemory(prev => (prev.includes(memory) ? prev.filter(item => item !== memory) : [...prev, memory]));
 	};
 
 	const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,10 +116,7 @@ const Gpu = () => {
 		}
 	};
 
-	const handleGPUChange = (
-		event: React.ChangeEvent<unknown>,
-		value: GPUItem,
-	) => {
+	const handleGPUChange = (event: React.ChangeEvent<unknown>, value: GPUItem) => {
 		event.stopPropagation();
 		setGPU(value);
 		setIsOpenDisclosure(false);
@@ -164,9 +132,7 @@ const Gpu = () => {
 
 	const handleManufacture = (manufacturer: 'NVIDIA' | 'AMD') => {
 		setSelectedManufacturer((prev: string[]) =>
-			prev.includes(manufacturer)
-				? prev.filter((item: string) => item !== manufacturer)
-				: [...prev, manufacturer],
+			prev.includes(manufacturer) ? prev.filter((item: string) => item !== manufacturer) : [...prev, manufacturer],
 		);
 	};
 
@@ -179,20 +145,14 @@ const Gpu = () => {
 	const [itemsPerPage] = useState(10); // Количество элементов на странице
 
 	// Обработчик изменения страницы
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		value: number,
-	) => {
+	const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
 	};
 
 	// Получаем элементы для текущей страницы
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = filteredGpuItems.slice(
-		indexOfFirstItem,
-		indexOfLastItem,
-	);
+	const currentItems = filteredGpuItems.slice(indexOfFirstItem, indexOfLastItem);
 
 	const clearAllFilters = () => {
 		setSelectedManufacturer([]);
@@ -216,9 +176,7 @@ const Gpu = () => {
 					<DisclosureTrigger className={'px-3'}>
 						{gpu !== null ? (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Видеокарта
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Видеокарта</div>
 								<div className="text-xl">{gpu.name}</div>
 								<div className="flex">
 									<button
@@ -234,9 +192,7 @@ const Gpu = () => {
 							</div>
 						) : (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Видеокарта
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Видеокарта</div>
 								<div className="flex">
 									<button
 										className={
@@ -264,9 +220,7 @@ const Gpu = () => {
 												display: 'flex',
 											}}
 											size="small"
-											renderInput={params => (
-												<TextField {...params} label="GPU" />
-											)}
+											renderInput={params => <TextField {...params} label="GPU" />}
 											options={gpus.map((gpu: GPUItem) => {
 												return gpu.name;
 											})}
@@ -311,16 +265,12 @@ const Gpu = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Производитель
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Производитель</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															<div className="flex text-center items-center">
 																<Checkbox
-																	checked={selectedManufacturer.includes(
-																		'NVIDIA',
-																	)}
+																	checked={selectedManufacturer.includes('NVIDIA')}
 																	onClick={() => handleManufacture('NVIDIA')}
 																/>
 																<span>NVIDIA</span>
@@ -361,16 +311,11 @@ const Gpu = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Объем памяти
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Объем памяти</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															{uniqueMemories.map(memory => (
-																<div
-																	key={memory}
-																	className="flex text-center items-center"
-																>
+																<div key={memory} className="flex text-center items-center">
 																	<Checkbox
 																		checked={selectedMemory.includes(memory)}
 																		onChange={() => handleMemoryChange(memory)}
@@ -386,10 +331,7 @@ const Gpu = () => {
 										</Dialog>
 
 										<div className="flex text-center items-center">
-											<Checkbox
-												checked={isPerformanceChecked}
-												onClick={handlePerformanceCheck}
-											/>
+											<Checkbox checked={isPerformanceChecked} onClick={handlePerformanceCheck} />
 											<span>Производительность за цену</span>
 										</div>
 
@@ -409,8 +351,7 @@ const Gpu = () => {
 										<div
 											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
 											style={{
-												gridTemplateColumns:
-													'0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
+												gridTemplateColumns: '0.3fr 2.3fr 1fr 0.6fr 0.8fr 0.7fr 0.5fr 1fr',
 											}}
 										>
 											<div className="">
@@ -443,10 +384,7 @@ const Gpu = () => {
 												<span>TDP</span>
 											</div>
 
-											<div
-												className="flex justify-center cursor-pointer"
-												onClick={toggleSortOrder}
-											>
+											<div className="flex justify-center cursor-pointer" onClick={toggleSortOrder}>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
@@ -493,40 +431,20 @@ const Gpu = () => {
 																	className="h-8 w-8 object-cover object-top"
 																/>
 																<div className="text-left">{gpuItem.name}</div>
-																<div className="text-center">
-																	{gpuItem.Memory}
-																</div>
-																<div className="text-center">
-																	{gpuItem.MemoryType}
-																</div>
-																<div className="text-center">
-																	{gpuItem.score} 0
-																</div>
-																<div className="text-center">
-																	{gpuItem.TDP} ВТ
-																</div>
-																<div className="text-center text-red-600">
-																	{gpuItem.price}₽
-																</div>
+																<div className="text-center">{gpuItem.Memory}</div>
+																<div className="text-center">{gpuItem.MemoryType}</div>
+																<div className="text-center">{gpuItem.score} 0</div>
+																<div className="text-center">{gpuItem.TDP} ВТ</div>
+																<div className="text-center text-red-600">{gpuItem.price}₽</div>
 																{gpu && gpuItem.id === gpu.id ? (
-																	<button
-																		className={`ml-auto mr-4 border border-zinc-950/10
-																	rounded-3xl px-5 py-2 inline-flex cursor-pointer bg-gray-100
-																	items-center`}
-																	>
-																		Выбранный
-																	</button>
+																	<SelectedButton />
 																) : (
-																	<button
-																		className={
-																			'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-																		}
+																	<ChooseButton
+																		name={'Выбрать'}
 																		onClick={e => {
 																			handleGPUChange(e, gpuItem);
 																		}}
-																	>
-																		<Plus className="mr-2 h-4 w-4 " /> | Выбрать
-																	</button>
+																	/>
 																)}
 															</div>
 														</div>
@@ -539,39 +457,22 @@ const Gpu = () => {
 															<ScrollArea className="h-[90vh]" type="scroll">
 																<div className="relative p-6">
 																	<div className="flex justify-center py-10">
-																		<DialogImage
-																			src={`${gpuItem.img}`}
-																			alt="Gpu"
-																			className="h-auto w-[400px]"
-																		/>
+																		<DialogImage src={`${gpuItem.img}`} alt="Gpu" className="h-auto w-[400px]" />
 																	</div>
 																	<div className="">
-																		<DialogTitle className="text-black text-2xl font-bold">
-																			{gpuItem.name}
-																		</DialogTitle>
+																		<DialogTitle className="text-black text-2xl font-bold">{gpuItem.name}</DialogTitle>
 																		<DialogSubtitle>
 																			<div className="flex justify-between text-center items-center my-3">
-																				<div className="text-4xl text-[#F2530C]">
-																					{gpuItem.price}
-																				</div>
+																				<div className="text-4xl text-[#F2530C]">{gpuItem.price}</div>
 																				{gpu && gpuItem.id === gpu.id ? (
-																					<button
-																						className={
-																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
-																							' inline-flex bg-[#94B90A] text-white item-center text-center'
-																						}
-																					>
-																						Выбран
-																					</button>
+																					<ScrollAreaSelectedButton />
 																				) : (
-																					<button
-																						className={`border border-zinc-950/10 rounded-3xl px-14 py-2 inline-flex bg-[#94B90A] text-white item-center text-center gap-4 justify-center items-center`}
+																					<ScrollAreaChooseButton
+																						name={'Выбрать'}
 																						onClick={e => {
 																							handleGPUChange(e, gpuItem);
 																						}}
-																					>
-																						<Plus />|<a>Выбрать</a>
-																					</button>
+																					/>
 																				)}
 																			</div>
 																		</DialogSubtitle>
@@ -602,9 +503,7 @@ const Gpu = () => {
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Производительность</span>
-																				<span>
-																					{gpuItem.Performance} TFLOPs
-																				</span>
+																				<span>{gpuItem.Performance} TFLOPs</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
@@ -622,9 +521,7 @@ const Gpu = () => {
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
 																			<div className="flex justify-between ml-2 mr-2">
 																				<span>Рекомендуемая мощность БП</span>
-																				<span>
-																					{gpuItem.RecommendedPowerSupply} W
-																				</span>
+																				<span>{gpuItem.RecommendedPowerSupply} W</span>
 																			</div>
 
 																			<Separator className="my-2 bg-gray-300 h-[1px]" />
@@ -638,9 +535,7 @@ const Gpu = () => {
 												</Dialog>
 											))}
 											<Pagination
-												count={Math.ceil(
-													filteredGpuItems.length / itemsPerPage,
-												)}
+												count={Math.ceil(filteredGpuItems.length / itemsPerPage)}
 												page={currentPage}
 												onChange={handlePageChange}
 												shape="rounded"
