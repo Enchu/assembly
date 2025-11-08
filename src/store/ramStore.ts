@@ -1,4 +1,4 @@
-import { RAMItem } from '@/interface/Ram';
+import { RAMItem } from '@/interface/RamT';
 import { create } from 'zustand/index';
 import { getStoredRAM, setStoredRAM } from '@/lib/utils/storage';
 

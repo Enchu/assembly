@@ -1,7 +1,7 @@
 import { CPUItem } from '@/interface/CPU';
 import { GPUItem } from '@/interface/GPU';
 import { MotherboardItems } from '@/interface/Motherboard';
-import { RAMItem } from '@/interface/Ram';
+import { RAMItem } from '@/interface/RamT';
 import { PowerSupplyT } from '@/interface/PowerSupply';
 
 /* CPU */
@@ -30,9 +30,7 @@ export const getStoredMotherboard = (): MotherboardItems | null => {
 	return null;
 };
 
-export const setStoredMotherboard = (
-	motherboard: MotherboardItems | null,
-): void => {
+export const setStoredMotherboard = (motherboard: MotherboardItems | null): void => {
 	if (motherboard) {
 		localStorage.setItem('motherboard', JSON.stringify(motherboard));
 	} else {
@@ -83,9 +81,7 @@ export const getStoredPowerSupply = (): PowerSupplyT | null => {
 	return null;
 };
 
-export const setStoredPowerSupply = (
-	powerSupply: PowerSupplyT | null,
-): void => {
+export const setStoredPowerSupply = (powerSupply: PowerSupplyT | null): void => {
 	if (powerSupply) {
 		localStorage.setItem('powerSupply', JSON.stringify(powerSupply));
 	} else {

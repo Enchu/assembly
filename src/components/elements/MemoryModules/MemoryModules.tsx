@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-	Disclosure,
-	DisclosureContent,
-	DisclosureTrigger,
-} from '@/components/core/disclosure';
-import {
-	ArrowDownFromLine,
-	ChevronsDownUp,
-	Plus,
-	RefreshCw,
-} from 'lucide-react';
+import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
+import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -25,7 +16,7 @@ import { ScrollArea } from '@/components/core/scroll-area';
 import { Autocomplete, Pagination, TextField } from '@mui/material';
 import { Separator } from '@radix-ui/react-separator';
 import PriceDialog from '@/components/modules/PriceDialog/PriceDialog';
-import { RAMItem } from '@/interface/Ram';
+import { RAMItem } from '@/interface/RamT';
 import { useMemoryStore, useRAMApiStore } from '@/store/ramStore';
 import { useMotherboardStore } from '@/store/motherboardStore';
 import { fetchRAMs } from '@/context/ramService';
@@ -49,24 +40,16 @@ const MemoryModules = () => {
 
 	useEffect(() => {
 		if (!isLoading && rams.length > 0) {
-			const uniqueMemories = Array.from(
-				new Set(rams.map(item => item.Capacity)),
-			).sort((a, b) => {
+			const uniqueMemories = Array.from(new Set(rams.map(item => item.Capacity))).sort((a, b) => {
 				return Number(b) - Number(a);
 			});
 			setUniqueMemories(uniqueMemories);
 
-			const uniqueManufacturers = Array.from(
-				new Set(rams.map(item => item.Manufacturer)),
-			);
+			const uniqueManufacturers = Array.from(new Set(rams.map(item => item.Manufacturer)));
 			setUniqueManufacturers(uniqueManufacturers);
 
-			const minPriceRange = Math.min(
-				...rams.map(item => parseInt(item.price, 10)),
-			);
-			const maxPriceRange = Math.max(
-				...rams.map(item => parseInt(item.price, 10)),
-			);
+			const minPriceRange = Math.min(...rams.map(item => parseInt(item.price, 10)));
+			const maxPriceRange = Math.max(...rams.map(item => parseInt(item.price, 10)));
 
 			setMinPriceRange(minPriceRange);
 			setMaxPriceRange(maxPriceRange);
@@ -82,9 +65,7 @@ const MemoryModules = () => {
 	const [isOpenDisclosure, setIsOpenDisclosure] = useState(false);
 
 	const [selectedMemory, setSelectedMemory] = useState<string[]>([]);
-	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>(
-		[],
-	);
+	const [selectedManufacturer, setSelectedManufacturer] = useState<string[]>([]);
 	const [selectedGPU, setSelectedGPU] = useState<RAMItem | null>(null);
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
@@ -93,34 +74,20 @@ const MemoryModules = () => {
 		.filter(memory => {
 			// Фильтруем по производителю
 			const matchesManufacturer =
-				selectedManufacturer.length > 0
-					? selectedManufacturer.includes(memory.Manufacturer)
-					: true;
+				selectedManufacturer.length > 0 ? selectedManufacturer.includes(memory.Manufacturer) : true;
 
 			// Если выбран GPU, показываем только его
-			const matchesSelectedGPU = selectedGPU
-				? memory.name === selectedGPU.name
-				: true;
+			const matchesSelectedGPU = selectedGPU ? memory.name === selectedGPU.name : true;
 
 			// Проверяем, попадает ли цена в диапазон
 			const gpuPrice = parseFloat(memory.price); // Преобразуем цену в число
 			const matchesPriceRange = gpuPrice >= range[0] && gpuPrice <= range[1];
 
-			const matchesMemory =
-				selectedMemory.length > 0
-					? selectedMemory.includes(memory.Capacity)
-					: true;
+			const matchesMemory = selectedMemory.length > 0 ? selectedMemory.includes(memory.Capacity) : true;
 
-			const motherboardTypeMemory =
-				motherboard !== null ? motherboard.memoryType === memory.Type : true;
+			const motherboardTypeMemory = motherboard !== null ? motherboard.memoryType === memory.Type : true;
 
-			return (
-				matchesManufacturer &&
-				matchesSelectedGPU &&
-				matchesPriceRange &&
-				motherboardTypeMemory &&
-				matchesMemory
-			);
+			return matchesManufacturer && matchesSelectedGPU && matchesPriceRange && motherboardTypeMemory && matchesMemory;
 		})
 		.sort((a, b) => {
 			const priceA = parseFloat(a.price);
@@ -133,11 +100,7 @@ const MemoryModules = () => {
 	};
 
 	const handleMemoryChange = (memory: string) => {
-		setSelectedMemory(prev =>
-			prev.includes(memory)
-				? prev.filter(item => item !== memory)
-				: [...prev, memory],
-		);
+		setSelectedMemory(prev => (prev.includes(memory) ? prev.filter(item => item !== memory) : [...prev, memory]));
 	};
 
 	const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,10 +119,7 @@ const MemoryModules = () => {
 		}
 	};
 
-	const handleGPUChange = (
-		event: React.ChangeEvent<unknown>,
-		value: RAMItem,
-	) => {
+	const handleGPUChange = (event: React.ChangeEvent<unknown>, value: RAMItem) => {
 		event.stopPropagation();
 		setMemory(value);
 		setIsOpenDisclosure(false);
@@ -175,9 +135,7 @@ const MemoryModules = () => {
 
 	const handleManufacture = (manufacturer: string) => {
 		setSelectedManufacturer((prev: string[]) =>
-			prev.includes(manufacturer)
-				? prev.filter((item: string) => item !== manufacturer)
-				: [...prev, manufacturer],
+			prev.includes(manufacturer) ? prev.filter((item: string) => item !== manufacturer) : [...prev, manufacturer],
 		);
 	};
 
@@ -186,20 +144,14 @@ const MemoryModules = () => {
 	const [itemsPerPage] = useState(10); // Количество элементов на странице
 
 	// Обработчик изменения страницы
-	const handlePageChange = (
-		event: React.ChangeEvent<unknown>,
-		value: number,
-	) => {
+	const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
 	};
 
 	// Получаем элементы для текущей страницы
 	const indexOfLastItem = currentPage * itemsPerPage;
 	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = filteredRamItems.slice(
-		indexOfFirstItem,
-		indexOfLastItem,
-	);
+	const currentItems = filteredRamItems.slice(indexOfFirstItem, indexOfLastItem);
 
 	const clearAllFilters = () => {
 		setSelectedManufacturer([]);
@@ -223,9 +175,7 @@ const MemoryModules = () => {
 					<DisclosureTrigger className={'px-3'}>
 						{memory !== null ? (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Модули памяти
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Модули памяти</div>
 								<div className="text-xl">{memory.name}</div>
 								<div className="flex">
 									<button
@@ -241,9 +191,7 @@ const MemoryModules = () => {
 							</div>
 						) : (
 							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">
-									Модули памяти
-								</div>
+								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Модули памяти</div>
 								<div className="flex">
 									<button
 										className={
@@ -272,9 +220,7 @@ const MemoryModules = () => {
 												display: 'flex',
 											}}
 											size="small"
-											renderInput={params => (
-												<TextField {...params} label="RAM" />
-											)}
+											renderInput={params => <TextField {...params} label="RAM" />}
 											options={rams.map((gpu: RAMItem) => {
 												return gpu.name;
 											})}
@@ -319,23 +265,14 @@ const MemoryModules = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Производитель
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Производитель</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															{uniqueManufacturers.map(manufacturer => (
-																<div
-																	className="flex text-center items-center"
-																	key={manufacturer}
-																>
+																<div className="flex text-center items-center" key={manufacturer}>
 																	<Checkbox
-																		checked={selectedManufacturer.includes(
-																			manufacturer,
-																		)}
-																		onClick={() =>
-																			handleManufacture(manufacturer)
-																		}
+																		checked={selectedManufacturer.includes(manufacturer)}
+																		onClick={() => handleManufacture(manufacturer)}
 																	/>
 																	<span>{manufacturer}</span>
 																</div>
@@ -357,9 +294,7 @@ const MemoryModules = () => {
 											<DialogTrigger>
 												<div
 													className={`${
-														selectedMemory.length > 0
-															? '!bg-green-400 !text-white'
-															: 'bg-transparent text-zinc-900'
+														selectedMemory.length > 0 ? '!bg-green-400 !text-white' : 'bg-transparent text-zinc-900'
 													} border border-zinc-950/10 rounded-lg p-2 placeholder-zinc-500 flex text-center items-center gap-2`}
 												>
 													<span>Объем памяти</span>
@@ -373,16 +308,11 @@ const MemoryModules = () => {
 													className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white sm:w-[500px]"
 												>
 													<div className="p-6">
-														<DialogTitle className="text-2xl text-zinc-950">
-															Объем памяти
-														</DialogTitle>
+														<DialogTitle className="text-2xl text-zinc-950">Объем памяти</DialogTitle>
 														<div className="p-2" />
 														<div className="relative flex flex-col p-2 w-full">
 															{uniqueMemories.map(memory => (
-																<div
-																	key={memory}
-																	className="flex text-center items-center"
-																>
+																<div key={memory} className="flex text-center items-center">
 																	<Checkbox
 																		checked={selectedMemory.includes(memory)}
 																		onChange={() => handleMemoryChange(memory)}
@@ -413,8 +343,7 @@ const MemoryModules = () => {
 										<div
 											className="grid w-full text-base gap-2 mt-4 bg-amber-100 items-center justify-center cursor-default"
 											style={{
-												gridTemplateColumns:
-													'0.3fr 2.8fr 1fr 0.6fr 0.7fr 0.8fr 0.5fr 1fr',
+												gridTemplateColumns: '0.3fr 2.8fr 1fr 0.6fr 0.7fr 0.8fr 0.5fr 1fr',
 											}}
 										>
 											<div className="ml-2">
@@ -447,10 +376,7 @@ const MemoryModules = () => {
 												<span>Модули</span>
 											</div>
 
-											<div
-												className="flex justify-center cursor-pointer"
-												onClick={toggleSortOrder}
-											>
+											<div className="flex justify-center cursor-pointer" onClick={toggleSortOrder}>
 												<ChevronsDownUp className="" />
 												<span>Цена</span>
 											</div>
@@ -496,24 +422,12 @@ const MemoryModules = () => {
 																	alt="Memory module"
 																	className="h-8 w-8 object-cover object-top"
 																/>
-																<div className="text-left">
-																	{memoryItem.name}
-																</div>
-																<div className="text-center">
-																	{memoryItem.Capacity}
-																</div>
-																<div className="text-center">
-																	{memoryItem.Speed}
-																</div>
-																<div className="text-center">
-																	{memoryItem.Type}
-																</div>
-																<div className="text-center">
-																	{memoryItem.Modules}
-																</div>
-																<div className="text-center text-red-600">
-																	{memoryItem.price}₽
-																</div>
+																<div className="text-left">{memoryItem.name}</div>
+																<div className="text-center">{memoryItem.Capacity}</div>
+																<div className="text-center">{memoryItem.Speed}</div>
+																<div className="text-center">{memoryItem.Type}</div>
+																<div className="text-center">{memoryItem.Modules}</div>
+																<div className="text-center text-red-600">{memoryItem.price}₽</div>
 																{memory && memoryItem.id === memory.id ? (
 																	<button
 																		className={`ml-auto mr-4 border border-zinc-950/10
@@ -558,11 +472,8 @@ const MemoryModules = () => {
 																		</DialogTitle>
 																		<DialogSubtitle>
 																			<div className="flex justify-between text-center items-center my-3">
-																				<div className="text-4xl text-[#F2530C]">
-																					{memoryItem.price}
-																				</div>
-																				{memory &&
-																				memoryItem.id === memory.id ? (
+																				<div className="text-4xl text-[#F2530C]">{memoryItem.price}</div>
+																				{memory && memoryItem.id === memory.id ? (
 																					<button
 																						className={
 																							'border border-zinc-950/10 rounded-3xl px-14 py-2' +
@@ -636,9 +547,7 @@ const MemoryModules = () => {
 												</Dialog>
 											))}
 											<Pagination
-												count={Math.ceil(
-													filteredRamItems.length / itemsPerPage,
-												)}
+												count={Math.ceil(filteredRamItems.length / itemsPerPage)}
 												page={currentPage}
 												onChange={handlePageChange}
 												shape="rounded"

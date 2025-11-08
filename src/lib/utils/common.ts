@@ -3,7 +3,7 @@ import { CPUItem } from '@/interface/CPU';
 import { GPUItem } from '@/interface/GPU';
 import { MotherboardItems } from '@/interface/Motherboard';
 import { PowerSupplyT } from '@/interface/PowerSupply';
-import { RAMItem } from '@/interface/Ram';
+import { RAMItem } from '@/interface/RamT';
 
 export const fetchCPUsFromAPI = async (): Promise<CPUItem[]> => {
 	try {
@@ -23,9 +23,7 @@ export const fetchGPUsFromAPI = async (): Promise<GPUItem[]> => {
 	}
 };
 
-export const fetchMotherboardsFromAPI = async (): Promise<
-	MotherboardItems[]
-> => {
+export const fetchMotherboardsFromAPI = async (): Promise<MotherboardItems[]> => {
 	try {
 		const { data } = await apiinstance.get('/api/motherboard');
 		return data;
