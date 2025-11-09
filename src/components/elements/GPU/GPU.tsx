@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
-import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
+import { ArrowDownFromLine, ChevronsDownUp, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -25,6 +25,7 @@ import SelectedButton from '@/components/modules/Buttons/SelectedButton';
 import ChooseButton from '@/components/modules/Buttons/ChooseButton';
 import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSelectedButton';
 import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
+import HeaderTrigger from '@/components/modules/HeaderTrigger/HeaderTrigger';
 
 const Gpu = () => {
 	const { gpus, isLoading } = useGPUApiStore();
@@ -174,37 +175,24 @@ const Gpu = () => {
 					open={isOpenDisclosure}
 				>
 					<DisclosureTrigger className={'px-3'}>
-						{gpu !== null ? (
-							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Видеокарта</div>
-								<div className="text-xl">{gpu.name}</div>
-								<div className="flex">
-									<button
-										className={
-											'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-										}
-										onClick={() => handleDialogClose()}
-									>
-										<RefreshCw className="mr-2 h-4 w-4" />
-										<span>| Заменить</span>
-									</button>
-								</div>
-							</div>
-						) : (
-							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Видеокарта</div>
-								<div className="flex">
-									<button
-										className={
-											'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-										}
-										onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-									>
-										<Plus className="mr-1 h-4 w-4" /> <span>| Добавить</span>
-									</button>
-								</div>
-							</div>
-						)}
+						<div className="px-5 py-3 flex justify-between items-center relative">
+							{gpu !== null ? (
+								<HeaderTrigger
+									title="Видеокарта"
+									name={gpu.name}
+									buttonTitle="| Заменить"
+									variant="replace"
+									onClick={() => handleDialogClose()}
+								/>
+							) : (
+								<HeaderTrigger
+									title="Видеокарта"
+									buttonTitle="| Добавить"
+									variant="add"
+									onClick={() => setIsOpenDisclosure(prev => !prev)}
+								/>
+							)}
+						</div>
 					</DisclosureTrigger>
 					<DisclosureContent className={`${gpu !== null ? 'bg-white' : ''}`}>
 						<div className="overflow-hidden pb-3">

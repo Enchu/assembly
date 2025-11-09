@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Disclosure, DisclosureContent, DisclosureTrigger } from '@/components/core/disclosure';
-import { ArrowDownFromLine, ChevronsDownUp, Plus, RefreshCw } from 'lucide-react';
+import { ArrowDownFromLine, ChevronsDownUp, RefreshCw } from 'lucide-react';
 import {
 	Dialog,
 	DialogClose,
@@ -27,6 +27,7 @@ import ScrollAreaSelectedButton from '@/components/modules/Buttons/ScrollAreaSel
 import ScrollAreaChooseButton from '@/components/modules/Buttons/ScrollAreaChooseButton';
 import ChooseButton from '@/components/modules/Buttons/ChooseButton';
 import SelectedButton from '@/components/modules/Buttons/SelectedButton';
+import HeaderTrigger from '@/components/modules/HeaderTrigger/HeaderTrigger';
 
 const Motherboard = () => {
 	const { motherboards, isLoading } = useMotherboardApiStore();
@@ -167,37 +168,24 @@ const Motherboard = () => {
 					open={isOpenDisclosure}
 				>
 					<DisclosureTrigger className={'px-3'}>
-						{motherboard !== null ? (
-							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Материнская плата</div>
-								<div className="text-xl">{motherboard.name}</div>
-								<div className="flex">
-									<button
-										className={
-											'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-										}
-										onClick={() => handleDialogClose()}
-									>
-										<RefreshCw className="mr-2 h-4 w-4" />
-										<span>| Заменить</span>
-									</button>
-								</div>
-							</div>
-						) : (
-							<div className="px-5 py-3 flex justify-between items-center relative">
-								<div className="text-lg leading-none m-0 font-semibold relative pr-4">Материнская плата</div>
-								<div className="flex">
-									<button
-										className={
-											'border border-zinc-950/10 rounded-lg m-1 px-2.5 py-1.5 inline-flex items-center justify-center'
-										}
-										onClick={() => setIsOpenDisclosure(!isOpenDisclosure)}
-									>
-										<Plus className="mr-1 h-4 w-4" /> <span>| Добавить</span>
-									</button>
-								</div>
-							</div>
-						)}
+						<div className="px-5 py-3 flex justify-between items-center relative">
+							{motherboard !== null ? (
+								<HeaderTrigger
+									title="Материнская плата"
+									name={motherboard.name}
+									buttonTitle="| Заменить"
+									variant="replace"
+									onClick={() => handleDialogClose()}
+								/>
+							) : (
+								<HeaderTrigger
+									title="Материнская плата"
+									buttonTitle="| Добавить"
+									variant="add"
+									onClick={() => setIsOpenDisclosure(prev => !prev)}
+								/>
+							)}
+						</div>
 					</DisclosureTrigger>
 					<DisclosureContent className={`${motherboard !== null ? 'bg-white' : ''}`}>
 						<div className="overflow-hidden pb-3">
